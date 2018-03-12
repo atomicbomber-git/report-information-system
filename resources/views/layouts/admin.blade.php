@@ -25,11 +25,24 @@
 
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
+
                 <li class="nav-item">
-                <a class="nav-link" href="{{ route("students.index") }}"> Siswa </a>
+                    <a class="nav-link @if(isset($current_page) && $current_page === "semesters") active @endif" href="{{ route("semesters.index") }}"> Semester </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link @if(isset($current_page) && $current_page === "rooms") active @endif" href="{{ route("rooms.index") }}"> Ruangan </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link @if(isset($current_page) && $current_page === "room_semesters") active @endif" href="{{ route("room_semesters.index") }}"> Kelas </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link @if(isset($current_page) && $current_page === "students") active @endif" href="{{ route("students.index") }}"> Siswa </a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="#"> Guru </a>
+                    <a class="nav-link" href="#"> Guru </a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="#"> Nilai </a>

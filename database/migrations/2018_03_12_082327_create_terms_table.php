@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSemestersTable extends Migration
+class CreateTermsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,14 @@ class CreateSemestersTable extends Migration
      */
     public function up()
     {
-        Schema::create('semesters', function (Blueprint $table) {
+        Schema::create('terms', function (Blueprint $table) {
             $table->increments('id');
 
             $table->year('term_start'); // Tahun mulainya tahun ajaran
             $table->year('term_end'); // Tahun berakhirnya tahun ajaran
-            $table->enum('odd_even', ['odd', 'even']); // Semester genap / ganjil
-            $table->string('code')->unique(); // Kode gabungan dari tahun mulai, tahun akhir, dan genap / ganjil
-
-            $table->unique(['term_start', 'term_end', 'odd_even']);
             
+            $table->unique(['term_start', 'term_end']);
+
             $table->timestamps();
         });
     }
@@ -34,6 +32,6 @@ class CreateSemestersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('semesters');
+        Schema::dropIfExists('terms');
     }
 }

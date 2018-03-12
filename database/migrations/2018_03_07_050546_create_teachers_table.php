@@ -16,9 +16,12 @@ class CreateTeachersTable extends Migration
         Schema::create('teachers', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('name');
+            $table->string('name'); // Nama guru
             $table->string('teacher_id'); // NIP
+            $table->integer('user_id')->unsigned()->unique(); // Id dari tabel users
 
+            $table->foreign('user_id')->references('id')->on('users');
+            
             $table->timestamps();
         });
     }

@@ -14,13 +14,14 @@ class StudentController extends Controller
     public function index()
     {
         return view('students.index', [
-            'students' => Student::all()
+            'students' => Student::all(),
+            'current_page' => 'students'
         ]);
     }
 
     public function create()
     {
-        return view('students.create');
+        return view('students.create', ['current_page' => 'students']);
     }
 
     public function processCreate()

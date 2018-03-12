@@ -16,10 +16,7 @@ class CreateRoomsTable extends Migration
         Schema::create('rooms', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('name'); // Nama kelas (VII A, IX B, etcetera)
-            $table->integer('teacher_id')->unsigned(); // ID wali kelas dari tabel 'teachers'
-
-            $table->foreign('teacher_id')->references('id')->on('teachers');
+            $table->string('name'); // Nama Ruangan (VII A, IX B, etcetera)
 
             $table->timestamps();
         });
