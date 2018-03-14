@@ -24,4 +24,12 @@ class Student extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function room_terms()
+    {
+        return $this->belongsToMany('App\RoomTerm', 'reports', 'room_term_id', 'student_id')
+            ->withTimeStamps()
+            ->as('report')
+            ->using('App\Report');
+    }
 }

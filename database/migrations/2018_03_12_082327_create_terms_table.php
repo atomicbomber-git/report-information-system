@@ -18,7 +18,8 @@ class CreateTermsTable extends Migration
 
             $table->year('term_start'); // Tahun mulainya tahun ajaran
             $table->year('term_end'); // Tahun berakhirnya tahun ajaran
-            
+            $table->string('code')->unique(); // Kode tahun ajaran
+
             $table->unique(['term_start', 'term_end']);
 
             $table->timestamps();

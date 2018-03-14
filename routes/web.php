@@ -34,20 +34,20 @@ Route::prefix('/rooms')->group(function() {
     Route::get('/delete', 'RoomController@delete')->name('rooms.delete');
 });
 
-Route::prefix('/semesters')->group(function() {
-    Route::get('/', 'SemesterController@index')->name('semesters.index');
-    Route::get('/create','SemesterController@create')->name('semesters.create');
-    Route::post('/create', 'SemesterController@processCreate')->name('semesters.create');
-    Route::get('/edit/{room}', 'SemesterController@edit')->name('semesters.edit');
-    Route::post('/edit/{room}', 'SemesterController@processEdit')->name('semesters.edit');
-    Route::get('/delete', 'SemesterController@delete')->name('semesters.delete');
+Route::prefix('/terms')->group(function() {
+    Route::get('/', 'TermController@index')->name('terms.index');
+    Route::get('/create','TermController@create')->name('terms.create');
+    Route::post('/create', 'TermController@processCreate')->name('terms.create');
+    Route::get('/edit/{room}', 'TermController@edit')->name('terms.edit');
+    Route::post('/edit/{room}', 'TermController@processEdit')->name('terms.edit');
+    Route::get('/delete', 'TermController@delete')->name('terms.delete');
 });
 
-Route::prefix('/room_semesters')->group(function() {
-    Route::get('/', 'RoomSemesterController@index')->name('room_semesters.index');
-    Route::get('/create','RoomSemesterController@create')->name('room_semesters.create');
-    Route::post('/create', 'RoomSemesterController@processCreate')->name('room_semesters.create');
-    Route::get('/edit/{room}', 'RoomSemesterController@edit')->name('room_semesters.edit');
-    Route::post('/edit/{room}', 'RoomSemesterController@processEdit')->name('room_semesters.edit');
-    Route::get('/delete', 'RoomSemesterController@delete')->name('room_semesters.delete');
+Route::prefix('/courses')->group(function() {
+    Route::get('/', 'CourseController@index')->name('courses.index');
+    Route::get('/create','CourseController@create')->name('courses.create');
+    Route::post('/create', 'CourseController@processCreate')->name('courses.create');
+    Route::get('/edit/{room}', 'CourseController@edit')->name('courses.edit');
+    Route::post('/edit/{room}', 'CourseController@processEdit')->name('courses.edit');
+    Route::get('/delete', 'CourseController@delete')->name('courses.delete');
 });
