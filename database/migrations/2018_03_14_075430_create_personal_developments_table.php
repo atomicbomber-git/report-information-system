@@ -16,6 +16,10 @@ class CreatePersonalDevelopmentsTable extends Migration
         Schema::create('personal_developments', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
+
+            $table->integer('permitted_absence')->default(0); // Ketidakhadiran (izin)
+            $table->integer('sickness_absence')->default(0); // Ketidakhadiran (sakit)
+            $table->integer('unpermitted_absence')->default(0); // Ketidakhadiran (alpa)
         });
     }
 

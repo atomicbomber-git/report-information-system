@@ -15,7 +15,7 @@ class ReportsTableSeeder extends Seeder
     public function run()
     {
         $room_terms = RoomTerm::all();
-        $student_groups = Student::all()->chunk(20);
+        $student_groups = Student::all()->chunk(10);
         
         foreach ($student_groups as $i => $student_group) {
             foreach ($student_group as $student) {

@@ -14,7 +14,7 @@ class StudentsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(User::class, 80)->create()->each(function($user) {
+        factory(User::class, 40)->create()->each(function($user) {
             $user->student()->save( factory(Student::class)->make() );
         });
     }
