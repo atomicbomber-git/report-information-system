@@ -8,6 +8,11 @@ class RoomTerm extends Pivot
 {
     protected $table = 'room_terms';
 
+    const EVEN_ODD = [
+        'odd' => 'Ganjil',
+        'even' => 'Genap'
+    ];
+
     public $fillable = ['room_id', 'term_id', 'even_odd', 'teacher_id'];
 
     public function teacher()

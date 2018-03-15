@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Term;
+use App\RoomTerm;
 
 class TermController extends Controller
 {
@@ -40,5 +41,11 @@ class TermController extends Controller
         Term::create(request()->all());
 
         return back();
+    }
+
+    public function detail(Term $term)
+    {
+        $term->load('rooms');
+        return view('terms.detail', ['term' => $term]);
     }
 }

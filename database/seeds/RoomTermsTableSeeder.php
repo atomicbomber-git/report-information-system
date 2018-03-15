@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 
 use App\Term;
 use App\Room;
+use App\Teacher;
 use App\RoomTerm;
 
 class RoomTermsTableSeeder extends Seeder
@@ -17,12 +18,15 @@ class RoomTermsTableSeeder extends Seeder
     {
         $terms = Term::all();
         $rooms = Room::all();
-        $room_terms = RoomTerm::all();
+        $teachers = Teacher::select('id')->get();
+        $teacher_count = $teachers->count();
 
+        $i = 0;
         foreach ($terms as $term) {
             foreach ($rooms as $room) {
-                $term->rooms()->attach($room, ['even_odd' => 'odd']);
-                $term->rooms()->attach($room, ['even_odd' => 'even']);
+                $term->rooms()->attach($room, ['even_odd' => 'odd', 'teacher_id' => $teachers[$i % $teacher_count]->id]);
+                $term->rooms()->attach($room, ['even_odd' => 'even', 'teacher_id' => $teachers[$i % $teacher_count]->id]);
+                ++$i;
             }
         }
     }

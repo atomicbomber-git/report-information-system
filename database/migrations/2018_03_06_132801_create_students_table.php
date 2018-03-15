@@ -16,9 +16,8 @@ class CreateStudentsTable extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->unique(); // Id dari tabel users
-            $table->string('student_id')->unique(); // Nomor induk
-            $table->string('sex'); // Jenis kelamin
-            // TODO: Fix data type
+            $table->string('student_id')->unique()->index(); // Nomor induk
+            $table->enum('sex', ['male', 'female']); // Jenis kelamin
             $table->string('birthplace'); // Tempat lahir
             $table->date('birthdate'); // Tanggal lahir
             $table->string('religion'); // Agama
@@ -37,7 +36,8 @@ class CreateStudentsTable extends Migration
             $table->timestamps();
         
             // Foreign keys
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('cascade');
         });
     }
 

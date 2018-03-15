@@ -28,8 +28,10 @@ class CreateCourseReportsTable extends Migration
 
             $table->unique(['course_id', 'report_id']);
 
-            $table->foreign('course_id')->references('id')->on('courses');
-            $table->foreign('report_id')->references('id')->on('reports');
+            $table->foreign('course_id')->references('id')->on('courses')
+                ->onDelete('cascade');
+            $table->foreign('report_id')->references('id')->on('reports')
+                ->onDelete('cascade');
 
             $table->timestamps();
         });

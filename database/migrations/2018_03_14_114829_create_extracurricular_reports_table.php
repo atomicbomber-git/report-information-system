@@ -20,8 +20,10 @@ class CreateExtracurricularReportsTable extends Migration
             $table->integer('extracurricular_id')->unsigned(); // ID kegiatan ekstrakurikuler
             $table->enum('score', ['A', 'B', 'C', 'D', 'E']); // Nilai ekstrakurikuler (A - E)
             
-            $table->foreign('report_id')->references('id')->on('reports');
-            $table->foreign('extracurricular_id')->references('id')->on('extracurriculars');
+            $table->foreign('report_id')->references('id')->on('reports')
+                ->onDelete('cascade');
+            $table->foreign('extracurricular_id')->references('id')->on('extracurriculars')
+                ->onDelete('cascade');
 
             $table->timestamps();
         });

@@ -28,7 +28,8 @@ class AddTeacherFkToCourseReports extends Migration
     {
         Schema::table('course_reports', function (Blueprint $table) {
             $table->dropForeign('course_reports_teacher_id_foreign');
-            $table->dropColumn('teacher_id');
+            $table->dropColumn('teacher_id')
+                ->onDelete('cascade');
         });
     }
 }

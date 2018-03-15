@@ -21,9 +21,12 @@ class CreateRoomTermsTable extends Migration
             $table->enum('even_odd', ['even', 'odd']); // Semester genap / ganjil
             $table->integer('teacher_id')->unsigned()->nullable(); // ID wali ruangan dari tabel 'teachers'
 
-            $table->foreign('room_id')->references('id')->on('rooms');
-            $table->foreign('term_id')->references('id')->on('terms');
-            $table->foreign('teacher_id')->references('id')->on('teachers');
+            $table->foreign('room_id')->references('id')->on('rooms')
+                ->onDelete('cascade');
+            $table->foreign('term_id')->references('id')->on('terms')
+                ->onDelete('cascade');
+            $table->foreign('teacher_id')->references('id')->on('teachers')
+                ->onDelete('cascade');;
 
             $table->unique(['room_id', 'term_id', 'even_odd']);
 

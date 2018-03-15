@@ -22,8 +22,10 @@ class CreateReportsTable extends Migration
 
             $table->unique(['student_id', 'room_term_id']);
 
-            $table->foreign('student_id')->references('id')->on('students');
-            $table->foreign('room_term_id')->references('id')->on('room_terms');
+            $table->foreign('student_id')->references('id')->on('students')
+                ->onDelete('cascade');
+            $table->foreign('room_term_id')->references('id')->on('room_terms')
+                ->onDelete('cascade');
             
         });
     }

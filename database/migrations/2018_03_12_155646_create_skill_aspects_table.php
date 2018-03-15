@@ -29,7 +29,8 @@ class CreateSkillAspectsTable extends Migration
 
             $table->integer('course_report_id')->unsigned(); // ID laporan keterampilan
 
-            $table->foreign('course_report_id')->references('id')->on('course_reports');
+            $table->foreign('course_report_id')->references('id')->on('course_reports')
+                ->onDelete('cascade');
         });
     }
 

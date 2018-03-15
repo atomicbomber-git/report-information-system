@@ -16,7 +16,7 @@ class CreateCoursesTable extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('name'); // Nama mata pelajaran
+            $table->string('name')->index(); // Nama mata pelajaran
             $table->integer('passing_grade'); // KKM
             $table->enum('group', ['A', 'B']); // Kelompok mata pelajarn (A atau B)
             $table->text('description'); // Deskripsi mata pelajaran (Kurikulum, kelas, dsb.)

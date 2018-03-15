@@ -30,7 +30,8 @@ class CreateSocialAspectsTable extends Migration
 
             $table->integer('course_report_id')->unsigned(); // ID laporan nilai spiritual
             
-            $table->foreign('course_report_id')->references('id')->on('course_reports');
+            $table->foreign('course_report_id')->references('id')->on('course_reports')
+                ->onDelete('cascade');
         });
     }
 

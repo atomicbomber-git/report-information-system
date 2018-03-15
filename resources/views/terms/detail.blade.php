@@ -6,7 +6,7 @@
 
 <p class="h1">
     <i class="fa fa-list"></i>
-    Daftar Seluruh Tahun Ajaran
+    Daftar Kelas Pada Tahun Ajaran {{ $term->term_start }} - {{ $term->term_end }}
 </p>
 
 <hr>
@@ -22,40 +22,37 @@
         class="btn btn-primary btn-sm"
         href="{{ route('terms.create') }}"
         >
-        Tambah Tahun Ajaran Baru
+        Tambah Kelas
         <i class="fa fa-plus"></i>
     </a>
 </div>
     
 
-<table class='table'>
+<table class='table table-sm'>
     <thead class='thead-dark'>
         <tr>
             <th> # </th>
-            <th> Tahun Mulai </th>
-            <th> Tahun Selesai </th>
+            <th> Kelas </th>
+            <th> Semester </th>
+            <th> Wali Kelas </th>
             <th> Kendali </th>
         </tr>
     </thead>
 
     <tbody>
-        @foreach ($terms as $term)
+        @foreach($term->rooms as $room)
         <tr>
             <td> {{ $loop->iteration }}. </td>
-            <td> {{ $term->term_start }} </td>
-            <td> {{ $term->term_end }} </td>
+            <td> {{ $room->name }}</td>
+            <td> {{ $room->even_odd }} </td>
+            <td> {{ $room->room_term->teacher->user->name }} </td>
             <td>
-                <a href="{{ route('terms.detail', $term) }}" class="btn btn-dark btn-sm">
-                    <i class="fa fa-list-alt"></i>
+                <a href="" class="btn btn-dark btn-sm">
                     Detail
-                </a>
-                <a href="{{ route('terms.edit', $term) }}" class="btn btn-dark btn-sm">
-                    <i class="fa fa-pencil"></i>
-                </a>
-                <a href="{{ route('terms.delete', $term) }}" class="btn btn-danger btn-sm">
-                    <i class="fa fa-trash"></i>
+                    <i class="fa fa-list-alt"></i>
                 </a>
             </td>
+        </tr>
         @endforeach
     </tbody>
 </table>

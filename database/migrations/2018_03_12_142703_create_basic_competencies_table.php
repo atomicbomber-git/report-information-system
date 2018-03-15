@@ -30,7 +30,8 @@ class CreateBasicCompetenciesTable extends Migration
             $table->double('second_exam')->nullable(); // Ujian 2
             $table->double('second_remedial')->nullable(); // Remedial 2
 
-            $table->foreign('course_report_id')->references('id')->on('course_reports');
+            $table->foreign('course_report_id')->references('id')->on('course_reports')
+                ->onDelete('cascade');
         });
     }
 
