@@ -44,7 +44,8 @@ Route::prefix('/terms')->group(function() {
     Route::get('/detail/{term}', 'TermController@detail')->name('terms.detail');
 
     Route::get('/room_terms/create', 'TermController@createRoomTerm')->name('room_terms.create');
-    Route::post('/room_terms/create', 'TermController@processCreateRoomTerm')->name('room_terms.create');
+    Route::get('/room_terms/create/{term}', 'TermController@createRoomTerm')->name('room_terms.create');
+    Route::post('/room_terms/delete/{room_term}', 'TermController@deleteRoomTerm')->name('room_terms.delete');
 });
 
 Route::prefix('/courses')->group(function() {

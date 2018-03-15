@@ -9,10 +9,9 @@ class Term extends Model
 {
     public $fillable = ['term_start', 'term_end', 'code'];
 
-    // odd_even field from the room_terms table.
-    public function getEvenOddAttribute()
+    public function room_terms()
     {
-        RoomTerm::$EVEN_ODD[$this->room_term->even_odd];
+        return $this->hasMany('App\RoomTerm');
     }
 
     public function rooms()

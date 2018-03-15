@@ -19,4 +19,6 @@ mix.js('resources/assets/js/app.js', 'public/js')
         ],
         'public/css/app.css'
     )
-   .copyDirectory('node_modules/font-awesome/fonts', 'public/fonts');
+    .copy('node_modules/sweetalert/dist/sweetalert.min.js', 'public/js')
+    .copy('node_modules/datatables.net/js/jquery.dataTables.js', 'public/js')
+    .copyDirectory('node_modules/font-awesome/fonts', 'public/fonts');

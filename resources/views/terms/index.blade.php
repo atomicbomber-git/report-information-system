@@ -28,7 +28,7 @@
 </div>
     
 
-<table class='table'>
+<table class='table table-striped table-responsive-xl table-sm'>
     <thead class='thead-dark'>
         <tr>
             <th> # </th>

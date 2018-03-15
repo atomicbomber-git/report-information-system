@@ -13,12 +13,28 @@ class RoomTerm extends Pivot
         'even' => 'Genap'
     ];
 
-    public $fillable = ['room_id', 'term_id', 'even_odd', 'teacher_id'];
+    protected $fillable = ['room_id', 'term_id', 'even_odd', 'teacher_id'];
+
+    // odd_even field from the room_terms table.
+    public function getEvenOddAttribute($value)
+    {
+        return RoomTerm::EVEN_ODD[$value];
+    }
 
     public function teacher()
     {
         return $this->belongsTo('App\Teacher');
     }
+
+    public function room() {
+        return $this->belongsTo('App\Room');
+    }
+
+    public function term() {
+        return $this->belongsTo('App\Term');
+    }
+
+     
 
     public function students()
     {

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Term;
 use App\RoomTerm;
+use DB;
 
 class TermController extends Controller
 {
@@ -45,7 +46,30 @@ class TermController extends Controller
 
     public function detail(Term $term)
     {
-        $term->load('rooms');
+        $term->load('room_terms.teacher.user', 'room_terms.room');
         return view('terms.detail', ['term' => $term]);
+    }
+
+    public function createRoomTerm(Term $term)
+    {
+        $vacant_room_terms = $term->crossJoin('rooms')
+            ->select('rooms.id', 'temporary.even_odd')
+            ->crossJoin(DB::raw("(SELECT 'odd' AS 'even_odd' UNION ALL SELECT 'even') AS temporary"))
+            ->leftJoin('room_terms', function ($join) {
+                $join->on('terms.id', '=', 'room_terms.term_id');
+                $join->on('rooms.id', '=', 'room_terms.room_id');
+            })->whereNull('room_terms.id')
+            ->get();
+        
+        return $vacant_room_terms;
+        return view('terms.create_room_term', [
+            'vacant_room_terms' => $vacant_room_terms
+        ]);
+    }
+
+    public function deleteRoomTerm(RoomTerm $room_term)
+    {
+        $room_term->delete();
+        return back()->with('message-success', 'Data berhasil dihapus.');
     }
 }
