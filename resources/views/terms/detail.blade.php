@@ -34,17 +34,26 @@
 @endif
 
 <div style="width: 100%; padding: 1.4rem; text-align: right">
-    <a 
-        class="btn btn-primary btn-sm"
-        href="{{ route('room_terms.create', $term) }}"
-        >
+    @if($vacant_room_count !== 0)
+    <a class="btn btn-primary btn-sm" href="{{ route('room_terms.create', $term) }}">
         Tambah Kelas
         <i class="fa fa-plus"></i>
     </a>
+    @else
+    <button
+        id="whatever"
+        class="btn btn-muted btn-sm"
+        data-toggle="tooltip" data-placement="top" title="Seluruh kelas yang dapat ditambahkan telah ditambahkan ke dalam tahun ajaran ini"
+        >
+        
+        Tambah Kelas
+        <i class="fa fa-plus"></i>
+    </button>
+    @endif
 </div>
     
 
-<table id="table" class='table table-striped table-sm table-responsive-xl'>
+<table id="table" class='table table-striped table-sm table-responsive-xl' style="display: none">
     <thead class='thead-dark'>
         <tr>
             <th> # </th>
@@ -56,7 +65,7 @@
     </thead>
 
     <tbody>
-        @foreach($term->room_terms as $room_term)
+        @foreach($room_terms as $room_term)
         <tr>
             <td> {{ $loop->iteration }}. </td>
             <td> {{ $room_term->room->name }}</td>
@@ -89,6 +98,9 @@
 
     <script>
         $(document).ready(function() {
+            // Tooltips
+            $('[data-toggle="tooltip"]').tooltip();
+
             // DataTable
             $(".table").DataTable({
                 "language": {
@@ -98,6 +110,10 @@
                 "lengthMenu": [12, 24, 36],
                 "pageLength": 12
             });
+            
+            window.setTimeout(function() {
+                $(".table").fadeIn();
+            }, 1500)
 
             // Handle delete form submissions
             $(".room_term_delete_form").submit(function(e) {

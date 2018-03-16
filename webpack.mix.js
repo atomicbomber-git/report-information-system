@@ -12,13 +12,11 @@ let mix = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
-   .styles(
-        [
-            'node_modules/bootstrap/dist/css/bootstrap.css',
-            'node_modules/font-awesome/css/font-awesome.css'
-        ],
-        'public/css/app.css'
-    )
+    .styles(
+    [
+        'node_modules/bootstrap/dist/css/bootstrap.css',
+        'node_modules/font-awesome/css/font-awesome.css'
+    ], 'public/css/app.css')
     .copy('node_modules/sweetalert/dist/sweetalert.min.js', 'public/js')
     .copy('node_modules/datatables.net/js/jquery.dataTables.js', 'public/js')
     .copyDirectory('node_modules/font-awesome/fonts', 'public/fonts');

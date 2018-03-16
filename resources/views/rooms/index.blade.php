@@ -28,7 +28,7 @@
 </div>
     
 
-<table class='table'>
+<table class='table table-sm table-striped'>
     <thead class='thead-dark'>
         <tr>
             <th> # </th>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Term;
 use App\RoomTerm;
+use App\Teacher;
 use DB;
 
 class TermController extends Controller
@@ -44,27 +45,63 @@ class TermController extends Controller
         return back();
     }
 
-    public function detail(Term $term)
+    public function detail($term_id)
     {
-        $term->load('room_terms.teacher.user', 'room_terms.room');
-        return view('terms.detail', ['term' => $term]);
+        $term = Term::find($term_id);
+        $room_terms = RoomTerm::where('term_id', $term_id)
+            ->with('room', 'teacher.user')
+            ->get();
+
+        $room_terms = $room_terms->sortBy(function ($room_term) {
+            return $room_term->room->name;
+        });
+
+        return view('terms.detail',
+            [
+                'term' => $term,
+                'room_terms' => $room_terms,
+                'vacant_room_count' => $this->getVacantRooms($term_id)->count()
+            ]
+        );
     }
 
-    public function createRoomTerm(Term $term)
-    {
-        $vacant_room_terms = $term->crossJoin('rooms')
-            ->select('rooms.id', 'temporary.even_odd')
+    // Get all the room-term pairs that haven't been added to the room_terms table yet
+    private function getVacantRooms($term_id) {
+        return Term::crossJoin('rooms')
+            ->select('rooms.id', 'rooms.name', 'temporary.even_odd')
             ->crossJoin(DB::raw("(SELECT 'odd' AS 'even_odd' UNION ALL SELECT 'even') AS temporary"))
             ->leftJoin('room_terms', function ($join) {
                 $join->on('terms.id', '=', 'room_terms.term_id');
                 $join->on('rooms.id', '=', 'room_terms.room_id');
+                $join->on('temporary.even_odd', '=', 'room_terms.even_odd');
             })->whereNull('room_terms.id')
+            ->where('terms.id', $term_id)
             ->get();
-        
-        return $vacant_room_terms;
+    }
+
+    public function createRoomTerm(Term $term)
+    {
+        $vacant_rooms = $this->getVacantRooms($term->id);
         return view('terms.create_room_term', [
-            'vacant_room_terms' => $vacant_room_terms
+            'term_id' => $term->id,
+            'vacant_rooms' => $vacant_rooms,
+            'teachers' => Teacher::with('user')->get()
         ]);
+    }
+
+    public function processCreateRoomTerm(Term $term)
+    {
+        $this->validate(request(), [
+            'room_id' => 'required|integer',
+            'teacher_id' => 'sometimes|integer'
+        ]);
+
+        request()->request->add(['term_id' => $term->id]);
+        
+        RoomTerm::create( request()->all());
+
+        return redirect()->route('terms.detail', $term)
+            ->with('message-success', 'Data berhasil ditambahkan.');
     }
 
     public function deleteRoomTerm(RoomTerm $room_term)
