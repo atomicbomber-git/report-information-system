@@ -138,7 +138,16 @@
                     icon: 'warning',
                     text: 'Apakah Anda yakin hendak menghapus kelas ini?',
                     dangerMode: true,
-                    buttons: true
+                    buttons: {
+                        ok: {
+                            text: 'Ya',
+                            visible: true
+                        },
+                        cancel: {
+                            text: 'Tidak',
+                            visible: true
+                        }
+                    }
                 })
                 .then(function(value) {
                     if (value) {

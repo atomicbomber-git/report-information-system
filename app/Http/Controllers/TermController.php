@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Term;
 use App\RoomTerm;
 use App\Teacher;
+use App\Report;
 use DB;
 
 class TermController extends Controller
@@ -67,10 +68,19 @@ class TermController extends Controller
 
     public function detailRoomTerm(RoomTerm $room_term)
     {
+        $reports = Report
+            ::select('users.name', 'students.student_id')
+            ->where('room_term_id', $room_term->id)
+            ->join('students', 'reports.student_id', '=', 'students.id')
+            ->join('users', 'students.user_id', '=', 'users.id')
+            ->orderBy('users.name')
+            ->get();
+        
         return view('room_terms.detail',
             [
                 'room_term' => $room_term,
-                'teachers' => Teacher::all()
+                'reports' => $reports,
+                'teachers' => Teacher::with('user')->get()
             ]
         );
     }

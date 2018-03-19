@@ -50,6 +50,8 @@ class ReportController extends Controller
             }
         });
 
+        request()->session()->flash('message-success', 'Siswa berhasil ditambahkan ke dalam kelas.');
+
         return [
             'status' => 'success'
         ];

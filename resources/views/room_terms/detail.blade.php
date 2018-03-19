@@ -3,6 +3,16 @@
 @section('title', 'Detail Kelas')
 @section('content')
 
+@section("styles")
+    <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
+
+    <style>
+        #table {
+            border-collapse: collapse !important;
+        }
+    </style>
+@endsection
+
 <p class="h1">
     <i class="fa fa-plus"></i>
     Detail Kelas
@@ -77,17 +87,74 @@
         <h4 class="card-title">
             Kelola Data Siswa
             <hr/>
-
-            <a class="btn btn-primary btn-sm" href="{{ route('reports.create', $room_term) }}">
-                Tambahkan Siswa Baru <i class="fa fa-plus"></i>
-            </a>
         </h4>
+
+        <div class="row">
+            <div class="col col-md-3"></div>
+            <div class="col col-md-6"></div>
+            <div class="col col-md-3 text-right">
+                <a class="btn btn-primary btn-sm" href="{{ route('reports.create', $room_term) }}">
+                    Tambahkan Siswa Baru <i class="fa fa-plus"></i>
+                </a>
+            </div>
+        </div>
+
+        <h4> Daftar Siswa dalam Kelas </h4>
+
+        <table id="table" class="table table-sm table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th> # </th>
+                    <th> Nama Siswa </th>
+                    <th> NISN </th>
+                    <th> Kendali </th>
+                </tr>
+            </thead>
+
+            <tbody>
+            @foreach($reports as $report)
+                <tr>
+                    <td> {{ $loop->iteration }}. </td>
+                    <td> {{ $report->name }} </td>
+                    <td> {{ $report->student_id }} </td>
+                    <td>
+                        <a href="" class="btn btn-dark btn-sm">
+                            Detail
+                            <i class="fa fa-list-alt"></i>
+                        </a>
+                        <button class="btn btn-danger btn-sm">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
     </div>
 </div>
-
-
 
 @endsection
 
 @section('script')
+<script src="{{ asset('js/sweetalert.min.js') }}"> </script>
+<script src="{{ asset('js/jquery.dataTables.js') }}"> </script>
+<script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"> </script>
+
+<script>
+        // DataTable
+        $(".table").DataTable({
+            "language": {
+                "url": "{{ asset("Indonesian.json") }}"
+            },
+            "pagingType": "full",
+            "lengthMenu": [20, 40],
+            "pageLength": 20,
+            "columnDefs": [
+                { orderable: false },
+                { orderable: true },
+                { orderable: true },
+                { orderable: false }
+            ]
+        });
+    </script>
 @endsection

@@ -34,7 +34,7 @@
 <table style="border-collapse: collapse !important" class="table table-sm table-striped">
     <thead class="thead-dark">
         <tr>
-            <th> Masukkan? </th>
+            <th style="max-width: 4rem"> Masukkan? </th>
             <th> Nama Siswa </th>
             <th> NISN </th>
         </tr>
@@ -43,7 +43,7 @@
     <tbody>
     @foreach($students as $student)
         <tr>
-            <td style="vertical-align: middle">
+            <td style="vertical-align: middle max-width: 4rem">
                 <input class="student_checkbox form-control" data-id="{{ $student->id }}" type="checkbox">
             </td>
             <td> {{ $student->name }} </td>
@@ -54,6 +54,17 @@
 </table>
 
 <hr>
+
+<div class="row">
+    <div class="col col-md-3"></div>
+    <div class="col col-md-6"></div>
+    <div class="col col-md-3 text-right">
+        <button id="submit" class="btn btn-sm btn-primary">
+            Tambahkan Siswa yang Dipilih ke Kelas
+            <i class="fa fa-plus"></i>
+        </button>
+    </div>
+</div>
 
 @if( session('message-success') )
     <div class="message alert alert-success">
@@ -86,7 +97,12 @@
             },
             "pagingType": "full",
             "lengthMenu": [20, 40],
-            "pageLength": 20
+            "pageLength": 20,
+            "columns": [
+                { width: "2rem", orderable: false },
+                null,
+                null
+            ]
         });
         
         // Handle checkbox checking / unchecking
@@ -112,14 +128,32 @@
 
         // Handle submission
         $('button#submit').click(function() {
-            $.post({
-                url: '{{ route('reports.create', $room_term) }}',
-                data: {
-                    '_token': '{{ csrf_token() }}',
-                    'student_ids': picked_students
-                },
-                success: function(data, status) {
-                    alert(data);
+
+            swal({
+                text: 'Anda yakin ingin menambahkan siswa-siswa tersebut ke dalam kelas?',
+                icon: 'info',
+                buttons: {
+                    ok: {
+                        text: 'Ya',
+                        visible: true
+                    },
+                    cancel: {
+                        text: 'Tidak',
+                        visible: true
+                    }
+                }
+            }).then(function(value) {
+                if (value) {
+                    $.post({
+                        url: '{{ route('reports.create', $room_term) }}',
+                        data: {
+                            '_token': '{{ csrf_token() }}',
+                            'student_ids': picked_students
+                        },
+                        success: function(data, status) {
+                            window.location.replace('{{ route('room_terms.detail', $room_term) }}');
+                        }
+                    });
                 }
             });
         });
