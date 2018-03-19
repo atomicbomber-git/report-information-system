@@ -33,6 +33,12 @@ class CreateStudentsTable extends Migration
             $table->string('guardian_name')->nullable(); // Nama wali
             $table->string('guardian_address')->nullable(); // Alamat wali
             $table->string('guardian_occupation')->nullable(); // Pekerjaan wali
+            
+            $table->integer('current_grade')
+                ->unsigned()->index()->nullable(); // Jenjang (7, 8, 9)
+
+            $table->boolean('active')->default(1); // Status aktif / tidak aktif
+
             $table->timestamps();
         
             // Foreign keys

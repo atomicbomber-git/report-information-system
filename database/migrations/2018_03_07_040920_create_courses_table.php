@@ -20,8 +20,10 @@ class CreateCoursesTable extends Migration
             $table->integer('passing_grade'); // KKM
             $table->enum('group', ['A', 'B']); // Kelompok mata pelajarn (A atau B)
             $table->text('description'); // Deskripsi mata pelajaran (Kurikulum, kelas, dsb.)
-            $table->boolean('has_spiritual_grades'); // Memiliki nilai spiritual / tidak
-            $table->boolean('has_social_grades'); // Memiliki nilai sosial / tidak
+            $table->boolean('has_spiritual_grades')->default(0); // Memiliki nilai spiritual / tidak
+            $table->boolean('has_social_grades')->default(0); // Memiliki nilai sosial / tidak
+            $table->integer('grade')->unsigned()->index(); // Jenjang (7, 8, 9)
+            $table->boolean('active')->default(1); // Status aktif / non-aktif
 
             $table->timestamps();
         });

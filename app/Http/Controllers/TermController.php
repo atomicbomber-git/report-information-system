@@ -65,6 +65,25 @@ class TermController extends Controller
         );
     }
 
+    public function detailRoomTerm(RoomTerm $room_term)
+    {
+        return view('room_terms.detail',
+            [
+                'room_term' => $room_term,
+                'teachers' => Teacher::all()
+            ]
+        );
+    }
+
+    public function updateRoomTerm(RoomTerm $room_term)
+    {
+        $room_term->update([
+            'teacher_id' => request('teacher_id')
+        ]);
+
+        return back()->with('message-success', 'Data kelas berhasil diubah');
+    }
+
     // Get all the room-term pairs that haven't been added to the room_terms table yet
     private function getVacantRooms($term_id) {
         return Term::crossJoin('rooms')

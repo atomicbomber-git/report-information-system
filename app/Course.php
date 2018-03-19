@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
-    public $fillable = ['name'];
+    public $fillable = ['name', 'grade'];
 
     public function course_reports()
     {

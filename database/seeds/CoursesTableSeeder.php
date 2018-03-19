@@ -13,15 +13,21 @@ class CoursesTableSeeder extends Seeder
     public function run()
     {
         $default_courses = [
-            ['name' => 'Matematika', 'passing_grade' => 75, 'description' => "", 'group' => 'A', 'has_spiritual_grades' => false, 'has_social_grades' => false],
-            ['name' => 'Pendidikan Kewarganegaraan', 'passing_grade' => 75, 'description' => "", 'group' => 'A', 'has_spiritual_grades' => false, 'has_social_grades' => true],
-            ['name' => 'Ilmu Pengetahuan Alam', 'passing_grade' => 75, 'description' => "", 'group' => 'A', 'has_spiritual_grades' => false, 'has_social_grades' => false],
-            ['name' => 'Ilmu Pengetahuan Sosial', 'passing_grade' => 75, 'description' => "", 'group' => 'A', 'has_spiritual_grades' => false, 'has_social_grades' => false],
-            ['name' => 'Pendidikan Agama', 'passing_grade' => 75, 'description' => "", 'group' => 'A', 'has_spiritual_grades' => true, 'has_social_grades' => false],
-            ['name' => 'Pendidikan Jasmani, Olahraga dan Kesehatan', 'passing_grade' => 75, 'description' => "", 'group' => 'A', 'has_spiritual_grades' => false, 'has_social_grades' => false],
-            ['name' => 'Bahasa Indonesia', 'passing_grade' => 75, 'description' => "", 'group' => 'A', 'has_spiritual_grades' => false, 'has_social_grades' => false],
+            // Kelompok A
+            ['grade' => 8, 'name' => 'Pendidikan Agama dan Budi Pekerti', 'passing_grade' => 75, 'description' => "", 'group' => 'A', 'has_spiritual_grades' => true],
+            ['grade' => 8, 'name' => 'Pendidikan Pancasila dan Kewarganegaraan', 'passing_grade' => 75, 'description' => "", 'group' => 'A', 'has_social_grades' => true],
+            ['grade' => 8, 'name' => 'Bahasa Indonesia', 'passing_grade' => 75, 'description' => "", 'group' => 'A'],
+            ['grade' => 8, 'name' => 'Matematika', 'passing_grade' => 75, 'description' => "", 'group' => 'A'],
+            ['grade' => 8, 'name' => 'Ilmu Pengetahuan Alam', 'passing_grade' => 75, 'description' => "", 'group' => 'A'],
+            ['grade' => 8, 'name' => 'Ilmu Pengetahuan Sosial', 'passing_grade' => 75, 'description' => "", 'group' => 'A'],
+            ['grade' => 8, 'name' => 'Bahasa Inggris', 'passing_grade' => 75, 'description' => "", 'group' => 'A'],
+            
+            // Kelompok B
+            ['grade' => 8, 'name' => 'Seni Budaya', 'passing_grade' => 75, 'description' => '', 'group' => 'B'],
+            ['grade' => 8, 'name' => 'Pendidikan Jasmani, Olahraga dan Kesehatan', 'passing_grade' => 75, 'description' => '', 'group' => 'B'],
+            ['grade' => 8, 'name' => 'Prakarya', 'passing_grade' => 75, 'description' => '', 'group' => 'B']
         ];
-
+        
         foreach ($default_courses as $course) {
             Course::create($course);
         }

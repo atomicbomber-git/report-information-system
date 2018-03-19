@@ -13,7 +13,7 @@ class RoomTerm extends Pivot
         'even' => 'Genap'
     ];
 
-    protected $fillable = ['room_id', 'term_id', 'even_odd', 'teacher_id'];
+    protected $fillable = ['room_id', 'term_id', 'even_odd', 'teacher_id', 'grade'];
 
     // odd_even field from the room_terms table.
     public function getEvenOddAttribute($value)

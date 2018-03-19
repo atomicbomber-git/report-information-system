@@ -17,7 +17,7 @@ class Student extends Model
         'nth_child', 'address', 'phone', 'father_name',
         'mother_name', 'parents_address', 'father_occupation',
         'mother_occupation', 'guardian_name', 'guardian_address',
-        'guardian_occupation'
+        'guardian_occupation', 'current_grade'
     ];
 
     public function user()

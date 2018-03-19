@@ -5,7 +5,7 @@ use App\Student;
 
 $factory->define(Student::class, function (Faker $faker) {
 
-    $faker = \Faker\Factory::create('id_ID');
+$faker = \Faker\Factory::create('id_ID');
 
     return [
         'student_id' => $faker->randomNumber(8),
@@ -13,5 +13,6 @@ $factory->define(Student::class, function (Faker $faker) {
         'birthplace' => $faker->city(),
         'birthdate' => $faker->dateTimeBetween('-18 years', '-15 years')->format('Y-m-d'),
         'religion' => $faker->randomElement(['islam']),
+        'current_grade' => $faker->randomElement([7, 8, 9])
     ];
 });

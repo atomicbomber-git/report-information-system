@@ -33,25 +33,38 @@
     </script>
 @endif
 
-<div style="width: 100%; padding: 1.4rem; text-align: right">
-    @if($vacant_room_count !== 0)
-    <a class="btn btn-primary btn-sm" href="{{ route('room_terms.create', $term) }}">
-        Tambah Kelas
-        <i class="fa fa-plus"></i>
-    </a>
-    @else
-    <button
-        id="whatever"
-        class="btn btn-muted btn-sm"
-        data-toggle="tooltip" data-placement="top" title="Seluruh kelas yang dapat ditambahkan telah ditambahkan ke dalam tahun ajaran ini"
-        >
-        
-        Tambah Kelas
-        <i class="fa fa-plus"></i>
-    </button>
-    @endif
+<div class="container" style="padding: 0.6rem 0rem 0.6rem 0rem">
+    <div class="row">
+        <div class="col col-md-3 text-left">
+            <a href="{{ route('terms.index') }}" class="btn btn-sm btn-secondary">
+                <i class="fa fa-arrow-left"></i>
+                Kembali
+            </a>
+        </div>
+        <div class="col-md-6">
+        </div>
+        <div class="col col-md-3 text-right">
+            @if($vacant_room_count !== 0)
+            <a class="btn btn-primary btn-sm" href="{{ route('room_terms.create', $term) }}">
+                Tambah Kelas
+                <i class="fa fa-plus"></i>
+            </a>
+            @else
+            <button
+                id="whatever"
+                class="btn btn-muted btn-sm"
+                data-toggle="tooltip" data-placement="top" title="Seluruh kelas yang dapat ditambahkan telah ditambahkan ke dalam tahun ajaran ini"
+                >
+                
+                Tambah Kelas
+                <i class="fa fa-plus"></i>
+            </button>
+            @endif
+        </div>
+    </div>
 </div>
-    
+
+<hr>
 
 <table id="table" class='table table-striped table-sm table-responsive-xl' style="display: none">
     <thead class='thead-dark'>
@@ -72,7 +85,7 @@
             <td> {{ $room_term->even_odd }} </td>
             <td> {{ $room_term->teacher->user->name }} </td>
             <td>
-                <a href="" class="btn btn-dark btn-sm">
+                <a href="{{ route('room_terms.detail', $room_term) }}" class="btn btn-dark btn-sm">
                     Detail
                     <i class="fa fa-list-alt"></i>
                 </a>

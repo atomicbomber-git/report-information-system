@@ -23,6 +23,8 @@ class CreateTeachersTable extends Migration
                 ->onDelete('cascade');
             
             $table->timestamps();
+
+            $table->boolean('active')->default(1); // Status aktif / non-aktif
         });
     }
 
