@@ -13,11 +13,6 @@ class CourseReport extends Pivot
         'skill_description', 'knowledge_description', 'spiritual_attitude_description',
         'social_attitude_description'
     ];
-    
-    public function basic_competencies()
-    {
-        return $this->hasMany('App\BasicCompetency', 'course_report_id', 'id');
-    }
 
     // TEMPORARY WORKAROUND
     public function getUpdatedAtColumn()

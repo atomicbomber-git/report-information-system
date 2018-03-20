@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BasicCompetency extends Model
+class KnowledgeGrade extends Model
 {
     public $fillable = [
         'name',
@@ -18,9 +18,4 @@ class BasicCompetency extends Model
         'second_exam',
         'second_remedial'
     ];
-
-    public function course_report()
-    {
-        return $this->belongsTo('App\CourseReport', 'id', 'course_report_id');
-    }
 }

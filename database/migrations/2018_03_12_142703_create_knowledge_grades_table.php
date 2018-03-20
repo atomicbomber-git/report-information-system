@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBasicCompetenciesTable extends Migration
+class CreateKnowledgeGradesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateBasicCompetenciesTable extends Migration
      */
     public function up()
     {
-        Schema::create('basic_competencies', function (Blueprint $table) {
+        Schema::create('knowledge_grades', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
 
             $table->string('name'); // Nama KD (KD 1, KD 2, ...)
             $table->text('description'); // Deskripsi KD (Bilangan Bulat, SPLDV, Ekonomi Makro, ...)
-            $table->integer('course_report_id')->unsigned(); // ID laporan mata pelajaran
+            $table->integer('knowledge_basic_competency_id')->unsigned(); // ID laporan mata pelajaran
 
             $table->double('first_assignment')->nullable(); // Penugasan 1
             $table->double('second_assignment')->nullable(); // Penugasan 2
@@ -30,7 +30,7 @@ class CreateBasicCompetenciesTable extends Migration
             $table->double('second_exam')->nullable(); // Ujian 2
             $table->double('second_remedial')->nullable(); // Remedial 2
 
-            $table->foreign('course_report_id')->references('id')->on('course_reports')
+            $table->foreign('knowledge_basic_competency_id')->references('id')->on('knowledge_basic_competency_id')
                 ->onDelete('cascade');
         });
     }
@@ -42,6 +42,6 @@ class CreateBasicCompetenciesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('basic_competencies');
+        Schema::dropIfExists('knowledge_grade');
     }
 }
