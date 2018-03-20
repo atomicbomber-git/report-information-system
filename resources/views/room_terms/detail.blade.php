@@ -13,9 +13,9 @@
     </style>
 @endsection
 
-<p class="h1">
+<p class="h2">
     <i class="fa fa-plus"></i>
-    Detail Kelas
+    Detail Kelas {{ $room_term->name }} Tahun Ajaran {{ $room_term->code }} Semester {{ $room_term->even_odd }}
 </p>
 
 <hr>
@@ -35,7 +35,7 @@
 <div class="container" style="padding: 0.6rem 0rem 0.6rem 0rem">
     <div class="row">
         <div class="col col-md-3 text-left">
-            <a href="{{ route('terms.detail', $room_term->term) }}" class="btn btn-sm btn-secondary">
+            <a href="{{ route('terms.detail', $room_term->term_id) }}" class="btn btn-sm btn-secondary">
                 <i class="fa fa-arrow-left"></i>
                 Kembali
             </a>
@@ -63,7 +63,7 @@
                 <label for="teacher_id"> Wali Kelas </label>
                 <select name="teacher_id" id="teacher_id" class="form-control">
                 @foreach($teachers as $teacher)
-                    <option value="{{ $teacher->id }}" @if($teacher->id === $room_term->teacher_id) selected="true" @endif> {{ $teacher->user->name }} </option>
+                    <option value="{{ $teacher->id }}" @if($teacher->id === $room_term->teacher_id) selected="true" @endif> {{ $teacher->name }} </option>
                 @endforeach
                 </select>
             </div>
@@ -118,13 +118,16 @@
                     <td> {{ $report->name }} </td>
                     <td> {{ $report->student_id }} </td>
                     <td>
-                        <a href="" class="btn btn-dark btn-sm">
-                            Detail
+                        <a href="{{ route('reports.detail', $report) }}" class="btn btn-dark btn-sm">
+                            Nilai
                             <i class="fa fa-list-alt"></i>
                         </a>
-                        <button class="btn btn-danger btn-sm">
-                            <i class="fa fa-trash"></i>
-                        </button>
+                        <form class="report_delete_form" style="display: inline-block" method="POST" action="{{ route('reports.delete', $report) }}">
+                            @csrf
+                            <button class="btn btn-danger btn-sm">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </form>
                     </td>
                 </tr>
             @endforeach
@@ -156,5 +159,34 @@
                 { orderable: false }
             ]
         });
+
+        // Handle report deletion
+        // Handle delete form submissions
+        $(".report_delete_form").submit(function(e) {
+                e.preventDefault();
+                let form = $(this);
+
+                swal({
+                    title: 'Menghapus Data Nilai Siswa',
+                    icon: 'warning',
+                    text: 'Apakah Anda yakin hendak menghapus data nilai siswa ini?',
+                    dangerMode: true,
+                    buttons: {
+                        ok: {
+                            text: 'Ya',
+                            visible: true
+                        },
+                        cancel: {
+                            text: 'Tidak',
+                            visible: true
+                        }
+                    }
+                })
+                .then(function(value) {
+                    if (value) {
+                        form.off('submit').submit();
+                    }
+                });
+            });
     </script>
 @endsection

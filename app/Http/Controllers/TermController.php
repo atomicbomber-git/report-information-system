@@ -66,21 +66,31 @@ class TermController extends Controller
         );
     }
 
-    public function detailRoomTerm(RoomTerm $room_term)
+    public function detailRoomTerm($room_term_id)
     {
-        $reports = Report
-            ::select('users.name', 'students.student_id')
-            ->where('room_term_id', $room_term->id)
+        $room_term = RoomTerm::where('room_terms.id', $room_term_id)
+            ->select('room_terms.id', 'room_terms.even_odd', 'rooms.name', 'terms.code', 'room_terms.term_id', 'room_terms.teacher_id')
+            ->join('terms', 'room_terms.term_id', '=', 'terms.id')
+            ->join('rooms', 'room_terms.room_id', '=', 'rooms.id')
+            ->first();
+
+        $reports = Report::select('reports.id', 'users.name', 'students.student_id')
+            ->where('room_term_id', $room_term_id)
             ->join('students', 'reports.student_id', '=', 'students.id')
             ->join('users', 'students.user_id', '=', 'users.id')
             ->orderBy('users.name')
             ->get();
         
+        $teachers = Teacher::select('teachers.id', 'users.name')
+            ->join('users', 'teachers.user_id', '=', 'users.id')
+            ->where('teachers.active', 1)
+            ->get();
+
         return view('room_terms.detail',
             [
                 'room_term' => $room_term,
                 'reports' => $reports,
-                'teachers' => Teacher::with('user')->get()
+                'teachers' => $teachers
             ]
         );
     }

@@ -17,8 +17,9 @@ class CreateReportsTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
-            $table->integer('student_id')->unsigned()->unique(); // ID siswa
+            $table->integer('student_id')->unsigned(); // ID siswa
             $table->integer('room_term_id')->unsigned(); // ID kelas (room term == kelas)
+            $table->unique(['room_term_id', 'student_id']);
 
             $table->foreign('student_id')->references('id')->on('students')
                 ->onDelete('cascade');

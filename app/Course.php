@@ -8,7 +8,7 @@ class Course extends Model
 {
     public $fillable = ['name', 'grade'];
 
-    public function course_reports()
+    public function reports()
     {
         return $this->belongsToMany('App\Report', 'course_reports', 'report_id', 'course_id')
             ->withTimeStamps()

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\RoomTerm;
 use App\Student;
 use App\Report;
+use App\Course;
+use App\CourseReport;
 use DB;
 
 class ReportController extends Controller
@@ -40,20 +42,52 @@ class ReportController extends Controller
     public function processCreate(RoomTerm $room_term)
     {
         $student_ids = request('student_ids');
+        
+        $courses = Course::select('courses.id')
+            ->where('grade', $room_term->grade)
+            ->get();
 
-        DB::transaction(function() use ($student_ids, $room_term) {
+        DB::transaction(function() use ($student_ids, $room_term, $courses) {
             foreach ($student_ids as $student_id) {
-                Report::create([
+                
+                $report = Report::create([
                     'room_term_id' => $room_term->id,
                     'student_id' => $student_id
                 ]);
+
+                foreach ($courses as $course) {
+                    CourseReport::create(['report_id' => $report->id, 'course_id' => $course->id]);
+                }
             }
         });
 
         request()->session()->flash('message-success', 'Siswa berhasil ditambahkan ke dalam kelas.');
 
-        return [
-            'status' => 'success'
-        ];
+        return ['status' => 'success'];
+    }
+
+    public function detail(Report $report)
+    {
+        $course_reports = CourseReport
+            ::select(
+                'course_reports.id', 'courses.name', 'courses.group', 'course_reports.mid_exam',
+                'course_reports.final_exam', 'courses.has_spiritual_grades'
+            )
+            ->where('course_reports.report_id', $report->id)
+            ->join('courses', 'courses.id', '=', 'course_reports.course_id')
+            ->orderBy('courses.group')
+            ->get()
+            ->groupBy('group');
+        
+        return view('reports.detail', [
+            'course_reports' => $course_reports,
+            'report' => $report
+        ]);
+    }
+
+    public function delete(Report $report)
+    {
+        $report->delete();
+        return back()->with('message-success', 'Data nilai siswa berhasil dihapus.');
     }
 }
