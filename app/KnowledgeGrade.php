@@ -10,6 +10,7 @@ class KnowledgeGrade extends Model
         'name',
         'description',
         'course_report_id',
+        'knowledge_basic_competency_id',
         'first_assignment',
         'second_assignment',
         'third_assignment',

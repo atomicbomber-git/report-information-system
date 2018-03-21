@@ -10,14 +10,6 @@ class Report extends Pivot
 
     protected $fillable = ['student_id', 'room_term_id'];
 
-    public function courses()
-    {
-        return $this->belongsToMany('App\Course', 'course_reports', 'report_id', 'course_id')
-            ->withTimeStamps()
-            ->as('course_report')
-            ->using('App\CourseReport');
-    }
-
     // TEMPORARY WORKAROUND
     public function getUpdatedAtColumn()
     {

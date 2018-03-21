@@ -9,6 +9,8 @@ use App\Student;
 use App\Report;
 use App\Course;
 use App\CourseReport;
+use App\KnowledgeBasicCompetency;
+use App\KnowledgeGrade;
 use DB;
 
 class ReportController extends Controller
@@ -41,22 +43,46 @@ class ReportController extends Controller
 
     public function processCreate(RoomTerm $room_term)
     {
+        // IDs of the students that are going to be added
         $student_ids = request('student_ids');
         
+        // All active courses of the room_term's grade
         $courses = Course::select('courses.id')
             ->where('grade', $room_term->grade)
+            ->where('active', 1)
             ->get();
 
-        DB::transaction(function() use ($student_ids, $room_term, $courses) {
+        // All knowledge basic competencies of each respective courses
+        $knowledge_basic_competencies = KnowledgeBasicCompetency::select('knowledge_basic_competencies.id', 'courses.id AS course_id')
+            ->join('courses', 'courses.id', '=', 'knowledge_basic_competencies.course_id')
+            ->where('grade', $room_term->grade)
+            ->where('active', 1)
+            ->get()
+            ->groupBy('course_id');
+        
+        DB::transaction(function() use ($student_ids, $room_term, $courses, $knowledge_basic_competencies) {
             foreach ($student_ids as $student_id) {
                 
+                // Report creation
                 $report = Report::create([
                     'room_term_id' => $room_term->id,
                     'student_id' => $student_id
                 ]);
-
+                
                 foreach ($courses as $course) {
-                    CourseReport::create(['report_id' => $report->id, 'course_id' => $course->id]);
+
+                    // Course reports creation
+                    $course_report = CourseReport::create([
+                        'report_id' => $report->id, 'course_id' => $course->id
+                    ]);
+
+                    // Knowledge grades creation
+                    foreach ($knowledge_basic_competencies[$course->id] as $basic_competency) {
+                        KnowledgeGrade::create([
+                            'course_report_id' => $course_report->id,
+                            'knowledge_basic_competency_id' => $basic_competency->id
+                        ]);
+                    }
                 }
             }
         });

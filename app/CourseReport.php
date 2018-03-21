@@ -13,23 +13,4 @@ class CourseReport extends Pivot
         'skill_description', 'knowledge_description', 'spiritual_attitude_description',
         'social_attitude_description'
     ];
-
-    // TEMPORARY WORKAROUND
-    public function getUpdatedAtColumn()
-    {
-        if ($this->pivotParent) {
-            return $this->pivotParent->getUpdatedAtColumn();
-        }
-
-        return static::UPDATED_AT;
-    }
-
-    public function getCreatedAtColumn()
-    {
-        if ($this->pivotParent) {
-            return $this->pivotParent->getCreatedAtColumn();
-        }
-
-        return static::CREATED_AT;
-    }
 }

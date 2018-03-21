@@ -17,8 +17,7 @@ class CreateKnowledgeGradesTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
-            $table->string('name'); // Nama KD (KD 1, KD 2, ...)
-            $table->text('description'); // Deskripsi KD (Bilangan Bulat, SPLDV, Ekonomi Makro, ...)
+            $table->integer('course_report_id')->unsigned(); // ID laporan mapel
             $table->integer('knowledge_basic_competency_id')->unsigned(); // ID laporan mata pelajaran
 
             $table->double('first_assignment')->nullable(); // Penugasan 1
@@ -30,8 +29,13 @@ class CreateKnowledgeGradesTable extends Migration
             $table->double('second_exam')->nullable(); // Ujian 2
             $table->double('second_remedial')->nullable(); // Remedial 2
 
-            $table->foreign('knowledge_basic_competency_id')->references('id')->on('knowledge_basic_competency_id')
-                ->onDelete('cascade');
+            $table->unique(['course_report_id', 'knowledge_basic_competency_id'], 'course_report_bc_unique');
+
+            $table->foreign('course_report_id')->references('id')
+                ->on('course_reports')->onDelete('cascade');
+
+            $table->foreign('knowledge_basic_competency_id')->references('id')
+                ->on('knowledge_basic_competencies')->onDelete('cascade');
         });
     }
 
