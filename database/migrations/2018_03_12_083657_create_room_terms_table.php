@@ -17,7 +17,7 @@ class CreateRoomTermsTable extends Migration
             $table->increments('id');
 
             $table->integer('room_id')->unsigned(); // ID ruangan
-            $table->integer('term_id')->unsigned(); // ID tahun ajaran
+            $table->integer('term_id')->unsigned()->index(); // ID tahun ajaran
             $table->enum('even_odd', ['even', 'odd']); // Semester genap / ganjil
             $table->integer('teacher_id')->unsigned()->nullable(); // ID wali ruangan dari tabel 'teachers'
 

@@ -59,6 +59,11 @@ Route::prefix('/terms')->group(function() {
     });
 });
 
+Route::prefix('/course_reports')->group(function() {
+    Route::get('/detail/{course_report_id}', 'CourseReportController@detail')->name('course_reports.detail');
+    Route::post('/update/{course_report_id}', 'CourseReportController@update')->name('course_reports.update');
+});
+
 Route::prefix('/courses')->group(function() {
     Route::get('/', 'CourseController@index')->name('courses.index');
     Route::get('/create','CourseController@create')->name('courses.create');
@@ -68,15 +73,5 @@ Route::prefix('/courses')->group(function() {
     Route::get('/delete', 'CourseController@delete')->name('courses.delete');
 });
 
-use App\KnowledgeBasicCompetency;
-
 Route::get('/test', function() {
-    return KnowledgeBasicCompetency::select('knowledge_basic_competencies.id', 'courses.id AS course_id', 'courses.grade AS grade')
-        ->join('courses', 'courses.id', '=', 'knowledge_basic_competencies.course_id')
-        ->where('active', 1)
-        ->get()
-        ->groupBy('grade')
-        ->map(function ($grade_group) { return $grade_group->groupBy('course_id'); });
-
-        // ->groupBy('course_id')
 });

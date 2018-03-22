@@ -17,9 +17,9 @@ class CreateCourseTeachersTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
-            $table->integer('course_id')->unsigned(); // ID Mata pelajaran
+            $table->integer('course_id')->unsigned()->index(); // ID Mata pelajaran
             $table->integer('teacher_id')->unsigned()->nullable(); // ID Guru
-            $table->integer('room_term_id')->unsigned(); // ID Kelas-TahunAjaran-Semester
+            $table->integer('room_term_id')->unsigned()->index(); // ID Kelas-TahunAjaran-Semester
         
             $table->unique(['course_id', 'teacher_id', 'room_term_id']);
 

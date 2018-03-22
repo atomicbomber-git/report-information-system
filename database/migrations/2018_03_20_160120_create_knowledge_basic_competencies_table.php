@@ -16,7 +16,7 @@ class CreateKnowledgeBasicCompetenciesTable extends Migration
         Schema::create('knowledge_basic_competencies', function (Blueprint $table) {
             $table->increments('id');
             $table->text('name');
-            $table->integer('course_id')->unsigned();
+            $table->integer('course_id')->unsigned()->index();
             $table->timestamps();
 
             $table->foreign('course_id')->references('id')

@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class KnowledgeGrade extends Model
 {
     public $fillable = [
-        'name',
-        'description',
         'course_report_id',
         'knowledge_basic_competency_id',
         'first_assignment',

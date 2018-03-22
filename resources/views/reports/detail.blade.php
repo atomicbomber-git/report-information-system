@@ -31,6 +31,16 @@
 
 <hr>
 
+<h3> Informasi </h3>
+<dd>
+    <dt> Nama Siswa: </dt> <dl> {{ $information->student_name }} </dl>
+    <dt> NISN: </dt> <dl> {{ $information->student_id }} </dl>
+    <dt> Semester: </dt> <dl> {{ $information->semester }} </dl>
+    <dt> Tahun Ajaran: </dt> <dl> {{ $information->term_code }} </dl>
+</dd>
+
+<hr>
+
 @foreach($course_reports as $key => $group)
 
 <h3> Mata Pelajaran Kelompok {{ $key }} </h3>
@@ -39,10 +49,10 @@
     <thead class="thead-dark">
         <tr>
             <th> Mata Pelajaran </th>
-            <th> UTS </th>
-            <th> UAS </th>
-            <th> Pengetahuan </th>
-            <th> Keterampilan  </th>
+            <th class="text-right"> UTS </th>
+            <th class="text-right"> UAS </th>
+            <th class="text-right"> Pengetahuan </th>
+            <th class="text-right"> Keterampilan  </th>
             <th> Detail Nilai </th>
         </tr>
     </thead>
@@ -51,16 +61,16 @@
     @foreach($group as $course)
     <tr>
         <td> {{ $course->name }} </td>
-        <td> {{ $course->mid_exam or '-' }} </td>
-        <td> {{ $course->final_exam or '-' }} </td>
-        <td class="text-right"> {{ '-' }} </td>
-        <td class="text-right"> {{ '-' }} </td>
+        <td class="text-right"> {{ $course->mid_exam or '-' }} </td>
+        <td class="text-right"> {{ $course->final_exam or '-' }} </td>
+        <td class="text-right"> {{ $course->knowledge_grade or '-' }} </td>
+        <td class="text-right"> {{ $course->skill_grade or '-' }} </td>
         <td>
-            <a href="" class="btn btn-sm btn-dark">
-                <i class="fa fa-list"></i>
+            <a href="{{ route('course_reports.detail', $course->id) }}" class="btn btn-sm btn-dark">
+                <i class="fa fa-list"> Pengetahuan </i>
             </a>
             <a href="" class="btn btn-sm btn-dark">
-                <i class="fa fa-list"></i>
+                <i class="fa fa-list"> Keterampilan </i>
             </a>
         </td>
         
@@ -70,11 +80,6 @@
 </table>
 
 @endforeach
-
-
-
-
-
 
 @if( session('message-success') )
     <div class="message alert alert-success">

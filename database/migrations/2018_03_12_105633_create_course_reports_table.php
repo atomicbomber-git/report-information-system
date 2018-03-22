@@ -16,8 +16,8 @@ class CreateCourseReportsTable extends Migration
         Schema::create('course_reports', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('course_id')->unsigned(); // ID mapel
-            $table->integer('report_id')->unsigned(); // ID laporan mapel
+            $table->integer('course_id')->unsigned()->index(); // ID mapel
+            $table->integer('report_id')->unsigned()->index(); // ID laporan mapel
 
             $table->double('mid_exam')->nullable(); // Nilai ujian mid semester
             $table->double('final_exam')->nullable(); // Nilai ujian semester

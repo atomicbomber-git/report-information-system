@@ -94,18 +94,45 @@ class ReportController extends Controller
 
     public function detail(Report $report)
     {
-        $course_reports = CourseReport
+        $information = Report
+            ::select('users.name AS student_name', 'students.student_id', 'terms.code AS term_code', 'room_terms.even_odd AS semester', 'rooms.name AS room_name')
+            ->where('reports.id', $report->id)
+            ->join('students', 'students.id', '=', 'reports.student_id')
+            ->join('users', 'users.id', '=', 'students.user_id')
+
+            ->join('room_terms', 'room_terms.id', '=', 'reports.room_term_id')
+            ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
+            ->join('terms', 'terms.id', '=', 'room_terms.term_id')
+            ->first();
+
+        $information->semester = RoomTerm::EVEN_ODD[$information->semester];
+
+        $course_reports = KnowledgeGrade
             ::select(
-                'course_reports.id', 'courses.name', 'courses.group', 'course_reports.mid_exam',
-                'course_reports.final_exam', 'courses.has_spiritual_grades'
+                'course_reports.id AS id',
+                'courses.name',
+                'courses.group',
+                'course_reports.mid_exam',
+                'course_reports.final_exam',
+                DB::raw('ROUND(AVG(GREATEST(((first_assignment + second_assignment + third_assignment + first_exam + second_exam ) / 5 ), first_remedial, second_remedial))) AS knowledge_grade')
             )
-            ->where('course_reports.report_id', $report->id)
+            ->join('course_reports', 'course_reports.id', '=', 'knowledge_grades.course_report_id')
             ->join('courses', 'courses.id', '=', 'course_reports.course_id')
-            ->orderBy('courses.group')
-            ->get()
-            ->groupBy('group');
+            ->where('course_reports.report_id', $report->id)
+            ->groupBy(
+                'course_reports.course_id',
+                'courses.name',
+                'course_reports.id',
+                'courses.group',
+                'course_reports.mid_exam',
+                'course_reports.final_exam'
+            )
+            ->get();
         
+        $course_reports = $course_reports->groupBy('group');
+
         return view('reports.detail', [
+            'information' => $information,
             'course_reports' => $course_reports,
             'report' => $report
         ]);

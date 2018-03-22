@@ -9,6 +9,7 @@ use App\Course;
 use App\CourseReport;
 use App\KnowledgeBasicCompetency;
 use App\KnowledgeGrade;
+use Faker\Generator as Faker;
 use Illuminate\Support\Facades\DB;
 
 class ReportsTableSeeder extends Seeder
@@ -20,6 +21,9 @@ class ReportsTableSeeder extends Seeder
      */
     public function run()
     {
+        // Instantiate fake data generator
+        $faker = \Faker\Factory::create();
+
         $room_terms = RoomTerm::all()
             ->groupBy('grade');
         
@@ -39,7 +43,7 @@ class ReportsTableSeeder extends Seeder
             ->groupBy('grade')
             ->map(function ($grade_group) { return $grade_group->groupBy('course_id'); });
 
-        DB::transaction(function() use ($students, $room_terms, $courses, $knowledge_basic_competencies) {
+        DB::transaction(function() use ($students, $faker, $room_terms, $courses, $knowledge_basic_competencies) {
             foreach ($students as $grade => $grade_group) {
                 foreach ($grade_group as $count => $chunk) {
                     foreach ($chunk as $student) {
@@ -56,14 +60,23 @@ class ReportsTableSeeder extends Seeder
                                 foreach ($courses[$grade] as $course) {
                                     $course_report = CourseReport::create([
                                         'course_id' => $course->id,
-                                        'report_id' => $report->id
+                                        'report_id' => $report->id,
+                                        'mid_exam' => $faker->numberBetween(50, 100),
+                                        'final_exam' => $faker->numberBetween(50, 100),
+                                        'knowledge_description' => $faker->paragraph(4),
+                                        'skill_description' => $faker->paragraph(4)
                                     ]);
                                     
                                     // Fill knowledge_grades table
                                     foreach ($knowledge_basic_competencies[$grade][$course->id] as $basic_competency) {
                                         KnowledgeGrade::create([
                                             'course_report_id' => $course_report->id,
-                                            'knowledge_basic_competency_id' => $basic_competency->id
+                                            'knowledge_basic_competency_id' => $basic_competency->id,
+                                            'first_assignment' => $faker->biasedNumberBetween(50, 100),
+                                            'second_assignment' => $faker->biasedNumberBetween(50, 100),
+                                            'third_assignment' => $faker->biasedNumberBetween(50, 100),
+                                            'first_exam' => $faker->biasedNumberBetween(50, 100),
+                                            'second_exam' => $faker->biasedNumberBetween(50, 100)
                                         ]);
                                     }
                                 }

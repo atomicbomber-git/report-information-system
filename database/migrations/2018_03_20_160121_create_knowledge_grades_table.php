@@ -17,17 +17,17 @@ class CreateKnowledgeGradesTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
-            $table->integer('course_report_id')->unsigned(); // ID laporan mapel
+            $table->integer('course_report_id')->unsigned()->index(); // ID laporan mapel
             $table->integer('knowledge_basic_competency_id')->unsigned(); // ID laporan mata pelajaran
 
-            $table->double('first_assignment')->nullable(); // Penugasan 1
-            $table->double('second_assignment')->nullable(); // Penugasan 2
-            $table->double('third_assignment')->nullable(); // Penugasan 3
+            $table->double('first_assignment')->default(0); // Penugasan 1
+            $table->double('second_assignment')->default(0); // Penugasan 2
+            $table->double('third_assignment')->default(0); // Penugasan 3
 
-            $table->double('first_exam')->nullable(); // Ujian 1
-            $table->double('first_remedial')->nullable(); // Remedial 1
-            $table->double('second_exam')->nullable(); // Ujian 2
-            $table->double('second_remedial')->nullable(); // Remedial 2
+            $table->double('first_exam')->default(0); // Ujian 1
+            $table->double('first_remedial')->default(0); // Remedial 1
+            $table->double('second_exam')->default(0); // Ujian 2
+            $table->double('second_remedial')->default(0); // Remedial 2
 
             $table->unique(['course_report_id', 'knowledge_basic_competency_id'], 'course_report_bc_unique');
 
