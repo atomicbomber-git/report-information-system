@@ -18,8 +18,10 @@ class CourseTeachersTableSeeder extends Seeder
     {
         $teachers = Teacher::select('id')->get();
 
-        $room_terms = RoomTerm::select('id', 'grade')
+        $room_terms = RoomTerm::select('room_terms.id', 'rooms.grade')
+            ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
             ->get()->groupBy('grade');
+
         $courses = Course::select('id', 'grade')
             ->get()->groupBy('grade');
 

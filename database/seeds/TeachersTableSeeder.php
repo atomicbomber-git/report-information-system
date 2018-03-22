@@ -15,6 +15,7 @@ class TeachersTableSeeder extends Seeder
     public function run()
     {
         factory(User::class, 10)->create()->each(function($user) {
+            $user->privilege = 'teacher';
             $user->teacher()->save( factory(Teacher::class)->make() );
         });
     }

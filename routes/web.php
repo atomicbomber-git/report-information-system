@@ -73,5 +73,23 @@ Route::prefix('/courses')->group(function() {
     Route::get('/delete', 'CourseController@delete')->name('courses.delete');
 });
 
+Route::prefix('/teacher_management')->group(function() {
+    Route::get('/terms', 'TeacherManagementController@terms')->name('teacher.management.terms');
+
+    Route::get('/terms/{term_id}/{even_odd}/courses', 'TeacherManagementController@courses')
+        ->where(['even_odd' => '^(even|odd)$'])
+        ->name('teacher.management.courses');
+
+    Route::get('/terms/{term_id}/courses/{course_report_id}', 'TeacherManagementController@courseDetail')->name('teacher.management.courses.detail');
+});
+
+use App\RoomTerm;
+
 Route::get('/test', function() {
+    $room_terms = RoomTerm
+        ::join('rooms', 'rooms.id', '=', 'room_terms.room_id')
+        ->get()
+        ->groupBy('grade');
+    
+    return $room_terms;
 });

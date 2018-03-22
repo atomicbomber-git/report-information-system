@@ -30,8 +30,6 @@ class CreateRoomTermsTable extends Migration
 
             $table->unique(['room_id', 'term_id', 'even_odd']);
 
-            $table->integer('grade')
-                ->unsigned()->index()->nullable(); // Jenjang (7, 8, 9)
             $table->timestamps();
         });
     }

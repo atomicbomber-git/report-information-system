@@ -24,9 +24,11 @@ class ReportsTableSeeder extends Seeder
         // Instantiate fake data generator
         $faker = \Faker\Factory::create();
 
-        $room_terms = RoomTerm::all()
+        $room_terms = RoomTerm
+            ::join('rooms', 'rooms.id', '=', 'room_terms.room_id')
+            ->get()
             ->groupBy('grade');
-        
+            
         $students = Student::all()
             ->groupBy('current_grade')
             ->map(function($grade) { return $grade->chunk(40); });

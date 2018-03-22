@@ -16,6 +16,7 @@ class CreateRoomsTable extends Migration
         Schema::create('rooms', function (Blueprint $table) {
             $table->increments('id');
 
+            $table->integer('grade')->unsigned()->index(); // Jenjang (7, 8, 9)
             $table->string('name'); // Nama Ruangan (VII A, IX B, etcetera)
 
             $table->timestamps();
