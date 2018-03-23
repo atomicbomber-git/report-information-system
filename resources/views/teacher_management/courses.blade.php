@@ -44,6 +44,7 @@
             <th> # </th>
             <th> Mata Pelajaran </th>
             <th> Kelas </th>
+            <th> Jumlah Siswa </th>
             <th> Kendali </th>
         </tr>
     </thead>
@@ -56,6 +57,7 @@
                     <td> {{ $loop->iteration }}. </td>
                     <td> {{ $room_term->course_name }} </td>
                     <td> {{ $room_term->room_name }} </td>
+                    <td> {{ $room_term->report_count }} </td>
                     <td>
                         <a
                             href="{{ route('teacher.management.courses.detail', [$information->id, $information->even_odd, $room_term->id, $room_term->course_id]) }}"
