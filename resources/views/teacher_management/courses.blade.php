@@ -6,7 +6,11 @@
 
 <p class="h1">
     <i class="fa fa-list"></i>
-    Daftar Seluruh Tahun Ajaran
+    Daftar Seluruh Kelas yang Diajar
+</p>
+
+<p class="lead">
+    Tahun Ajaran {{ $information->term_code }} Semester {{ $information->semester }}
 </p>
 
 <hr>
@@ -17,45 +21,35 @@
     </div>
 @endif
 
-<div style="width: 100%; padding: 1.4rem; text-align: right">
-    <a 
-        class="btn btn-primary btn-sm"
-        href="{{ route('terms.create') }}"
-        >
-        Tambah Tahun Ajaran Baru
-        <i class="fa fa-plus"></i>
-    </a>
-</div>
-    
-
 <table class='table table-striped table-responsive-xl table-sm'>
     <thead class='thead-dark'>
         <tr>
             <th> # </th>
-            <th> Tahun Mulai </th>
-            <th> Tahun Selesai </th>
+            <th> Mata Pelajaran </th>
+            <th> Kelas </th>
             <th> Kendali </th>
         </tr>
     </thead>
 
     <tbody>
-        @foreach ($terms as $term)
-        <tr>
-            <td> {{ $loop->iteration }}. </td>
-            <td> {{ $term->term_start }} </td>
-            <td> {{ $term->term_end }} </td>
-            <td>
-                <a href="{{ route('terms.detail', $term) }}" class="btn btn-dark btn-sm">
-                    <i class="fa fa-list-alt"></i>
-                    Detail
-                </a>
-                <a href="{{ route('terms.edit', $term) }}" class="btn btn-dark btn-sm">
-                    <i class="fa fa-pencil"></i>
-                </a>
-                <a href="{{ route('terms.delete', $term) }}" class="btn btn-danger btn-sm">
-                    <i class="fa fa-trash"></i>
-                </a>
-            </td>
+        @foreach ($room_term_groups as $grade => $room_terms)
+            <h3> Kelas {{ $grade }} </h3>
+            <hr>
+            @foreach ($room_terms as $room_term)
+                <tr>
+                    <td> {{ $loop->iteration }}. </td>
+                    <td> {{ $room_term->course_name }}. </td>
+                    <td> {{ $room_term->room_name }} </td>
+                    <td>
+                        <a
+                            href="{{ route('teacher.management.courses.detail', [$information->id, $information->even_odd, $room_term->id, $room_term->course_id]) }}"
+                            class="btn btn-sm btn-dark">
+                            Nilai
+                            <i class="fa fa-list-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+            @endforeach
         @endforeach
     </tbody>
 </table>

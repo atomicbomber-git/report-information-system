@@ -17,7 +17,9 @@ class ReportController extends Controller
 {
     public function create(RoomTerm $room_term)
     {
-        $students = Student::where('current_grade', $room_term->grade)
+        $room_term->load('room');
+
+        $students = Student::where('current_grade', $room_term->room->grade)
             ->select('students.id', 'users.name', 'students.student_id')
             
             ->whereNotExists(function ($query) use ($room_term) {
@@ -25,7 +27,8 @@ class ReportController extends Controller
                     ->from('reports')
                     ->join('room_terms', 'reports.room_term_id', '=', 'room_terms.id')
                     ->whereRaw('students.id = reports.student_id')
-                    ->where('room_terms.term_id', '=', $room_term->term_id);
+                    ->where('room_terms.term_id', '=', $room_term->term_id)
+                    ->where('room_terms.even_odd', '=', $room_term->getOriginal('even_odd'));
             })
             
             ->join('users', 'students.user_id', '=', 'users.id')
@@ -43,19 +46,21 @@ class ReportController extends Controller
 
     public function processCreate(RoomTerm $room_term)
     {
+        $room_term->load('room');
+
         // IDs of the students that are going to be added
         $student_ids = request('student_ids');
         
         // All active courses of the room_term's grade
         $courses = Course::select('courses.id')
-            ->where('grade', $room_term->grade)
+            ->where('grade', $room_term->room->grade)
             ->where('active', 1)
             ->get();
 
         // All knowledge basic competencies of each respective courses
         $knowledge_basic_competencies = KnowledgeBasicCompetency::select('knowledge_basic_competencies.id', 'courses.id AS course_id')
             ->join('courses', 'courses.id', '=', 'knowledge_basic_competencies.course_id')
-            ->where('grade', $room_term->grade)
+            ->where('grade', $room_term->room->grade)
             ->where('active', 1)
             ->get()
             ->groupBy('course_id');
