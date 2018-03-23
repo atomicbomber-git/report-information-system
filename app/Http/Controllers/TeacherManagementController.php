@@ -18,6 +18,8 @@ class TeacherManagementController extends Controller
             ->join('room_terms', 'room_terms.id', '=', 'course_teachers.room_term_id')
             ->join('terms', 'terms.id', '=', 'room_terms.term_id')
             ->groupBy('terms.id', 'terms.code', 'even_odd')
+            ->orderBy('term_end', 'desc')
+            ->orderBY('even_odd')
             ->where('course_teachers.teacher_id', $teacher_id)
             ->get();
 
@@ -41,19 +43,17 @@ class TeacherManagementController extends Controller
         $information->semester = RoomTerm::EVEN_ODD[$even_odd];
 
         $room_terms = DB::table('course_teachers')
-            ->select('room_terms.id', 'courses.name AS course_name', 'rooms.name AS room_name', 'room_terms.id AS room_term_id', 'rooms.grade', 'courses.id AS course_id')
+            ->select('rooms.name AS room_name', 'courses.name AS course_name', 'courses.id AS course_id', 'rooms.grade', 'room_terms.id')
             ->join('room_terms', 'room_terms.id', '=', 'course_teachers.room_term_id')
-            ->join('reports', 'reports.room_term_id', '=', 'room_terms.id')
-            ->join('course_reports', 'course_reports.report_id', '=', 'reports.id')
             ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
             ->join('courses', 'courses.id', '=', 'course_teachers.course_id')
-            ->where('course_teachers.teacher_id', $teacher_id)
             ->where('room_terms.term_id', $term_id)
             ->where('room_terms.even_odd', $even_odd)
-            ->groupBy('room_terms.id', 'courses.name', 'rooms.name', 'rooms.grade','courses.id')
+            ->where('course_teachers.teacher_id', $teacher_id)
             ->get();
 
         $room_term_groups = $room_terms->groupBy('grade');
+        // return $room_term_groups;
 
         return view('teacher_management.courses', [
             'room_term_groups' => $room_term_groups,
@@ -80,6 +80,7 @@ class TeacherManagementController extends Controller
 
         $knowledge_grade_groups = $knowledge_grade_groups->groupBy('basic_competency_id');
 
+        // return "TEs";
         return $knowledge_grade_groups;
     }
 }

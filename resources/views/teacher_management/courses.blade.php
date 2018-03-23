@@ -21,6 +21,23 @@
     </div>
 @endif
 
+<div class="container" style="padding: 0.6rem 0rem 0.6rem 0rem">
+    <div class="row">
+        <div class="col col-md-3 text-left">
+            <a href="{{ route('teacher.management.terms') }}" class="btn btn-sm btn-secondary">
+                <i class="fa fa-arrow-left"></i>
+                Kembali
+            </a>
+        </div>
+        <div class="col-md-6">
+        </div>
+        <div class="col col-md-3">
+        </div>
+    </div>
+</div>
+
+<hr>
+
 <table class='table table-striped table-responsive-xl table-sm'>
     <thead class='thead-dark'>
         <tr>
@@ -34,11 +51,10 @@
     <tbody>
         @foreach ($room_term_groups as $grade => $room_terms)
             <h3> Kelas {{ $grade }} </h3>
-            <hr>
             @foreach ($room_terms as $room_term)
                 <tr>
                     <td> {{ $loop->iteration }}. </td>
-                    <td> {{ $room_term->course_name }}. </td>
+                    <td> {{ $room_term->course_name }} </td>
                     <td> {{ $room_term->room_name }} </td>
                     <td>
                         <a

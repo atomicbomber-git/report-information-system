@@ -49,14 +49,28 @@ class TermController extends Controller
     public function detail($term_id)
     {
         $term = Term::find($term_id);
-        $room_terms = RoomTerm::where('term_id', $term_id)
-            ->with('room', 'teacher.user')
+
+        $room_terms = DB::table('reports')
+            ->select(
+                'room_terms.id',
+                'rooms.name AS room_name',
+                'room_terms.even_odd',
+                'users.name AS teacher_name',
+                DB::raw('COUNT(reports.id) AS report_count')
+            )
+            ->rightJoin('room_terms', 'room_terms.id', '=', 'reports.room_term_id')
+            ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
+            ->join('teachers', 'teachers.id', '=', 'room_terms.teacher_id')
+            ->join('users', 'users.id', '=', 'teachers.user_id')
+            ->groupBy('room_terms.id', 'rooms.name', 'room_terms.even_odd', 'users.name')
+            ->where('room_terms.term_id', $term_id)
             ->get();
 
-        $room_terms = $room_terms->sortBy(function ($room_term) {
-            return $room_term->room->name;
+        $room_terms = $room_terms->map(function($room_term) {
+            $room_term->even_odd = RoomTerm::EVEN_ODD[$room_term->even_odd];
+            return $room_term;
         });
-
+        
         return view('terms.detail',
             [
                 'term' => $term,

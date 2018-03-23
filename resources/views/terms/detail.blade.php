@@ -73,6 +73,7 @@
             <th> Kelas </th>
             <th> Semester </th>
             <th> Wali Kelas </th>
+            <th> Jumlah Siswa </th>
             <th> Kendali </th>
         </tr>
     </thead>
@@ -81,16 +82,17 @@
         @foreach($room_terms as $room_term)
         <tr>
             <td> {{ $loop->iteration }}. </td>
-            <td> {{ $room_term->room->name }}</td>
+            <td> {{ $room_term->room_name }}</td>
             <td> {{ $room_term->even_odd }} </td>
-            <td> {{ $room_term->teacher->user->name }} </td>
+            <td> {{ $room_term->teacher_name }} </td>
+            <td> {{ $room_term->report_count }} </td>
             <td>
-                <a href="{{ route('room_terms.detail', $room_term) }}" class="btn btn-dark btn-sm">
+                <a href="{{ route('room_terms.detail', $room_term->id) }}" class="btn btn-dark btn-sm">
                     Detail
                     <i class="fa fa-list-alt"></i>
                 </a>
                 
-                <form method="POST" class="room_term_delete_form" style="display: inline-block" action="{{ route('room_terms.delete', $room_term) }}">
+                <form method="POST" class="room_term_delete_form" style="display: inline-block" action="{{ route('room_terms.delete', $room_term->id) }}">
                     @csrf
                     <button class="btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i>
