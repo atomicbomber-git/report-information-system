@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use DB;
 use App\RoomTerm;
 use App\Term;
+use App\Course;
+use App\KnowledgeGrade;
 
 class TeacherManagementController extends Controller
 {
@@ -74,7 +76,14 @@ class TeacherManagementController extends Controller
         $teacher_id = auth()->user()->teacher->id;
 
         $knowledge_grade_groups = DB::table('knowledge_grades')
-            ->select('knowledge_basic_competencies.id AS basic_competency_id', 'users.name', 'first_exam', 'second_exam', 'first_assignment', 'second_assignment', 'third_assignment', 'first_remedial', 'second_remedial')
+            ->select(
+                DB::raw('DISTINCT(knowledge_grades.id)'),
+                'knowledge_basic_competencies.name AS basic_competency_name',
+                'knowledge_basic_competencies.id AS basic_competency_id',
+                'users.name', 'first_exam', 'second_exam',
+                'first_assignment', 'second_assignment', 'third_assignment',
+                'first_remedial', 'second_remedial'
+            )
             ->join('course_reports', 'course_reports.id', '=', 'knowledge_grades.course_report_id')
             ->join('knowledge_basic_competencies', 'knowledge_basic_competencies.id', '=', 'knowledge_grades.knowledge_basic_competency_id')
             ->join('reports', 'reports.id', '=', 'course_reports.report_id')
@@ -86,9 +95,51 @@ class TeacherManagementController extends Controller
             ->where('course_reports.course_id', $course_id)
             ->get();
 
-        $knowledge_grade_groups = $knowledge_grade_groups->groupBy('basic_competency_id');
+        $knowledge_grade_groups = $knowledge_grade_groups->groupBy('basic_competency_id', 'basic_competency_name');
 
-        // return "TEs";
-        return $knowledge_grade_groups;
+        // Term-related information
+        $information = Term::find($term_id);
+        $information->term_code = $information->code;
+        $information->even_odd = $even_odd;
+        $information->semester = RoomTerm::EVEN_ODD[$even_odd];
+
+        $room = DB::table('room_terms')
+            ->select('rooms.name')
+            ->where('room_terms.id', $room_term_id)
+            ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
+            ->first();
+        
+        $basic_competencies = DB::table('knowledge_basic_competencies')
+            ->select('id', 'name')
+            ->where('course_id', $course_id)
+            ->get()
+            ->keyBy('id');
+
+        return view('teacher_management.course_detail', [
+            'course' => Course::find($course_id),
+            'knowledge_grade_groups' => $knowledge_grade_groups,
+            'basic_competencies' => $basic_competencies,
+            'information' => $information,
+            'room' => $room,
+        ]);
+    }
+
+    public function updateKnowledgeGrade() {
+        // TODO add validation
+        $data = request('data');
+
+        DB::transaction(function() use($data) {
+            foreach ($data as $knowledge_grade) {
+
+                $id = $knowledge_grade['id'];
+                unset($knowledge_grade['id']);
+                
+                DB::table('knowledge_grades')
+                    ->where('id', $id)
+                    ->update($knowledge_grade);
+
+                \Log::debug($knowledge_grade);
+            }
+        });
     }
 }

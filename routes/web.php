@@ -83,4 +83,7 @@ Route::prefix('/teacher_management')->group(function() {
     Route::get('/terms/{term_id}/{even_odd}/room_terms/{room_term_id}/courses/{course_id}', 'TeacherManagementController@courseDetail')
         ->where(['even_odd' => '^(even|odd)$'])
         ->name('teacher.management.courses.detail');
+
+    Route::post('/update/knowlegde_grade', 'TeacherManagementController@updateKnowledgeGrade')
+        ->name('knowledge_grades.update');
 });
