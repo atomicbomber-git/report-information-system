@@ -103,9 +103,11 @@
 
 @section('script')
 {{-- Loading icon to be loaded by Javascript --}}
-<div id="loading-button-content">
-    Menyimpan Data
-    <i class="fa fa-spinner fa-spin"></i>
+<div class="d-none">
+    <div id="loading-button-content">
+        Menyimpan Data
+        <i class="fa fa-spinner fa-spin"></i>
+    </div>
 </div>
 
 {{-- Floating notification message --}}

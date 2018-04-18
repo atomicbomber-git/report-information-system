@@ -27,6 +27,18 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    const PRIVILEGE = [
+        'student' => 'SISWA',
+        'teacher' => 'GURU',
+        'administrator' => 'ADMINISTRATOR',
+        'headmaster' => 'KEPALA SEKOLAH'
+    ];
+
+    public function getPrivilegeAttribute($value)
+    {
+        return User::PRIVILEGE[$value];
+    }
+
     public function student()
     {
         return $this->hasOne('App\Student');

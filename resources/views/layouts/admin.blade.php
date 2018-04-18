@@ -47,8 +47,17 @@
             </ul>
         </div>
     </nav>
-
+    
     <div class="container">
+        
+        <div style="height: 50px">
+
+        </div>
+
+        <div class="alert alert-info">
+            Anda log in dengan akun milik <strong> {{ auth()->user()->name }} </strong> dengan status <strong> {{ auth()->user()->privilege }} </strong>
+        </div>
+
         <div style="height: 30px"></div>
         @yield('content')
     </div>
