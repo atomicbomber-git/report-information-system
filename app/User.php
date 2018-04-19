@@ -34,11 +34,6 @@ class User extends Authenticatable
         'headmaster' => 'KEPALA SEKOLAH'
     ];
 
-    public function getPrivilegeAttribute($value)
-    {
-        return User::PRIVILEGE[$value];
-    }
-
     public function student()
     {
         return $this->hasOne('App\Student');

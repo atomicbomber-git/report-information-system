@@ -15,36 +15,49 @@
     @yield("styles")
 </head>
 <body>
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#"> Sistem Informasi Rapor </a>
+        <div class="container">
+            <a class="navbar-brand" href="#"> Sistem Informasi Rapor </a>
         
-        <!-- Hamburger bar that only appears if the screen is too narrow -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
+            <!-- Hamburger bar that only appears if the screen is too narrow -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav mr-auto">
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    @if(auth()->user()->privilege == 'administrator')
 
-                <li class="nav-item">
-                    <a class="nav-link @if(isset($current_page) && $current_page === "terms") active @endif" href="{{ route("terms.index") }}"> Tahun Ajaran </a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link @if(isset($current_page) && $current_page === "terms") active @endif" href="{{ route("terms.index") }}"> Tahun Ajaran </a>
+                    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link @if(isset($current_page) && $current_page === "rooms") active @endif" href="{{ route("rooms.index") }}"> Ruangan </a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link @if(isset($current_page) && $current_page === "rooms") active @endif" href="{{ route("rooms.index") }}"> Ruangan </a>
+                    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link @if(isset($current_page) && $current_page === "students") active @endif" href="{{ route("students.index") }}"> Siswa </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"> Guru </a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#"> Nilai </a>
-                </li>
-            </ul>
+                    <li class="nav-item">
+                        <a class="nav-link @if(isset($current_page) && $current_page === "students") active @endif" href="{{ route("students.index") }}"> Siswa </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> Guru </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> Nilai </a>
+                    </li>
+
+                    @endif
+
+                </ul>
+
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button class="btn btn-danger btn-sm">
+                        Log Out
+                        <i class="fa fa-sign-out"></i>
+                    </button>
+                </form>
+            </div>
         </div>
     </nav>
     
@@ -55,7 +68,7 @@
         </div>
 
         <div class="alert alert-info">
-            Anda log in dengan akun milik <strong> {{ auth()->user()->name }} </strong> dengan status <strong> {{ auth()->user()->privilege }} </strong>
+            Anda log in dengan akun milik <strong> {{ auth()->user()->name }} </strong> dengan status <strong> {{ \App\User::PRIVILEGE[auth()->user()->privilege] }} </strong>
         </div>
 
         <div style="height: 30px"></div>

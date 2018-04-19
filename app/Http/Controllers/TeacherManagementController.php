@@ -137,8 +137,6 @@ class TeacherManagementController extends Controller
                 DB::table('knowledge_grades')
                     ->where('id', $id)
                     ->update($knowledge_grade);
-
-                \Log::debug($knowledge_grade);
             }
         });
     }

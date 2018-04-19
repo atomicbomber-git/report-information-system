@@ -122,12 +122,10 @@
                             Nilai
                             <i class="fa fa-list-alt"></i>
                         </a>
-                        <form class="report_delete_form" style="display: inline-block" method="POST" action="{{ route('reports.delete', $report) }}">
-                            @csrf
-                            <button class="btn btn-danger btn-sm">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </form>
+                        <button class="btn btn-edit btn-dark btn-sm">
+                            Pindah Kelas
+                            <i class="fa fa-pencil"></i>
+                        </button>
                     </td>
                 </tr>
             @endforeach
@@ -160,33 +158,5 @@
             ]
         });
 
-        // Handle report deletion
-        // Handle delete form submissions
-        $(".report_delete_form").submit(function(e) {
-                e.preventDefault();
-                let form = $(this);
-
-                swal({
-                    title: 'Menghapus Data Nilai Siswa',
-                    icon: 'warning',
-                    text: 'Apakah Anda yakin hendak menghapus data nilai siswa ini?',
-                    dangerMode: true,
-                    buttons: {
-                        ok: {
-                            text: 'Ya',
-                            visible: true
-                        },
-                        cancel: {
-                            text: 'Tidak',
-                            visible: true
-                        }
-                    }
-                })
-                .then(function(value) {
-                    if (value) {
-                        form.off('submit').submit();
-                    }
-                });
-            });
     </script>
 @endsection

@@ -91,13 +91,6 @@
                     Detail
                     <i class="fa fa-list-alt"></i>
                 </a>
-                
-                <form method="POST" class="room_term_delete_form" style="display: inline-block" action="{{ route('room_terms.delete', $room_term->id) }}">
-                    @csrf
-                    <button class="btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                </form>
             </td>
         </tr>
         @endforeach
@@ -128,35 +121,7 @@
             
             window.setTimeout(function() {
                 $(".table").fadeIn();
-            }, 1500)
-
-            // Handle delete form submissions
-            $(".room_term_delete_form").submit(function(e) {
-                e.preventDefault();
-                let form = $(this);
-
-                swal({
-                    title: 'Menghapus Data Kelas',
-                    icon: 'warning',
-                    text: 'Apakah Anda yakin hendak menghapus kelas ini?',
-                    dangerMode: true,
-                    buttons: {
-                        ok: {
-                            text: 'Ya',
-                            visible: true
-                        },
-                        cancel: {
-                            text: 'Tidak',
-                            visible: true
-                        }
-                    }
-                })
-                .then(function(value) {
-                    if (value) {
-                        form.off('submit').submit();
-                    }
-                });
-            });
+            }, 500)
         });
     </script>
 @endsection

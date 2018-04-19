@@ -27,7 +27,6 @@ class ReportController extends Controller
                     ->from('reports')
                     ->join('room_terms', 'reports.room_term_id', '=', 'room_terms.id')
                     ->whereRaw('students.id = reports.student_id')
-                    ->where('room_terms.term_id', '=', $room_term->term_id)
                     ->where('room_terms.even_odd', '=', $room_term->getOriginal('even_odd'));
             })
             

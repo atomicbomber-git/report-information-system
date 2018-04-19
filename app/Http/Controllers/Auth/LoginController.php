@@ -20,12 +20,19 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
+    public function redirectTo()
+    {
+        \Log::debug(auth()->user()->privilege);
+
+        switch ( auth()->user()->privilege ) {
+            case 'teacher':
+                return route('teacher.management.terms');
+            case 'administrator':
+                return route('terms.index');
+            default:
+                return '/home';
+        }
+    }
 
     /**
      * Create a new controller instance.
