@@ -50,7 +50,12 @@
         </div>
         <div class="col-md-6">
         </div>
-        <div class="col col-md-3">
+        <div class="col col-md-3 text-right">
+            <a href="{{ route('teacher.management.courses.exams', [$information->id, $information->even_odd, $information->room_term_id, $information->course_id]) }}"
+                class="btn btn-primary btn-sm">
+                Nilai UTS / UAS
+                <i class="fa fa-list-alt"></i>
+            </a>
         </div>
     </div>
 </div>
@@ -97,7 +102,6 @@
     </div>
 
 @endforeach
-
 
 @endsection
 

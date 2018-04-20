@@ -102,6 +102,8 @@ class TeacherManagementController extends Controller
         $information->term_code = $information->code;
         $information->even_odd = $even_odd;
         $information->semester = RoomTerm::EVEN_ODD[$even_odd];
+        $information->room_term_id = $room_term_id;
+        $information->course_id = $course_id;
 
         $room = DB::table('room_terms')
             ->select('rooms.name')
@@ -120,7 +122,33 @@ class TeacherManagementController extends Controller
             'knowledge_grade_groups' => $knowledge_grade_groups,
             'basic_competencies' => $basic_competencies,
             'information' => $information,
-            'room' => $room,
+            'room' => $room
+        ]);
+    }
+
+    public function courseExams($term_id, $even_odd, $room_term_id, $course_id)
+    {
+        $information = Term::find($term_id);
+        $information->term_code = $information->code;
+        $information->even_odd = $even_odd;
+        $information->semester = RoomTerm::EVEN_ODD[$even_odd];
+        $information->room_term_id = $room_term_id;
+        $information->course_id = $course_id;
+        
+        $course_reports = DB::table('course_reports')
+            ->select('course_reports.id', 'users.name', 'mid_exam', 'final_exam', 'skill_description')
+            ->join('reports', 'reports.id', '=', 'course_reports.report_id')
+            ->join('students', 'students.id', '=', 'reports.student_id')
+            ->join('users', 'users.id', '=', 'students.user_id')
+            ->where('course_reports.course_id', '=', $course_id)
+            ->where('reports.room_term_id', '=', $room_term_id)
+            ->get();
+        
+        return view('teacher_management.exams', [
+            'information' => $information,
+            'course_reports' => $course_reports,
+            'course' => Course::find($course_id),
+            'room' => RoomTerm::where('room_terms.id', $room_term_id)->join('rooms', 'rooms.id', '=', 'room_terms.room_id')->first()
         ]);
     }
 
@@ -137,6 +165,23 @@ class TeacherManagementController extends Controller
                 DB::table('knowledge_grades')
                     ->where('id', $id)
                     ->update($knowledge_grade);
+            }
+        });
+    }
+
+    public function updateCourseReport()
+    {
+        // TODO add validation
+        $data = request('data');
+
+        DB::transaction(function() use($data) {
+            foreach ($data as $course_report) {
+                $id = $course_report['id'];
+                unset($course_report['id']);
+
+                DB::table('course_reports')
+                    ->where('id', $id)
+                    ->update($course_report);
             }
         });
     }
