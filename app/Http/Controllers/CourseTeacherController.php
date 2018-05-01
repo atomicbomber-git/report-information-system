@@ -50,7 +50,7 @@ class CourseTeacherController extends Controller
             ->orderBy('courses.name')
             ->orderBy('rooms.name')
             ->get()
-            ->groupBy('course_name');
+            ->groupBy('course_name', 'course_teachers.id', 'course_name', 'room_name', 'teacher_name', 'teacher_code', 'course_teachers.teacher_id');
 
         $teachers = DB::table('teachers')
             ->select('teachers.id', 'teachers.teacher_id', 'users.name')
