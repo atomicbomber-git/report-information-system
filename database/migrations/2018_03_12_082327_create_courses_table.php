@@ -24,6 +24,10 @@ class CreateCoursesTable extends Migration
             $table->boolean('has_social_grades')->default(0); // Memiliki nilai sosial / tidak
             $table->integer('grade')->unsigned()->index(); // Jenjang (7, 8, 9)
             $table->boolean('active')->default(1); // Status aktif / non-aktif
+            $table->integer('term_id')->unsigned();
+
+            $table->foreign('term_id')->references('id')->on('terms')
+                ->onDelete('cascade');
 
             $table->timestamps();
         });

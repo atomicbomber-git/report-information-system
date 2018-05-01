@@ -42,8 +42,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#"> Guru </a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link" href="#"> Nilai </a>
+                        <a class="nav-link @if(isset($current_page) && $current_page === "courses") active @endif" href="{{ route('courses.term_index') }}"> Mapel </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link @if(isset($current_page) && $current_page === "course_teachers") active @endif" href="{{ route('course_teachers.term_index') }}"> Guru Mapel </a>
                     </li>
 
                     @endif

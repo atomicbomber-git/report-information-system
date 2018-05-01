@@ -94,3 +94,24 @@ Route::prefix('/teacher_management')->group(function() {
     Route::post('/update/course_report', 'TeacherManagementController@updateCourseReport')
         ->name('course_reports.update');
 });
+
+Route::prefix('/course_teachers')->group(function() {
+
+    Route::get('/terms', 'CourseTeacherController@termIndex')->name('course_teachers.term_index');
+    Route::get('/term/{term_id}/even_odd/{even_odd}/grade/{grade}', 'CourseTeacherController@gradeIndex')
+        ->where(['even_odd' => '^(even|odd)$'])
+        ->name('course_teachers.grade_index');
+
+    Route::post('/update', 'CourseTeacherController@update')->name('course_teachers.update');
+});
+
+Route::prefix('/courses')->group(function() {
+
+    Route::get('/terms', 'CourseController@termIndex')->name('courses.term_index');
+    
+    Route::get('/term/{term_id}/grade/{grade}', 'CourseController@gradeIndex')
+        ->name('courses.grade_index');
+
+    Route::get('/term/{term_id}/grade/{grade}/course/{course_id}', 'CourseController@courseDetail')
+        ->name('courses.detail');
+});

@@ -28,7 +28,10 @@ class CoursesTableSeeder extends Seeder
             ['grade' => 8, 'name' => 'Prakarya', 'passing_grade' => 75, 'description' => '', 'group' => 'B']
         ];
         
+        $term = DB::table('terms')->first();
+
         foreach ($default_courses as $course) {
+            $course['term_id'] = $term->id;
             Course::create($course);
         }
     }
