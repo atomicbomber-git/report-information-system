@@ -40,7 +40,7 @@
                         <a class="nav-link @if(isset($current_page) && $current_page === "students") active @endif" href="{{ route("students.index") }}"> Siswa </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"> Guru </a>
+                        <a class="nav-link @if(isset($current_page) && $current_page === "teachers") active @endif" href="{{ route('teachers.index') }}"> Guru </a>
                     </li>
 
                     <li class="nav-item">
