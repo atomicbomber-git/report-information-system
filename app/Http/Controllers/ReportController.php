@@ -53,6 +53,7 @@ class ReportController extends Controller
         // All active courses of the room_term's grade
         $courses = Course::select('courses.id')
             ->where('grade', $room_term->room->grade)
+            ->where('term_id', $room_term->term_id)
             ->where('active', 1)
             ->get();
 
@@ -60,6 +61,7 @@ class ReportController extends Controller
         $knowledge_basic_competencies = KnowledgeBasicCompetency::select('knowledge_basic_competencies.id', 'courses.id AS course_id')
             ->join('courses', 'courses.id', '=', 'knowledge_basic_competencies.course_id')
             ->where('grade', $room_term->room->grade)
+            ->where('courses.term_id', $room_term->term_id)
             ->where('active', 1)
             ->get()
             ->groupBy('course_id');
@@ -80,12 +82,14 @@ class ReportController extends Controller
                         'report_id' => $report->id, 'course_id' => $course->id
                     ]);
 
-                    // Knowledge grades creation
-                    foreach ($knowledge_basic_competencies[$course->id] as $basic_competency) {
-                        KnowledgeGrade::create([
-                            'course_report_id' => $course_report->id,
-                            'knowledge_basic_competency_id' => $basic_competency->id
-                        ]);
+                    if (isset($knowledge_basic_competencies[$course->id])) {
+                        // Knowledge grades creation
+                        foreach ($knowledge_basic_competencies[$course->id] as $basic_competency) {
+                            KnowledgeGrade::create([
+                                'course_report_id' => $course_report->id,
+                                'knowledge_basic_competency_id' => $basic_competency->id
+                            ]);
+                        }
                     }
                 }
             }
