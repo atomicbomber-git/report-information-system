@@ -42,8 +42,8 @@ class CourseTeacherController extends Controller
             ->join('room_terms', 'room_terms.id', '=', 'course_teachers.room_term_id')
             ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
             ->join('courses', 'courses.id', '=', 'course_teachers.course_id')
-            ->join('teachers', 'teachers.id', '=', 'course_teachers.teacher_id')
-            ->join('users', 'users.id', '=', 'teachers.user_id')
+            ->leftJoin('teachers', 'teachers.id', '=', 'course_teachers.teacher_id')
+            ->leftJoin('users', 'users.id', '=', 'teachers.user_id')
             ->where('room_terms.term_id', $term_id)
             ->where('room_terms.even_odd', $even_odd)
             ->where('courses.grade', $grade)
@@ -56,6 +56,13 @@ class CourseTeacherController extends Controller
             ->select('teachers.id', 'teachers.teacher_id', 'users.name')
             ->join('users', 'users.id', '=','teachers.user_id')
             ->get();
+
+        $empty_teacher = new \stdClass();
+        $empty_teacher->id = NULL;
+        $empty_teacher->teacher_id = '-';
+        $empty_teacher->name = ' KOSONG ';
+        
+        $teachers->push($empty_teacher);
 
         $information = new \stdClass();
         $information->term = DB::table('terms')

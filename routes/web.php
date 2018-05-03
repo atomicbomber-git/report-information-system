@@ -117,6 +117,9 @@ Route::prefix('/courses')->group(function() {
 
     Route::get('/term/{term_id}/grade/{grade}/create', 'CourseController@addCourse')
         ->name('courses.add');
+
+    Route::post('/term/{term_id}/grade/{grade}/create', 'CourseController@createCourse')
+        ->name('courses.create');
 });
 
 Route::prefix('/teachers')->group(function() {

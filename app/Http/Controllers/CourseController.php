@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Course;
 use DB;
 
 class CourseController extends Controller
@@ -74,5 +75,16 @@ class CourseController extends Controller
         return view('courses.create', [
             'information' => $information
         ]);
+    }
+
+    public function createCourse($term_id, $grade)
+    {
+        // TODO: Add validation later
+
+        Course::create( request()->all() );
+
+        return redirect()
+            ->route('courses.grade_index', [$term_id, $grade])
+            ->with(['message-success', 'Mata pelajaran berhasil ditambahkan']);
     }
 }

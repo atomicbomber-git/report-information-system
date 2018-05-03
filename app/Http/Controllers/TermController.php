@@ -151,8 +151,26 @@ class TermController extends Controller
 
         request()->request->add(['term_id' => $term->id]);
         
-        RoomTerm::create( request()->all());
+        $grade = DB::table('rooms')
+            ->where('id', request('room_id'))
+            ->first()->grade;
 
+        $courses = DB::table('courses')
+            ->where('grade', $grade)
+            ->where('term_id', $term->id)
+            ->get();
+        
+        DB::transaction(function() use($courses) {
+            $room_term = RoomTerm::create( request()->all());
+        
+            foreach ($courses as $course) {
+                DB::table('course_teachers')->insert([
+                    'course_id' => $course->id,
+                    'room_term_id' => $room_term->id
+                ]);
+            }
+        });
+        
         return redirect()->route('terms.detail', $term)
             ->with('message-success', 'Data berhasil ditambahkan.');
     }
