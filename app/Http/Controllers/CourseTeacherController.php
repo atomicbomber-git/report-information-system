@@ -12,7 +12,7 @@ class CourseTeacherController extends Controller
         $terms = DB::table('room_terms')
             ->select('term_id AS id', 'even_odd', 'code')
             ->join('terms', 'terms.id', '=', 'room_terms.term_id')
-            ->groupBy('term_id', 'even_odd')
+            ->groupBy('term_id', 'even_odd', 'code')
             ->get();
 
         $grades = DB::table('rooms')
