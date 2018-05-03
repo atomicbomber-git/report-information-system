@@ -64,4 +64,15 @@ class CourseController extends Controller
             'information' => $information,
         ]);
     }
+
+    public function addCourse($term_id, $grade)
+    {
+        $information = new \StdClass();
+        $information->term = DB::table('terms')->where('id', $term_id)->first();
+        $information->grade = $grade;
+
+        return view('courses.create', [
+            'information' => $information
+        ]);
+    }
 }

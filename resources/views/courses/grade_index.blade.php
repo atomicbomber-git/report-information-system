@@ -18,6 +18,13 @@
     Kelola Guru Mata Pelajaran Kelas {{ $information->grade }} Tahun Ajaran {{ $information->term->code }}
 </p>
 
+<div class="text-right" style="padding: 1rem">
+    <a href="{{ route('courses.add', [$information->term->id, $information->grade]) }}" class="btn btn-sm btn-primary">
+        Tambahkan Mata Pelajaran Baru
+        <i class="fa fa-plus"></i>
+    </a>
+</div>
+
 <table class="table table-sm table-striped">
     <thead class="thead-dark">
         <tr>

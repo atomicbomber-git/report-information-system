@@ -2,6 +2,18 @@
 
 @section('title', 'Kelola Guru')
 
+@section('styles')
+
+<link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
+
+<style>
+    #table {
+        border-collapse: collapse !important;
+    }
+</style>
+
+@endsection
+
 @section('content')
 
 <p class="h1">
@@ -17,7 +29,7 @@
     </div>
 @endif
 
-<table class='table table-striped table-responsive-xl table-sm'>
+<table id="table" class='table table-striped table-responsive-xl table-sm'>
     <thead class='thead-dark'>
         <tr>
             <th> # </th>
@@ -38,4 +50,31 @@
         @endforeach
     </tbody>
 </table>
+@endsection
+
+@section('script')
+
+<script src="{{ asset('js/jquery.dataTables.js') }}"> </script>
+<script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"> </script>
+
+<script>
+    $(document).ready(function() {
+        // Tooltips
+        $('[data-toggle="tooltip"]').tooltip();
+
+        // DataTable
+        $(".table").DataTable({
+            "language": {
+                "url": "{{ asset("Indonesian.json") }}"
+            },
+            "pagingType": "full",
+            "lengthMenu": [12, 24, 36],
+            "pageLength": 12
+        });
+        
+        window.setTimeout(function() {
+            $(".table").fadeIn();
+        }, 500)
+    });
+</script>
 @endsection
