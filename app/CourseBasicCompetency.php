@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class KnowledgeBasicCompetency extends Model
 {
     protected $fillable = [
-        'name', 'course_id'
+        'name', 'course_id', 'even_odd'
     ];
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Course;
+use App\KnowledgeBasicCompetency;
 use DB;
 
 class CourseController extends Controller
@@ -49,6 +50,7 @@ class CourseController extends Controller
     {   
         $basic_competencies = DB::table('knowledge_basic_competencies')
             ->where('course_id', $course_id)
+            ->orderBy('even_odd', 'desc')
             ->get();
 
         $information = new \stdClass();
@@ -85,6 +87,20 @@ class CourseController extends Controller
 
         return redirect()
             ->route('courses.grade_index', [$term_id, $grade])
-            ->with(['message-success', 'Mata pelajaran berhasil ditambahkan']);
+            ->with('message-success', 'Mata pelajaran berhasil ditambahkan');
+    }
+
+    public function createKnowledgeBasicCompetency($course_id)
+    {
+        // TODO: Add validation
+
+        KnowledgeBasicCompetency::create([
+            'course_id' => $course_id,
+            'name' => request('name'),
+            'even_odd' => request('even_odd')
+        ]);
+
+        return redirect()->back()
+            ->with('message-success', 'Kompetensi dasar berhasil ditambahkan');
     }
 }
