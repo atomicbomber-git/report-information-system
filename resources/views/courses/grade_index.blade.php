@@ -18,11 +18,23 @@
     Kelola Guru Mata Pelajaran Kelas {{ $information->grade }} Tahun Ajaran {{ $information->term->code }}
 </p>
 
-<div class="text-right" style="padding: 1rem">
-    <a href="{{ route('courses.add', [$information->term->id, $information->grade]) }}" class="btn btn-sm btn-primary">
-        Tambahkan Mata Pelajaran Baru
-        <i class="fa fa-plus"></i>
-    </a>
+<div class="container" style="padding: 1.2rem 0rem 1.2rem 0rem">
+    <div class="row">
+        <div class="col col-md-3 text-left">
+            <a href="{{ route('courses.term_index') }}" class="btn btn-sm btn-secondary">
+                <i class="fa fa-arrow-left"></i>
+                Kembali
+            </a>
+        </div>
+        <div class="col-md-6">
+        </div>
+        <div class="col col-md-3 text-right">
+            <a href="{{ route('courses.add', [$information->term->id, $information->grade]) }}" class="btn btn-sm btn-primary">
+                Tambahkan Mata Pelajaran Baru
+                <i class="fa fa-plus"></i>
+            </a>
+        </div>
+    </div>
 </div>
 
 <table class="table table-sm table-striped">

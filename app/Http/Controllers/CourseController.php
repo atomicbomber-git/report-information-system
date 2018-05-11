@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Course;
+use App\CourseTeacher;
 use App\KnowledgeBasicCompetency;
 use DB;
 
@@ -12,6 +13,7 @@ class CourseController extends Controller
     public function termIndex()
     {
         $terms = DB::table('terms')
+            ->orderBy('term_start', 'desc')
             ->get();
 
         $grades = DB::table('rooms')
@@ -83,7 +85,27 @@ class CourseController extends Controller
     {
         // TODO: Add validation later
 
-        Course::create( request()->all() );
+        DB::transaction(function() use($term_id, $grade) {
+
+            $course = Course::create( request()->all() );
+
+            $room_terms = DB::table('room_terms')
+                ->select('room_terms.id')
+                ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
+                ->where('room_terms.term_id', $term_id)
+                ->where('rooms.grade', $grade)
+                ->get();
+
+            foreach ($room_terms as $room_term) {
+                CourseTeacher::create([
+                    'room_term_id' => $room_term->id,
+                    'course_id' => $course->id
+                ]);
+            }
+        });
+
+        // TODO: Update course reports in every related room terms. Sigh
+        // Also update knowledge grades, as consequence? Sigh
 
         return redirect()
             ->route('courses.grade_index', [$term_id, $grade])

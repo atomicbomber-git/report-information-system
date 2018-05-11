@@ -120,6 +120,9 @@ Route::prefix('/courses')->group(function() {
 
     Route::post('/term/{term_id}/grade/{grade}/create', 'CourseController@createCourse')
         ->name('courses.create');
+
+    Route::post('/course/{course_id}/knowledge_basic_competency/create', 'CourseController@createKnowledgeBasicCompetency')
+        ->name('courses.knowledge_basic_competency.create');
 });
 
 Route::prefix('/teachers')->group(function() {

@@ -15,7 +15,8 @@ class CreateKnowledgeBasicCompetenciesTable extends Migration
     {
         Schema::create('knowledge_basic_competencies', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('name');
+            $table->text('name'); // Nama mata pelajaran
+            $table->string('even_odd'); // Semester genap / ganjil
             $table->integer('course_id')->unsigned()->index();
             $table->timestamps();
 

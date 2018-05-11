@@ -15,7 +15,7 @@ class TermController extends Controller
     public function index()
     {
         return view('terms.index', [
-            'terms' => Term::all(),
+            'terms' => Term::orderBy('term_start', 'desc')->get(),
             'current_page' => 'terms'
         ]);
     }
@@ -43,7 +43,8 @@ class TermController extends Controller
 
         Term::create(request()->all());
 
-        return back();
+        return redirect()->route('terms.index')
+            ->with('message-success', 'Tahun ajaran baru berhasil ditambahkan');
     }
 
     public function detail($term_id)

@@ -13,6 +13,8 @@ class CourseTeacherController extends Controller
             ->select('term_id AS id', 'even_odd', 'code')
             ->join('terms', 'terms.id', '=', 'room_terms.term_id')
             ->groupBy('term_id', 'even_odd', 'code')
+            ->orderBy('terms.term_start', 'desc')
+            ->orderBy('room_terms.even_odd')
             ->get();
 
         $grades = DB::table('rooms')

@@ -5,6 +5,7 @@ use App\KnowledgeBasicCompetency;
 
 $factory->define(KnowledgeBasicCompetency::class, function (Faker $faker) {
     return [
-        'name' => $faker->catchPhrase
+        'name' => $faker->catchPhrase,
+        'even_odd' => $faker->randomElement(['even', 'odd'])
     ];
 });
