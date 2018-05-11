@@ -10,6 +10,23 @@
 
 <hr>
 
+<div class="container" style="padding: 0.6rem 0rem 0.6rem 0rem">
+    <div class="row">
+        <div class="col col-md-3 text-left">
+            <a href="{{ route('rooms.index') }}" class="btn btn-sm btn-secondary">
+                <i class="fa fa-arrow-left"></i>
+                Kembali
+            </a>
+        </div>
+        <div class="col-md-6">
+        </div>
+        <div class="col col-md-3 text-right">
+        </div>
+    </div>
+</div>
+
+<hr>
+
 <form method="POST" action="{{ route('rooms.create') }}" style="max-width: 400px">
     @csrf
     <div class="form-group">

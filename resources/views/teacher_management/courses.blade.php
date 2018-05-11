@@ -4,22 +4,16 @@
 
 @section('content')
 
-<p class="h1">
-    <i class="fa fa-list"></i>
-    Daftar Seluruh Kelas yang Diajar
-</p>
+<h1>
+    <i class="fa fa-list-alt"></i>
+    Kelola Nilai Mata Pelajaran dan Kelas Perwalian
+</h1>
 
 <p class="lead">
     Tahun Ajaran {{ $information->term_code }} Semester {{ $information->semester }}
 </p>
 
-<hr>
-
-@if( session('message-success') )
-    <div class="alert alert-success">
-        {{ session('message-success') }}
-    </div>
-@endif
+<hr/>
 
 <div class="container" style="padding: 0.6rem 0rem 0.6rem 0rem">
     <div class="row">
@@ -36,7 +30,46 @@
     </div>
 </div>
 
-<hr>
+<hr/>
+
+<h3>
+    <i class="fa fa-list"></i>
+    Kelola Kelas Perwalian
+</h3>
+
+<table class="table table-striped table-responsive-xl table-sm">
+    <thead class="thead-dark">
+        <tr>
+            <th> # </th>
+            <th> Kelas </th>
+            <th> Kendali</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach ($managed_room_terms as $room_term)
+        <tr>
+            <td> {{ $loop->iteration }}. </td>
+            <td> {{ $room_term->name }} </td>
+            <td>
+                <a href="" class="btn btn-dark btn-sm">
+                    Detail
+                    <i class="fa fa-list-alt"></i>
+                </a>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+
+<div style="height: 4rem">
+
+</div>
+
+<h3>
+    <i class="fa fa-list"></i>
+    Daftar Seluruh Kelas yang Diajar
+</h3>
 
 <table class='table table-striped table-responsive-xl table-sm'>
     <thead class='thead-dark'>
