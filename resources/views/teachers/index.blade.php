@@ -29,6 +29,23 @@
     </div>
 @endif
 
+<div class="container" style="padding: 0.6rem 0rem 0.6rem 0rem">
+    <div class="row">
+        <div class="col col-md-3 text-left">
+        </div>
+        <div class="col-md-6">
+        </div>
+        <div class="col col-md-3 text-right">
+            <a href="" class="btn btn-primary btn-sm">
+                Tambahkan Guru
+                <i class="fa fa-plus"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<hr>
+
 <table id="table" class='table table-striped table-responsive-xl table-sm'>
     <thead class='thead-dark'>
         <tr>

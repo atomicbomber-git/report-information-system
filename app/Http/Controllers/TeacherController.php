@@ -19,4 +19,9 @@ class TeacherController extends Controller
             'teachers' => $teachers
         ]);
     }
+
+    public function create()
+    {
+        return view('teachers.create');
+    }
 }

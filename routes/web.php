@@ -127,4 +127,6 @@ Route::prefix('/courses')->group(function() {
 
 Route::prefix('/teachers')->group(function() {
     Route::get('/', 'TeacherController@index')->name('teachers.index');
+    Route::get('/create', 'TeacherController@create')->name('teachers.create');
+    Route::post('/create', 'TeacherController@create')->name('teachers.create');
 });
