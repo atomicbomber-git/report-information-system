@@ -52,7 +52,7 @@
             <td> {{ $loop->iteration }}. </td>
             <td> {{ $room_term->name }} </td>
             <td>
-                <a href="" class="btn btn-dark btn-sm">
+                <a href="{{ route('teacher.management.room_term', $room_term->id) }}" class="btn btn-dark btn-sm">
                     Detail
                     <i class="fa fa-list-alt"></i>
                 </a>

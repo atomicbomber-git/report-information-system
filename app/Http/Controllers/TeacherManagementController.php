@@ -97,6 +97,7 @@ class TeacherManagementController extends Controller
             ->join('students', 'students.id', '=', 'reports.student_id')
             ->join('users', 'users.id', '=', 'students.user_id')
             ->join('course_teachers', 'course_teachers.room_term_id', '=', 'reports.room_term_id')
+            ->orderBy('users.name')
             ->where('reports.room_term_id', $room_term_id)
             ->where('course_teachers.teacher_id', $teacher_id)
             ->where('course_reports.course_id', $course_id)
@@ -149,6 +150,7 @@ class TeacherManagementController extends Controller
             ->join('users', 'users.id', '=', 'students.user_id')
             ->where('course_reports.course_id', '=', $course_id)
             ->where('reports.room_term_id', '=', $room_term_id)
+            ->orderBy('users.name')
             ->get();
         
         return view('teacher_management.exams', [
@@ -191,5 +193,60 @@ class TeacherManagementController extends Controller
                     ->update($course_report);
             }
         });
+    }
+
+    public function roomTerm($room_term_id)
+    {
+        $information =  DB::table('room_terms')
+            ->join('terms', 'terms.id', '=', 'room_terms.term_id')
+            ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
+            ->where('room_terms.id', $room_term_id)
+            ->first();
+
+        $information->term_code = $information->code;
+        $information->room_name = $information->name;
+        $information->semester = RoomTerm::EVEN_ODD[$information->even_odd];
+
+        $reports = DB::table('room_terms')
+            ->select('reports.id', 'users.name')
+            ->join('reports', 'reports.room_term_id', '=', 'room_terms.id')
+            ->join('students', 'students.id', '=', 'reports.student_id')
+            ->join('users', 'users.id', '=', 'students.user_id')
+            ->where('reports.room_term_id', $room_term_id)
+            ->orderBy('users.name')
+            ->get();
+
+        return view('teacher_management.room_terms', [
+            'information' => $information,
+            'reports' => $reports
+        ]);
+    }
+
+    public function printReport($report_id)
+    {
+        $course_reports = KnowledgeGrade
+            ::select(
+                'course_reports.id AS id',
+                'courses.name',
+                'courses.group',
+                'course_reports.mid_exam',
+                'course_reports.final_exam',
+                DB::raw('ROUND(AVG(GREATEST(((first_assignment + second_assignment + third_assignment + first_exam + second_exam ) / 5 ), first_remedial, second_remedial))) AS knowledge_grade')
+            )
+            ->join('course_reports', 'course_reports.id', '=', 'knowledge_grades.course_report_id')
+            ->join('courses', 'courses.id', '=', 'course_reports.course_id')
+            ->where('course_reports.report_id', $report_id)
+            ->groupBy(
+                'course_reports.course_id',
+                'courses.name',
+                'course_reports.id',
+                'courses.group',
+                'course_reports.mid_exam',
+                'course_reports.final_exam'
+            )
+            ->get();
+        
+        return $course_reports;
+        // return view('test');
     }
 }

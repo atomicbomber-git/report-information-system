@@ -36,7 +36,7 @@
         <div class="col-md-6">
         </div>
         <div class="col col-md-3 text-right">
-            <a href="" class="btn btn-primary btn-sm">
+            <a href="{{ route('teachers.create') }}" class="btn btn-primary btn-sm">
                 Tambahkan Guru
                 <i class="fa fa-plus"></i>
             </a>

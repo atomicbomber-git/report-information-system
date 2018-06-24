@@ -43,7 +43,7 @@
 <div class="container" style="padding: 0.6rem 0rem 0.6rem 0rem">
     <div class="row">
         <div class="col col-md-3 text-left">
-            <a href="{{ route('teacher.management.terms') }}" class="btn btn-sm btn-secondary">
+            <a href="{{ route('teacher.management.courses', ['term_id' => $information->id, 'even_odd' => $information->even_odd]) }}" class="btn btn-sm btn-secondary">
                 <i class="fa fa-arrow-left"></i>
                 Kembali
             </a>
