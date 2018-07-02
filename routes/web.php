@@ -57,6 +57,7 @@ Route::prefix('/terms')->group(function() {
         Route::post('/create/{room_term}', 'ReportController@processCreate')->name('reports.create');
         Route::post('/delete/{report}', 'ReportController@delete')->name('reports.delete');
         Route::get('/move/{report}', 'ReportController@move')->name('reports.move');
+        Route::post('/move/{report}', 'ReportController@processMove')->name('reports.move');
     });
 });
 

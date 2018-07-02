@@ -161,11 +161,32 @@ class ReportController extends Controller
             ->join('rooms', 'room_terms.room_id', '=', 'rooms.id')
             ->first();
 
+        $room_terms = DB::table('room_terms')
+            ->select('rooms.name AS room_name', 'room_terms.even_odd', 'room_terms.id')
+            ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
+            ->where('room_terms.term_id', '=', $room_term->term_id)
+            ->where('room_terms.id', '<>', $room_term->id)
+            ->orderBy('rooms.grade')
+            ->orderBy('rooms.name')
+            ->orderBy('room_terms.even_odd')
+            ->get();
+
         return view('reports.move',
             [
                 'room_term' => $room_term,
+                'room_terms' => $room_terms,
                 'report' => $report
             ]
         );
+    }
+
+    public function processMove(Report $report)
+    {
+        $report->room_term_id = request('room_term_id');
+        $report->save();
+
+        return redirect()->route('reports.move', $report)->with([
+            'message-success' => 'Berkas siswa berhasil dipindahkan'
+        ]);
     }
 }
