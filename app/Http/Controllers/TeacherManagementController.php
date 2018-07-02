@@ -251,10 +251,10 @@ class TeacherManagementController extends Controller
             )
             ->get();
         
-        $course_reports = $course_reports->groupBy('group');
+        $course_report_groups = $course_reports->groupBy('group');
         
         return view('teacher_management.print_report', [
-            'course_reports' => $course_reports
+            'course_report_groups' => $course_report_groups
         ]);
     }
 }

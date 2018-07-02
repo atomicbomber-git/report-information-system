@@ -55,7 +55,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($course_reports as $course_report)
+            @foreach($course_report_groups['A'] as $course_report)
             <tr>
                 <td> {{ $loop->iteration }} </td>
                 <td> {{ $course_report->name }} </td>
