@@ -15,7 +15,7 @@
 
 <p class="h1">
     <i class="fa fa-list"></i>
-    Kelola Guru Mata Pelajaran Kelas {{ $information->grade }} Tahun Ajaran {{ $information->term->code }}
+    Kelola Mata Pelajaran Kelas {{ $information->grade }} Tahun Ajaran {{ $information->term->code }}
 </p>
 
 <div class="container" style="padding: 1.2rem 0rem 1.2rem 0rem">
@@ -52,10 +52,21 @@
             <td> {{ $loop->iteration }}. </td>
             <td> {{ $course->name }} </td>
             <td>
+                
                 <a href="{{ route('courses.detail', ['term_id' => $information->term->id, 'grade' => $information->grade, 'course_id' => $course->id]) }}" class="btn btn-sm btn-dark">
                     Detail
                     <i class="fa fa-list-alt"></i>
                 </a>
+
+                <form method="POST" action="{{ route('courses.delete', ['course' => $course->id]) }}"
+                    style="display: inline-block">
+                    @csrf
+                    <button class="btn btn-sm btn-danger">
+                        Hapus
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </form>
+
             </td>
         </tr>
         @endforeach

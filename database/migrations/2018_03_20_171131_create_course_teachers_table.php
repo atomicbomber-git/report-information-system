@@ -24,13 +24,16 @@ class CreateCourseTeachersTable extends Migration
             $table->unique(['course_id', 'teacher_id', 'room_term_id']);
 
             $table->foreign('course_id')
-                ->references('id')->on('courses');
+                ->references('id')->on('courses')
+                ->onDelete('cascade');
 
             $table->foreign('teacher_id')
-                ->references('id')->on('teachers');
+                ->references('id')->on('teachers')
+                ->onDelete('cascade');
 
             $table->foreign('room_term_id')
-                ->references('id')->on('room_terms');
+                ->references('id')->on('room_terms')
+                ->onDelete('cascade');
         });
     }
 

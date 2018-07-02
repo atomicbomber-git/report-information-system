@@ -68,6 +68,7 @@ class TeacherManagementController extends Controller
             ->select('room_terms.id', 'rooms.name', 'room_terms.even_odd')
             ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
             ->where('room_terms.term_id', $term_id)
+            ->where('room_terms.even_odd', $even_odd)
             ->where('room_terms.teacher_id', $teacher_id)
             ->get();
         
@@ -231,6 +232,8 @@ class TeacherManagementController extends Controller
                 'courses.group',
                 'course_reports.mid_exam',
                 'course_reports.final_exam',
+                'course_reports.knowledge_description',
+                'course_reports.skill_description',
                 DB::raw('ROUND(AVG(GREATEST(((first_assignment + second_assignment + third_assignment + first_exam + second_exam ) / 5 ), first_remedial, second_remedial))) AS knowledge_grade')
             )
             ->join('course_reports', 'course_reports.id', '=', 'knowledge_grades.course_report_id')
@@ -242,11 +245,16 @@ class TeacherManagementController extends Controller
                 'course_reports.id',
                 'courses.group',
                 'course_reports.mid_exam',
-                'course_reports.final_exam'
+                'course_reports.final_exam',
+                'course_reports.knowledge_description',
+                'course_reports.skill_description'
             )
             ->get();
         
-        return $course_reports;
-        // return view('test');
+        $course_reports = $course_reports->groupBy('group');
+        
+        return view('teacher_management.print_report', [
+            'course_reports' => $course_reports
+        ]);
     }
 }

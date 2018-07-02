@@ -152,4 +152,20 @@ class ReportController extends Controller
         $report->delete();
         return back()->with('message-success', 'Data nilai siswa berhasil dihapus.');
     }
+
+    public function move(Report $report)
+    {
+        $room_term = RoomTerm::where('room_terms.id', $report->room_term_id)
+            ->select('room_terms.id', 'room_terms.even_odd', 'rooms.name', 'terms.code', 'room_terms.term_id', 'room_terms.teacher_id')
+            ->join('terms', 'room_terms.term_id', '=', 'terms.id')
+            ->join('rooms', 'room_terms.room_id', '=', 'rooms.id')
+            ->first();
+
+        return view('reports.move',
+            [
+                'room_term' => $room_term,
+                'report' => $report
+            ]
+        );
+    }
 }

@@ -56,6 +56,7 @@ Route::prefix('/terms')->group(function() {
         Route::get('/create/{room_term}', 'ReportController@create')->name('reports.create');
         Route::post('/create/{room_term}', 'ReportController@processCreate')->name('reports.create');
         Route::post('/delete/{report}', 'ReportController@delete')->name('reports.delete');
+        Route::get('/move/{report}', 'ReportController@move')->name('reports.move');
     });
 });
 
@@ -70,7 +71,7 @@ Route::prefix('/courses')->group(function() {
     Route::post('/create', 'CourseController@processCreate')->name('courses.create');
     Route::get('/edit/{course}', 'CourseController@edit')->name('courses.edit');
     Route::post('/edit/{course}', 'CourseController@processEdit')->name('courses.edit');
-    Route::get('/delete', 'CourseController@delete')->name('courses.delete');
+    Route::post('/delete/{course}', 'CourseController@delete')->name('courses.delete');
 });
 
 Route::prefix('/teacher_management')->group(function() {

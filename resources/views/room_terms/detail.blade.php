@@ -122,10 +122,19 @@
                             Nilai
                             <i class="fa fa-list-alt"></i>
                         </a>
-                        <button class="btn btn-edit btn-dark btn-sm">
+                        <a class="btn btn-edit btn-dark btn-sm"
+                            href="{{ route('reports.move', $report) }}"
+                            >
                             Pindah Kelas
                             <i class="fa fa-pencil"></i>
-                        </button>
+                        </a>
+                        <form method="POST" action="{{ route('reports.delete', $report) }}" style=" display: inline-block">
+                            @csrf
+                            <button class="btn btn-danger btn-sm">
+                                <i class="fa fa-trash"></i>
+                                Hapus
+                            </button>
+                        </form>
                     </td>
                 </tr>
             @endforeach

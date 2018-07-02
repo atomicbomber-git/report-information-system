@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Course;
 use App\CourseTeacher;
 use App\KnowledgeBasicCompetency;
+use App\KnowledgeGrade;
+use App\CourseReport;
 use DB;
 
 class CourseController extends Controller
@@ -96,16 +98,25 @@ class CourseController extends Controller
                 ->where('rooms.grade', $grade)
                 ->get();
 
+            // Create course-teacher-room_term mappings for the new course
             foreach ($room_terms as $room_term) {
                 CourseTeacher::create([
                     'room_term_id' => $room_term->id,
                     'course_id' => $course->id
                 ]);
             }
-        });
 
-        // TODO: Update course reports in every related room terms. Sigh
-        // Also update knowledge grades, as consequence? Sigh
+            // Update all reports in the term
+            $reports = DB::table('reports')
+                ->select('reports.id AS id')
+                ->join('room_terms', 'room_terms.id', '=', 'reports.room_term_id')
+                ->where('room_terms.term_id', $term_id)
+                ->get();
+
+            foreach ($reports as $report) {
+                CourseReport::create(['report_id' => $report->id, 'course_id' => $course->id]);
+            }
+        });
 
         return redirect()
             ->route('courses.grade_index', [$term_id, $grade])
@@ -116,13 +127,32 @@ class CourseController extends Controller
     {
         // TODO: Add validation
 
-        KnowledgeBasicCompetency::create([
-            'course_id' => $course_id,
-            'name' => request('name'),
-            'even_odd' => request('even_odd')
-        ]);
+        DB::transaction(function() use($course_id) {
+            $basic_competency = KnowledgeBasicCompetency::create([
+                'course_id' => $course_id,
+                'name' => request('name'),
+                'even_odd' => request('even_odd')
+            ]);
+
+            $course_reports = DB::table('course_reports')
+                ->where('course_reports.course_id', $course_id)
+                ->get();
+
+            foreach ($course_reports as $course_report) {
+                KnowledgeGrade::create([
+                    'course_report_id' => $course_report->id,
+                    'knowledge_basic_competency_id' => $basic_competency->id
+                ]);
+            }
+        });
 
         return redirect()->back()
             ->with('message-success', 'Kompetensi dasar berhasil ditambahkan');
+    }
+
+    public function delete(Course $course)
+    {
+        $course->delete();
+        return redirect()->back();
     }
 }
