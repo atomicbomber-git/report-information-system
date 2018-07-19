@@ -78,7 +78,7 @@
             <th> Mata Pelajaran </th>
             <th> Kelas </th>
             <th> Jumlah Siswa </th>
-            <th> Kendali </th>
+            <th> Nilai </th>
         </tr>
     </thead>
 
@@ -95,7 +95,13 @@
                         <a
                             href="{{ route('teacher.management.courses.detail', [$information->id, $information->even_odd, $room_term->id, $room_term->course_id]) }}"
                             class="btn btn-sm btn-dark">
-                            Nilai
+                            Pengetahuan
+                            <i class="fa fa-list-alt"></i>
+                        </a>
+
+                        <a href="{{ route('teacher.management.courses.skill_detail', [$information->id, $information->even_odd, $room_term->id, $room_term->course_id]) }}"
+                            class="btn btn-sm btn-dark">
+                            Keterampilan
                             <i class="fa fa-list-alt"></i>
                         </a>
                     </td>

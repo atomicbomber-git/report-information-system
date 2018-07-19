@@ -50,7 +50,13 @@
                     Detail
                 </a>
                 <a href="{{ route('terms.edit', $term) }}" class="btn btn-dark btn-sm">
+                    Sunting
                     <i class="fa fa-pencil"></i>
+                </a>
+
+                <a href="{{ route('terms.delete', $term) }}" class="btn btn-danger btn-sm">
+                    Hapus
+                    <i class="fa fa-trash"></i>
                 </a>
                 
             </td>

@@ -10,6 +10,11 @@ class Report extends Pivot
 
     protected $fillable = ['student_id', 'room_term_id'];
 
+    public function student()
+    {
+        return $this->belongsTo('App\Student');
+    }
+
     // TEMPORARY WORKAROUND
     public function getUpdatedAtColumn()
     {

@@ -91,6 +91,15 @@
                     Detail
                     <i class="fa fa-list-alt"></i>
                 </a>
+
+                <form method="POST" action="{{ route('room_terms.delete', $room_term->id) }}" style="display: inline-block">
+                    @csrf
+                    <button class="btn btn-danger btn-sm">
+                        Hapus
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </form>
+
             </td>
         </tr>
         @endforeach

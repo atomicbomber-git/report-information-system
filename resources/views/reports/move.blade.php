@@ -41,29 +41,39 @@
 
 <div class="container">
     <div class="row">
-        <form action="{{ route('reports.move', $report) }}" method="POST">
 
-            @csrf
+        <div class="card">
+            <div class="card-body">
 
-            <div class="form-group">
-                <label for="room_term"> Kelas Tujuan: </label>
-                <select name="room_term_id" id="room_term" class="form-control">
-                @foreach($room_terms as $room_term)
-                    <option value="{{ $room_term->id }}">
-                        Kelas {{ $room_term->room_name }} Semester {{ \App\RoomTerm::EVEN_ODD[$room_term->even_odd] }}
-                    </option>
-                @endforeach
-                </select>
+                <h4>
+                    {{ $report->student->user->name }}
+                    ({{ $report->student->student_id }})
+                </h4>
+
+                <hr/>
+
+                <form action="{{ route('reports.move', $report) }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="room_term"> Kelas Tujuan: </label>
+                        <select name="room_term_id" id="room_term" class="form-control">
+                        @foreach($room_terms as $room_term)
+                            <option value="{{ $room_term->id }}">
+                                Kelas {{ $room_term->room_name }} Semester {{ \App\RoomTerm::EVEN_ODD[$room_term->even_odd] }}
+                            </option>
+                        @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group text-right">
+                        <button class="btn btn-primary btn-sm">
+                            Setujui Pemindahan
+                            <i class="fa fa-check"></i>
+                        </button>
+                    </div>
+                </form>
             </div>
-
-            <div class="form-group text-right">
-                <button class="btn btn-primary btn-sm">
-                    Setujui Pemindahan
-                    <i class="fa fa-check"></i>
-                </button>
-            </div>
-
-        </form>
+        </div>
     </div>
 </div>
 

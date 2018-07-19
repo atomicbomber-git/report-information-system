@@ -40,7 +40,7 @@ Route::prefix('/terms')->group(function() {
     Route::post('/create', 'TermController@processCreate')->name('terms.create');
     Route::get('/edit/{term}', 'TermController@edit')->name('terms.edit');
     Route::post('/edit/{term}', 'TermController@processEdit')->name('terms.edit');
-    Route::get('/delete', 'TermController@delete')->name('terms.delete');
+    Route::get('/delete/{term}', 'TermController@delete')->name('terms.delete');
     Route::get('/detail/{term}', 'TermController@detail')->name('terms.detail');
 
     Route::prefix('/room_terms')->group(function() {
@@ -88,7 +88,7 @@ Route::prefix('/teacher_management')->group(function() {
         ->where(['even_odd' => '^(even|odd)$'])
         ->name('teacher.management.courses');
 
-    Route::get('/terms/{term_id}/{even_odd}/room_terms/{room_term_id}/courses/{course_id}', 'TeacherManagementController@courseDetail')
+    Route::get('/terms/{term_id}/{even_odd}/room_terms/{room_term_id}/courses/{course_id}/knowledge', 'TeacherManagementController@courseDetail')
         ->where(['even_odd' => '^(even|odd)$'])
         ->name('teacher.management.courses.detail');
 
@@ -96,8 +96,15 @@ Route::prefix('/teacher_management')->group(function() {
         ->where(['even_odd' => '^(even|odd)$'])
         ->name('teacher.management.courses.exams');
 
+    Route::get('/terms/{term_id}/{even_odd}/room_terms/{room_term_id}/courses/{course_id}/skill', 'TeacherManagementController@skillDetail')
+        ->where(['even_odd' => '^(even|odd)$'])
+        ->name('teacher.management.courses.skill_detail');
+
     Route::post('/update/knowlegde_grade', 'TeacherManagementController@updateKnowledgeGrade')
         ->name('knowledge_grades.update');
+
+    Route::post('/update/skill_grade', 'TeacherManagementController@updateSkillGrade')
+        ->name('skill_grades.update');
 
     Route::post('/update/course_report', 'TeacherManagementController@updateCourseReport')
         ->name('course_reports.update');

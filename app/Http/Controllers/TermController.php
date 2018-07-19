@@ -47,6 +47,12 @@ class TermController extends Controller
             ->with('message-success', 'Tahun ajaran baru berhasil ditambahkan');
     }
 
+    public function delete(Term $term)
+    {
+        $term->delete();
+        return back()->with(['message-success', 'Tahun ajaran berhasil dihapus']);
+    }
+
     public function detail($term_id)
     {
         $term = Term::find($term_id);
@@ -65,6 +71,8 @@ class TermController extends Controller
             ->join('users', 'users.id', '=', 'teachers.user_id')
             ->groupBy('room_terms.id', 'rooms.name', 'room_terms.even_odd', 'users.name')
             ->where('room_terms.term_id', $term_id)
+            ->orderBy('rooms.grade')
+            // ->orderBy('room_terms.even_odd')
             ->get();
 
         $room_terms = $room_terms->map(function($room_term) {
