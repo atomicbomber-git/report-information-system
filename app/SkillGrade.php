@@ -8,7 +8,7 @@ class SkillGrade extends Model
 {
     public $fillable = [
         'course_report_id',
-        'basic_competency_id',
+        'knowledge_basic_competency_id',
         'type',
         'score_1',
         'score_2',

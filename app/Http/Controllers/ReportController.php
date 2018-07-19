@@ -11,6 +11,7 @@ use App\Course;
 use App\CourseReport;
 use App\KnowledgeBasicCompetency;
 use App\KnowledgeGrade;
+use App\SkillGrade;
 use DB;
 
 class ReportController extends Controller
@@ -46,6 +47,8 @@ class ReportController extends Controller
 
     public function processCreate(RoomTerm $room_term)
     {
+        $skill_score_types = ['PRAKTIK', 'PRODUK', 'PROYEK', 'PORTOFOLIO'];
+
         $room_term->load('room');
 
         // IDs of the students that are going to be added
@@ -67,7 +70,7 @@ class ReportController extends Controller
             ->get()
             ->groupBy('course_id');
         
-        DB::transaction(function() use ($student_ids, $room_term, $courses, $knowledge_basic_competencies) {
+        DB::transaction(function() use ($student_ids, $room_term, $courses, $knowledge_basic_competencies, $skill_score_types) {
             foreach ($student_ids as $student_id) {
                 
                 // Report creation
@@ -90,6 +93,14 @@ class ReportController extends Controller
                                 'course_report_id' => $course_report->id,
                                 'knowledge_basic_competency_id' => $basic_competency->id
                             ]);
+                            
+                            foreach ($skill_score_types as $type) {
+                                SkillGrade::create([
+                                    'course_report_id' => $course_report->id,
+                                    'knowledge_basic_competency_id' => $basic_competency->id,
+                                    'type' => $type
+                                ]);
+                            }
                         }
                     }
                 }
