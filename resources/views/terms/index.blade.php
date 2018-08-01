@@ -54,13 +54,48 @@
                     <i class="fa fa-pencil"></i>
                 </a>
 
-                <a href="{{ route('terms.delete', $term) }}" class="btn btn-danger btn-sm">
-                    Hapus
-                    <i class="fa fa-trash"></i>
-                </a>
-                
+
+                <form
+                    class="form-delete" action="{{ route('terms.delete', $term) }}"
+                    style="display: inline-block"
+                    data-label="{{ $term->term_start . "-" . $term->term_end }}">
+                    <button class="btn btn-danger btn-sm">
+                        Hapus
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </form>
+
             </td>
         @endforeach
     </tbody>
 </table>
+@endsection
+
+@section('script')
+<script src="{{ asset('js/sweetalert.min.js') }}"> </script>
+<script>
+    $(document).ready(function() {
+        $(".form-delete").each(function() {
+            let form = $(this);
+            form.submit(function(e) {
+                e.preventDefault()
+
+                let label = form.data('label');
+
+                swal('Anda yakin ingin menghapus tahun ajaran ' + label + '?', {
+                    title: "Konfirmasi Penghapusan",
+                    icon: "warning",
+                    buttons: ["Tidak", "Ya"],
+                    dangerMode: true
+                })
+                .then(function(willDelete) {
+                    if (willDelete) {
+                        form.off("submit").submit();
+                    }
+                });
+            });
+
+        });
+    });
+</script>
 @endsection

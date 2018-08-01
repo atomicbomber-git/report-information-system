@@ -50,7 +50,7 @@ class TermController extends Controller
     public function delete(Term $term)
     {
         $term->delete();
-        return back()->with(['message-success', 'Tahun ajaran berhasil dihapus']);
+        return back()->with('message-success', 'Tahun ajaran berhasil dihapus');
     }
 
     public function detail($term_id)
@@ -188,5 +188,16 @@ class TermController extends Controller
     {
         $room_term->delete();
         return back()->with('message-success', 'Data berhasil dihapus.');
+    }
+
+    public function edit(Term $term)
+    {
+        return view('terms.edit', ['term' => $term]);
+    }
+
+    public function processEdit(Term $term)
+    {
+        $term->update(request()->all());
+        return back()->with('message-success', 'Data berhasil diperbarui.');
     }
 }

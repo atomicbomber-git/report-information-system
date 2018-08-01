@@ -92,7 +92,13 @@
                     <i class="fa fa-list-alt"></i>
                 </a>
 
-                <form method="POST" action="{{ route('room_terms.delete', $room_term->id) }}" style="display: inline-block">
+                <form 
+                    method="POST"
+                    class="form-delete"
+                    action="{{ route('room_terms.delete', $room_term->id) }}"
+                    style="display: inline-block"
+                    data-roomname = "{{ $room_term->room_name }}"
+                    data-evenodd = "{{ $room_term->even_odd }}">
                     @csrf
                     <button class="btn btn-danger btn-sm">
                         Hapus
@@ -130,7 +136,29 @@
             
             window.setTimeout(function() {
                 $(".table").fadeIn();
-            }, 500)
+            }, 500);
+
+            $(".form-delete").each(function() {
+                let form = $(this);
+                form.submit(function(e) {
+                    e.preventDefault()
+
+                    let room_name = form.data('roomname');
+                    let even_odd = form.data('evenodd');
+
+                    swal(`Anda yakin ingin menghapus kelas ${room_name} ${even_odd}?`, {
+                        title: "Konfirmasi Penghapusan",
+                        icon: "warning",
+                        buttons: ["Tidak", "Ya"],
+                        dangerMode: true
+                    })
+                    .then(function(willDelete) {
+                        if (willDelete) {
+                            form.off("submit").submit();
+                        }
+                    });
+                });
+            });
         });
     </script>
 @endsection

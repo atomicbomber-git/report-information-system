@@ -18,6 +18,12 @@
     Kelola Mata Pelajaran Kelas {{ $information->grade }} Tahun Ajaran {{ $information->term->code }}
 </p>
 
+@if( session('message-success') )
+    <div class="alert alert-success">
+        {{ session('message-success') }}
+    </div>
+@endif
+
 <div class="container" style="padding: 1.2rem 0rem 1.2rem 0rem">
     <div class="row">
         <div class="col col-md-3 text-left">
@@ -58,8 +64,12 @@
                     <i class="fa fa-list-alt"></i>
                 </a>
 
-                <form method="POST" action="{{ route('courses.delete', ['course' => $course->id]) }}"
-                    style="display: inline-block">
+                {{-- COURSE DELETE button --}}
+                <form
+                    method="POST"
+                    action="{{ route('courses.delete', ['course' => $course->id]) }}"
+                    class="form-delete d-inline-block"
+                    data-coursename="{{ $course->name }}">
                     @csrf
                     <button class="btn btn-sm btn-danger">
                         Hapus
@@ -75,12 +85,6 @@
 
 <hr>
 
-@if( session('message-success') )
-    <div class="alert alert-success">
-        {{ session('message-success') }}
-    </div>
-@endif
-
 @endsection
 
 @section('script')
@@ -88,6 +92,32 @@
 <div id="notification-container" style="position: fixed; bottom: 3rem; right: 3rem"></div>
 
 <script src="{{ asset('js/notification.js') }}"></script>
+<script src="{{ asset('js/sweetalert.min.js') }}"> </script>
 
+<script>
+    $(document).ready(function() {
+        $(".form-delete").each(function() {
+            let form = $(this);
+            form.submit(function(e) {
+                e.preventDefault()
+
+                let coursename = form.data('coursename');
+
+                swal(`Anda yakin ingin menghapus mata pelajaran ${coursename}?`, {
+                    title: 'Konfirmasi Penghapusan',
+                    icon: 'warning',
+                    buttons: ['Tidak', 'Ya'],
+                    dangerMode: true
+                })
+                .then(function(willDelete) {
+                    if (willDelete) {
+                        form.off('submit').submit();
+                    }
+                });
+
+            });
+        });
+    });
+</script>
 
 @endsection

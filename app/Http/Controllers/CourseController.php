@@ -146,13 +146,18 @@ class CourseController extends Controller
             }
         });
 
-        return redirect()->back()
-            ->with('message-success', 'Kompetensi dasar berhasil ditambahkan');
+        return back()->with('message-success', 'Kompetensi dasar berhasil ditambahkan');
     }
 
     public function delete(Course $course)
     {
         $course->delete();
-        return redirect()->back();
+        return back()->with('message-success', 'Data berhasil dihapus');
+    }
+
+    public function deleteKnowledgeBasicCompetency(KnowledgeBasicCompetency $basic_competency)
+    {
+        $basic_competency->delete();
+        return back()->with('message-success', 'Data berhasil dihapus');
     }
 }

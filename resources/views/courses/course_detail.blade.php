@@ -18,6 +18,12 @@
     Kelola Mata Pelajaran {{ $information->course->name }} Kelas {{ $information->grade }} Tahun Ajaran {{ $information->term->code }}
 </p>
 
+@if( session('message-success') )
+    <div class="alert alert-success">
+        {{ session('message-success') }}
+    </div>
+@endif
+
 <div class="container" style="padding: 0.6rem 0rem 0.6rem 0rem">
     <div class="row">
         <div class="col col-md-3 text-left">
@@ -33,16 +39,7 @@
     </div>
 </div>
 
-<div style="height: 2rem"></div>
-
 <hr/>
-
-@if( session('message-success') )
-    <div class="alert alert-success">
-        {{ session('message-success') }}
-    </div>
-@endif
-
 
 <fieldset>
     <legend>
@@ -103,6 +100,19 @@
                 <a href="" class="btn btn-sm btn-dark">
                     Sunting <i class="fa fa-pencil"></i>
                 </a>
+
+                <form
+                    method="POST"
+                    action="{{ route('courses.knowledge_basic_competency.delete', $basic_competency->id) }}"
+                    class="form-delete d-inline-block"
+                    data-basiccompetency="{{ $basic_competency->name }}">
+                    @csrf
+                    <button class="btn btn-danger btn-sm">
+                        Hapus
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </form>
+
             </td>
         </tr>
         @endforeach
@@ -118,6 +128,32 @@
 <div id="notification-container" style="position: fixed; bottom: 3rem; right: 3rem"></div>
 
 <script src="{{ asset('js/notification.js') }}"></script>
+<script src="{{ asset('js/sweetalert.min.js') }}"> </script>
 
+<script>
+    $(document).ready(function() {
+        $(".form-delete").each(function() {
+            let form = $(this);
+            form.submit(function(e) {
+                e.preventDefault()
+
+                let basic_competency = form.data('basiccompetency');
+
+                swal(`Anda yakin ingin menghapus kompetensi dasar ${basic_competency}?`, {
+                    title: 'Konfirmasi Penghapusan',
+                    icon: 'warning',
+                    buttons: ['Tidak', 'Ya'],
+                    dangerMode: true
+                })
+                .then(function(willDelete) {
+                    if (willDelete) {
+                        form.off('submit').submit();
+                    }
+                });
+
+            });
+        });
+    });
+</script>
 
 @endsection

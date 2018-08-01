@@ -128,13 +128,21 @@
                             Pindah Kelas
                             <i class="fa fa-pencil"></i>
                         </a>
-                        <form method="POST" action="{{ route('reports.delete', $report) }}" style=" display: inline-block">
+
+                        {{-- DELETE STUDENT buttton --}}
+                        <form
+                            method = "POST"
+                            action = "{{ route('reports.delete', $report) }}"
+                            class = "form-delete d-inline-block"
+                            data-studentname = "{{ $report->name }}">
+                            
                             @csrf
                             <button class="btn btn-danger btn-sm">
                                 <i class="fa fa-trash"></i>
                                 Hapus
                             </button>
                         </form>
+
                     </td>
                 </tr>
             @endforeach
@@ -165,6 +173,28 @@
                 { orderable: true },
                 { orderable: false }
             ]
+        });
+
+        $(".form-delete").each(function() {
+            let form = $(this);
+            form.submit(function(e) {
+                e.preventDefault()
+
+                let student_name = form.data('studentname');
+
+                swal(`Anda yakin ingin menghapus berkas siswa ${student_name}?`, {
+                    title: 'Konfirmasi Penghapusan',
+                    icon: 'warning',
+                    buttons: ['Tidak', 'Ya'],
+                    dangerMode: true
+                })
+                .then(function(willDelete) {
+                    if (willDelete) {
+                        form.off('submit').submit();
+                    }
+                });
+
+            });
         });
 
     </script>
