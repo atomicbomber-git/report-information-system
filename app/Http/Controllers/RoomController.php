@@ -41,10 +41,17 @@ class RoomController extends Controller
         ]);
     }
 
+    public function delete(Room $room)
+    {
+        $room->delete();
+        return back()->with('message-success', 'Data berhasil dihapus.');
+    }
+
     public function processEdit(Room $room)
     {
         $this->validate(request(), [
-            'name' => 'string|required'
+            'name' => 'string|required',
+            'grade' => 'integer|required'
         ]);
 
         $room->update( request()->all() );

@@ -33,6 +33,7 @@
         <tr>
             <th> # </th>
             <th> Nama </th>
+            <th> Jenjang </th>
             <th> Kendali </th>
         </tr>
     </thead>
@@ -42,15 +43,56 @@
         <tr>
             <td> {{ $loop->iteration }}. </td>
             <td> {{ $room->name }} </td>
+            <td> {{ $room->grade }} </td>
             <td>
                 <a href="{{ route('rooms.edit', $room) }}" class="btn btn-dark btn-sm">
+                    Sunting
                     <i class="fa fa-pencil"></i>
                 </a>
-                <a href="{{ route('rooms.delete', $room) }}" class="btn btn-danger btn-sm">
-                    <i class="fa fa-trash"></i>
-                </a>
+
+                <form
+                    method="POST"
+                    action="{{ route('rooms.delete', $room) }}"
+                    class="form-delete d-inline-block"
+                    data-roomname="{{ $room->name }}">
+                    @csrf
+                    <button class="btn btn-danger btn-sm">
+                        Hapus
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </form>
+                
             </td>
         @endforeach
     </tbody>
 </table>
+@endsection
+
+@section("script")
+<script src="{{ asset('js/sweetalert.min.js') }}"> </script>
+
+<script>
+
+    $(".form-delete").each(function() {
+        let form = $(this);
+        form.submit(function(e) {
+            e.preventDefault()
+
+            let room_name = form.data('roomname');
+
+            swal(`Anda yakin ingin menghapus ruangan ${room_name}?`, {
+                title: 'Konfirmasi Penghapusan',
+                icon: 'warning',
+                buttons: ['Tidak', 'Ya'],
+                dangerMode: true
+            })
+            .then(function(willDelete) {
+                if (willDelete) {
+                    form.off('submit').submit();
+                }
+            });
+
+        });
+    });
+</script>
 @endsection

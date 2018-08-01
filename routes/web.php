@@ -31,7 +31,7 @@ Route::prefix('/rooms')->group(function() {
     Route::post('/create', 'RoomController@processCreate')->name('rooms.create');
     Route::get('/edit/{room}', 'RoomController@edit')->name('rooms.edit');
     Route::post('/edit/{room}', 'RoomController@processEdit')->name('rooms.edit');
-    Route::get('/delete', 'RoomController@delete')->name('rooms.delete');
+    Route::post('/delete/{room}', 'RoomController@delete')->name('rooms.delete');
 });
 
 Route::prefix('/terms')->group(function() {
@@ -146,5 +146,6 @@ Route::prefix('/courses')->group(function() {
 Route::prefix('/teachers')->group(function() {
     Route::get('/', 'TeacherController@index')->name('teachers.index');
     Route::get('/create', 'TeacherController@create')->name('teachers.create');
-    Route::post('/create', 'TeacherController@create')->name('teachers.create');
+    Route::post('/create', 'TeacherController@processCreate')->name('teachers.create');
+    Route::post('/delete/{teacher}', 'TeacherController@delete')->name('teachers.delete');
 });

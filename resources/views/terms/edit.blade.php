@@ -65,8 +65,8 @@
 
     <div class="form-group text-right">
         <button class="btn btn-primary">
-            <i class="fa fa-plus"></i>
-            Tambahkan
+            <i class="fa fa-check"></i>
+            Perbarui
         </button>
     </div>
 </form>

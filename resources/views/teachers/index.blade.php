@@ -53,6 +53,7 @@
             <th> Nama </th>
             <th> Nama Pengguna </th>
             <th> NIK </th>
+            <th> Kendali </th>
         </tr>
     </thead>
 
@@ -63,6 +64,20 @@
             <td> {{ $teacher->name }} </td>
             <td> {{ $teacher->username }} </td>
             <td> {{ $teacher->teacher_id }} </td>
+            <td>
+                <form
+                    action="{{ route('teachers.delete', $teacher->id) }}"
+                    method="POST"
+                    class="form-delete d-inline-block"
+                    data-teacher="{{ $teacher->name }}"
+                    >
+                    @csrf
+                    <button class="btn btn-sm btn-danger">
+                        Hapus
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </form>
+            </td>
         </tr>
         @endforeach
     </tbody>
@@ -73,6 +88,7 @@
 
 <script src="{{ asset('js/jquery.dataTables.js') }}"> </script>
 <script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"> </script>
+<script src="{{ asset('js/sweetalert.min.js') }}"> </script>
 
 <script>
     $(document).ready(function() {
@@ -92,6 +108,29 @@
         window.setTimeout(function() {
             $(".table").fadeIn();
         }, 500)
+
+        // Teacher deletion confirmation popup
+        $(".form-delete").each(function() {
+            let form = $(this);
+            form.submit(function(e) {
+                e.preventDefault()
+
+                let label = form.data('teacher');
+
+                swal('Anda yakin ingin menghapus guru ' + label + '?', {
+                    title: "Konfirmasi Penghapusan",
+                    icon: "warning",
+                    buttons: ["Tidak", "Ya"],
+                    dangerMode: true
+                })
+                .then(function(willDelete) {
+                    if (willDelete) {
+                        form.off("submit").submit();
+                    }
+                });
+            });
+
+        });
     });
 </script>
 @endsection
