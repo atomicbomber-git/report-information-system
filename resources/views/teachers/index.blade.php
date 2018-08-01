@@ -60,11 +60,17 @@
     <tbody>
         @foreach($teachers as $teacher)
         <tr>
-            <td> {{ $loop->iteration }} </td>
+            <td> {{ $loop->iteration }}. </td>
             <td> {{ $teacher->name }} </td>
             <td> {{ $teacher->username }} </td>
             <td> {{ $teacher->teacher_id }} </td>
             <td>
+                <a href="{{ route('teachers.edit', $teacher->id) }}" class="btn btn-sm btn-dark">
+                    Sunting
+                    <i class="fa fa-pencil"></i>
+                </a>
+
+                {{-- TEACHER DELETE button --}}
                 <form
                     action="{{ route('teachers.delete', $teacher->id) }}"
                     method="POST"

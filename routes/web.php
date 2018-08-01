@@ -147,5 +147,7 @@ Route::prefix('/teachers')->group(function() {
     Route::get('/', 'TeacherController@index')->name('teachers.index');
     Route::get('/create', 'TeacherController@create')->name('teachers.create');
     Route::post('/create', 'TeacherController@processCreate')->name('teachers.create');
+    Route::get('/edit/{teacher}', 'TeacherController@edit')->name('teachers.edit');
+    Route::post('/edit/{teacher}', 'TeacherController@processEdit')->name('teachers.edit');
     Route::post('/delete/{teacher}', 'TeacherController@delete')->name('teachers.delete');
 });
