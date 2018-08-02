@@ -160,4 +160,31 @@ class CourseController extends Controller
         $basic_competency->delete();
         return back()->with('message-success', 'Data berhasil dihapus');
     }
+
+    public function editKnowledgeBasicCompetency($course_id, KnowledgeBasicCompetency $basic_competency)
+    {
+        return view('courses.basic_competency_edit', [
+            'basic_competency' => $basic_competency
+        ]);
+    }
+
+    public function processEditKnowledgeBasicCompetency($course_id, KnowledgeBasicCompetency $basic_competency)
+    {
+        $data = $this->validate(
+            request(),
+            [
+                'name' => 'required|string',
+                'even_odd' => 'required|in:even,odd'
+            ]
+        );
+
+        $basic_competency->update([
+            'name' => $data['name'],
+            'even_odd' => $data['even_odd']
+        ]);
+
+        return redirect()
+            ->route('courses.detail', [$basic_competency->course->term->id, $basic_competency->course->grade, $basic_competency->course->id])
+            ->with('message-success', 'Data berhasil diperbarui.');
+    }
 }

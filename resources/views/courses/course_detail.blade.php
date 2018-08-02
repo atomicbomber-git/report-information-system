@@ -97,8 +97,11 @@
             <td> {{ $basic_competency->name }} </td>
             <td> {{ \App\Util::EVEN_ODD[$basic_competency->even_odd] }} </td>
             <td>
-                <a href="" class="btn btn-sm btn-dark">
-                    Sunting <i class="fa fa-pencil"></i>
+                <a
+                    class="btn btn-sm btn-dark"
+                    href="{{ route('courses.knowledge_basic_competency.edit', [$information->course->id, $basic_competency->id]) }}">
+                    Sunting
+                    <i class="fa fa-pencil"></i>
                 </a>
 
                 <form

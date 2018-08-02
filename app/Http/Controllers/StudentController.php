@@ -44,19 +44,12 @@ class StudentController extends Controller
         );
 
         // Creates user data
-        $user = new User;
-        $user->name = $data['name'];
-        $user->username = $data['username'];
-
-        if ( ! empty($data['password']) ) {
-            $user->password = bcrypt( $data['password'] );
-        }
-        else {
-            // If password isn't provided, use the username as password
-            $user->password = bcrypt( $data['username'] );
-        }
-
-        $user->privilege = 'student';
+        $user = new User([
+            'name' => $data['name'],
+            'username' => $data['username'],
+            'privilege' => 'student',
+            'password' => filled($data['password']) ? bcrypt($data['password']) : bcrypt($data['username'])
+        ]);
 
         // Creates student data
         $student = new Student([

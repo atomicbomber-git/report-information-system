@@ -42,6 +42,12 @@
         </div>
     </div>
 
+    <div class="alert alert-warning">
+        <i class="fa fa-warning"></i>
+        Jika kata sandi dikosongkan, maka kata sandi akan 
+        dianggap sama dengan nama pengguna
+    </div>
+
     <div class="form-group">
         <label for="password"> Kata Sandi: </label>
         <input type="password" id="password" name="password"

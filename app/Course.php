@@ -8,6 +8,11 @@ class Course extends Model
 {
     public $fillable = ['name', 'grade', 'passing_grade', 'term_id', 'description'];
 
+    public function term()
+    {
+        return $this->belongsTo('App\Term');
+    }
+
     public function reports()
     {
         return $this->belongsToMany('App\Report', 'course_reports', 'report_id', 'course_id')

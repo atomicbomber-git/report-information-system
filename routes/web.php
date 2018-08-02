@@ -140,6 +140,12 @@ Route::prefix('/courses')->group(function() {
     Route::post('/course/{course_id}/knowledge_basic_competency/create', 'CourseController@createKnowledgeBasicCompetency')
         ->name('courses.knowledge_basic_competency.create');
 
+    Route::get('/course/{course_id}/knowledge_basic_competency/edit/{basic_competency}', 'CourseController@editKnowledgeBasicCompetency')
+        ->name('courses.knowledge_basic_competency.edit');
+    
+    Route::post('/course/{course_id}/knowledge_basic_competency/edit/{basic_competency}', 'CourseController@processEditKnowledgeBasicCompetency')
+        ->name('courses.knowledge_basic_competency.edit');
+
     Route::post('/delete_knowledge_basic_competency/{basic_competency}', 'CourseController@deleteKnowledgeBasicCompetency')
         ->name('courses.knowledge_basic_competency.delete');
 });
