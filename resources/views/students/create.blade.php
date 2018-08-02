@@ -8,22 +8,60 @@
     Tambahkan Siswa Baru
 </p>
 
-<hr>
+<hr/>
 
 <form method="POST" style="max-width: 400px">
     @csrf
     <div class="form-group">
-        <label for="name"> Nama Asli </label>
-        <input id="name" name="name" type="text" class="form-control">
+        <label for="name"> Nama Asli: </label>
+        <input id="name" name="name" type="text" 
+            value="{{ old('name') }}"
+            class="form-control {{ !$errors->has('name') ?: 'is-invalid' }}">
+        <div class="invalid-feedback">
+            {{ $errors->first('name') }}
+        </div>
     </div>
+
     <div class="form-group">
-        <label for="username"> Nama Pengguna Akun </label>
-        <input id="username" name="username" type="text" class="form-control">
+        <label for="username"> Nama Pengguna Akun: </label>
+        <input id="username" name="username" type="text"
+            value="{{ old('username') }}"
+            class="form-control {{ !$errors->has('username') ?: 'is-invalid' }}">
+        <div class="invalid-feedback">
+            {{ $errors->first('username') }}
+        </div>
     </div>
+
     <div class="form-group">
-        <label for="student_id"> Nomor Induk </label>
-        <input id="student_id" name="student_id" type="text" class="form-control">
+        <label for="student_id"> Nomor Induk Siswa: </label>
+        <input id="student_id" name="student_id" type="text"
+            value="{{ old('student_id') }}"
+            class="form-control {{ !$errors->has('student_id') ?: 'is-invalid' }}">
+        <div class="invalid-feedback">
+            {{ $errors->first('student_id') }}
+        </div>
     </div>
+
+    <div class="form-group">
+        <label for="password"> Kata Sandi: </label>
+        <input type="password" id="password" name="password"
+            class="form-control {{ !$errors->has('password') ?: 'is-invalid' }}">
+        <div class="invalid-feedback">
+            {{ $errors->first('password') }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="password_confirmation"> Ulangi Kata Sandi: </label>
+        <input type="password" id="password_confirmation" name="password_confirmation"
+            class="form-control {{ !$errors->has('password_confirmation') ?: 'is-invalid' }}">
+        <div class="invalid-feedback">
+            {{ $errors->first('password_confirmation') }}
+        </div>
+    </div>
+
+    <hr/>
+
     <div class="form-group">
         <label for="sex"> Jenis Kelamin </label>
 
@@ -38,25 +76,24 @@
                 <label class="form-check-label" for="sex_female_option"> Wanita </label>
             </div>
         </div>
-        
     </div>
+
     <div class="form-group">
         <label for="birthplace"> Tempat Lahir </label>
         <input id="birthplace" name="birthplace" type="text" class="form-control">
     </div>
+
     <div class="form-group">
         <label for="birthdate"> Tanggal Lahir </label>
         <input id="birthdate" name="birthdate" type="date" class="form-control">
     </div>
+
     <div class="form-group">
         <label for="religion"> Agama </label>
         <select name="religion" id="religion" class="form-control">
-            <option value="Islam"> Islam </option>
-            <option value="Katolik"> Katolik </option>
-            <option value="Protestan"> Protestan </option>
-            <option value="Hindu"> Hindu </option>
-            <option value="Buddha"> Buddha </option>
-            <option value="Kong Hu Cu"> Kong Hu Cu </option>
+            @foreach(\App\Student::RELIGIONS as $religion_id => $religion_caption)
+            <option value="{{ $religion_id }}"> {{ $religion_caption }} </option>
+            @endforeach
         </select>
     </div>
 

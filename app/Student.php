@@ -11,6 +11,14 @@ class Student extends Model
         "female" => "Perempuan"
     ];
 
+    const RELIGIONS = [
+        'islam' => 'Islam',
+        'catholicism' => 'Kristen Katolik',
+        'protestantism' => 'Kristen Protestan',
+        'buddhism' => 'Buddha',
+        'hinduism' => 'Hindu'
+    ];
+
     protected $fillable = [
         'id', 'user_id', 'student_id', 'sex', 'birthplace',
         'birthdate', 'religion', 'status_in_family',
