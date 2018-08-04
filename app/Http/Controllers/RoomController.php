@@ -23,14 +23,17 @@ class RoomController extends Controller
     public function processCreate()
     {
         $this->validate(request(), [
-            'name' => 'string|required'
+            'name' => 'string|required',
+            'grade' => 'integer|required'
         ]);
 
         Room::create(request()->all());
-        return back()->with([
-            'message-success' => 'Ruangan ' . request()->name . ' berhasil ditambahkan!',
-            'current_page' => 'rooms'
-        ]);
+        return redirect()
+            ->route('rooms.index')
+            ->with([
+                'message-success' => 'Ruangan ' . request()->name . ' berhasil ditambahkan!',
+                'current_page' => 'rooms'
+            ]);
     }
 
     public function edit(Room $room)
@@ -56,8 +59,8 @@ class RoomController extends Controller
 
         $room->update( request()->all() );
 
-        return redirect()->route('rooms.index')->with([
-            'message-success' => 'Data Ruangan berhasil diubah.',
-        ]);
+        return redirect()
+            ->route('rooms.index')
+            ->with(['message-success' => 'Data berhasil diperbarui.']);
     }
 }

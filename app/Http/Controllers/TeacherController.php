@@ -30,8 +30,19 @@ class TeacherController extends Controller
 
     public function processCreate()
     {
-        // TODO: Add validation!
-        $teacher = request()->all();
+        $teacher = $this->validate(
+            request(),
+            [
+                'name' => 'required|string',
+                'username' => 'required|string|alpha_dash',
+                'teacher_id' => 'required|string',
+                'password' => 'required|string|confirmed'
+            ],
+            [
+                'username.unique' => 'Nama pengguna ini telah dimiliki oleh akun lain.',
+                'teacher_id.unique' => 'NIK ini telah dimiliki oleh akun lain.'
+            ]
+        );
 
         DB::transaction(function() use($teacher) {
             // Create user

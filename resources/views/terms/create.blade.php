@@ -32,7 +32,7 @@
     <div class="form-group">
         <label for="term_start"> Tahun Mulai </label>
         {{--  Default value = This year  --}}
-        <input value="{{ old('term_start', today()->format('Y')) }}" id="term_start" name="term_start" type="number" class="form-control
+        <input value="{{ old('term_start', $latest_year) }}" id="term_start" name="term_start" type="number" class="form-control
         @if($errors->has('term_start') || $errors->first('code')) is-invalid @endif">
         <div class="invalid-feedback">
             {{ $errors->first('term_start') }}
@@ -42,13 +42,13 @@
     <div class="form-group">
         <label for="term_end"> Tahun Selesai </label>
         {{--  Default value = Next year  --}}
-        <input value="{{ old('term_end', today()->addYear()->format('Y')) }}" id="term_end" name="term_end" type="number" class="form-control 
+        <input value="{{ old('term_end', $latest_year + 1) }}" id="term_end" name="term_end" type="number" class="form-control 
         @if($errors->has('term_end') || $errors->first('code')) is-invalid @endif">
         <div class="invalid-feedback">
             {{ $errors->first('term_end') }}
         </div>
     </div>
-     
+
     @if($errors->has('code'))
         <div class="alert alert-danger">
             {{ $errors->first('code') }}

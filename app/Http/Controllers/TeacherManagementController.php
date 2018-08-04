@@ -15,9 +15,16 @@ class TeacherManagementController extends Controller
 {
     public function terms()
     {
-        // return auth()->user()->teacher;
-
         $teacher_id = auth()->user()->teacher->id;
+        
+        // $course_teachers_query = DB::table('teachers')
+        //     ->select('terms.id', 'terms.code')
+        //     ->join('course_teachers', 'course_teachers.teacher_id', '=', 'teachers.id')
+        //     ->join('room_terms', 'room_terms.id', '=', 'course_teachers.room_term_id')
+        //     ->join('terms', 'terms.id', '=', 'room_terms.term_id');
+
+        // return $terms;
+
         $terms = DB::table('course_teachers')
             ->select('terms.id', 'terms.code', 'room_terms.even_odd')
             ->join('room_terms', 'room_terms.id', '=', 'course_teachers.room_term_id')

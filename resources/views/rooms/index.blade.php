@@ -91,8 +91,9 @@
                     form.off('submit').submit();
                 }
             });
-
         });
     });
+
+    $('.alert-success').fadeOut(3000);
 </script>
 @endsection

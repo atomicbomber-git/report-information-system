@@ -22,7 +22,12 @@ class TermController extends Controller
 
     public function create()
     {
-        return view('terms.create', ['current_page' => 'terms']);
+        return view('terms.create',
+            [
+                'current_page' => 'terms',
+                'latest_year' => Term::orderBy('term_end', 'desc')->value('term_end')
+            ]
+        );
     }
 
     public function processCreate()
@@ -124,7 +129,8 @@ class TermController extends Controller
             'teacher_id' => request('teacher_id')
         ]);
 
-        return back()->with('message-success', 'Data kelas berhasil diubah');
+        return back()
+            ->with('message-success', 'Data berhasil diperbarui.');
     }
 
     // Get all the room-term pairs that haven't been added to the room_terms table yet
@@ -180,7 +186,8 @@ class TermController extends Controller
             }
         });
         
-        return redirect()->route('terms.detail', $term)
+        return redirect()
+            ->route('terms.detail', $term)
             ->with('message-success', 'Data berhasil ditambahkan.');
     }
 
@@ -197,7 +204,24 @@ class TermController extends Controller
 
     public function processEdit(Term $term)
     {
+        $this->validate(request(), [
+            'term_start' => 'required|integer|min:1800',
+            'term_end' => 'required|integer|min:1800',
+        ]);
+
+        request()->request->add([
+            'code' => request('term_start') . '-' . request('term_end')
+        ]);
+        
+        $this->validate(request(),
+            ['code' => 'required|string|unique:terms'],
+            ['code.unique' => 'Tahun ajaran ' . request('code') . ' telah ada.']
+        );
+
         $term->update(request()->all());
-        return back()->with('message-success', 'Data berhasil diperbarui.');
+        
+        return redirect()
+            ->route('terms.index')
+            ->with('message-success', 'Data berhasil diperbarui.');
     }
 }

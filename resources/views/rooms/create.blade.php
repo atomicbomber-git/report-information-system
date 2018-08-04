@@ -29,9 +29,31 @@
 
 <form method="POST" action="{{ route('rooms.create') }}" style="max-width: 400px">
     @csrf
-    <div class="form-group">
-        <label for="name"> Nama Ruangan </label>
-        <input id="name" name="name" type="text" class="form-control">
+
+    <div class='form-group'>
+        <label for='name'> Nama Ruangan: </label>
+    
+        <input
+            id='name' name='name' type='text'
+            value='{{ old('name') }}'
+            class='form-control {{ !$errors->has('name') ?: 'is-invalid' }}'>
+    
+        <div class='invalid-feedback'>
+            {{ $errors->first('name') }}
+        </div>
+    </div>
+
+    <div class='form-group'>
+        <label for='grade'> Jenjang: </label>
+    
+        <input
+            id='grade' name='grade' type='number'
+            value='{{ old('grade') }}'
+            class='form-control {{ !$errors->has('grade') ?: 'is-invalid' }}'>
+    
+        <div class='invalid-feedback'>
+            {{ $errors->first('grade') }}
+        </div>
     </div>
 
     <div style="height: 15px"> </div>
