@@ -11,7 +11,7 @@ return [
         'failure' => 'Data gagal diperbarui.',
     ],
 
-    'update' => [
+    'delete' => [
         'success' => 'Data berhasil dihapus.',
         'failure' => 'Data gagal dihapus.',
     ]
