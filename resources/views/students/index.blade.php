@@ -32,12 +32,11 @@
         <tr>
             <th> # </th>
             <th> Nama </th>
+            <th> Nama Pengguna </th>
             <th> Nomor Induk </th>
             <th> Jenis Kelamin </th>
             <th> Tempat, Tanggal Lahir </th>
-            <th> Agama </th>
-            <th> Alamat </th>
-            <th> No. Telefon </th>
+            <th> Jenjang </th>
             <th> Kendali </th>
         </tr>
     </thead>
@@ -47,17 +46,14 @@
         <tr>
             <td> {{ $loop->iteration }}. </td>
             <td> {{ $student->user->name }} </td>
+            <td> {{ $student->user->username }} </td>
             <td> {{ $student->student_id }} </td>
             <td> {{ \App\Student::SEXES[$student->sex] }} </td>
             <td> {{ $student->birthplace }}, {{ $student->birthdate }} </td>
-            <td> {{ \App\Student::RELIGIONS[$student->religion] }} </td>
-            <td> {{ $student->address }} </td>
-            <td> {{ $student->phone }} </td>
+            <td> {{ $student->current_grade }} </td>
             <td>
-                <a href="" class="btn btn-dark btn-sm">
-                    <i class="fa fa-eye"></i>
-                </a>
-                <a href="" class="btn btn-dark btn-sm"> 
+                <a href="{{ route('students.edit', $student) }}" class="btn btn-dark btn-sm"> 
+                    Sunting
                     <i class="fa fa-pencil"></i>
                 </a>
 

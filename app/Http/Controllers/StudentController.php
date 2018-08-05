@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use DB;
@@ -25,23 +26,39 @@ class StudentController extends Controller
 
     public function create()
     {
-        return view('students.create', ['current_page' => 'students']);
+        return view('students.create', [
+            'current_page' => 'students',
+            'grades' => $this->getGrades()
+        ]);
     }
 
     public function processCreate()
     {
-        $data = $this->validate(
+        $data = collect($this->validate(
             request(),
             [
                 'name' => 'required|string',
-                'username' => 'required|alpha_dash|min:8',
-                'student_id' => 'required|string',
+                'username' => 'required|alpha_dash|min:8|unique:users',
+                'student_id' => 'required|string|unique:students',
                 'password' => 'sometimes|nullable|string|confirmed',
                 'birthplace' => 'required|string',
                 'birthdate' => 'required|string',
-                'religion' => 'required|string'
+                'current_grade' => 'required|integer|min:1',
+                'religion' => 'required|string',
+                'address' => 'required|string',
+                'phone' => 'required|string',
+                'sex' => 'required|string',
+                'nth_child' => 'sometimes|nullable|integer|min:1',
+                'mother_name' => 'sometimes|nullable|string',
+                'mother_occupation' => 'sometimes|nullable|string',
+                'father_name' => 'sometimes|nullable|string',
+                'father_occupation' => 'sometimes|nullable|string',
+                'parents_address' => 'sometimes|nullable|string',
+                'guardian_name' => 'sometimes|nullable|string',
+                'guardian_occupation' => 'sometimes|nullable|string',
+                'guardian_address' => 'sometimes|nullable|string'
             ]
-        );
+        ));
 
         // Creates user data
         $user = new User([
@@ -52,12 +69,10 @@ class StudentController extends Controller
         ]);
 
         // Creates student data
-        $student = new Student([
-            'student_id' => $data['student_id'],
-            'birthplace' => $data['birthplace'],
-            'birthdate' => $data['birthdate'],
-            'religion' => $data['religion']
-        ]);
+        $student = new Student(
+            $data->except(['name', 'username', 'password'])
+                ->all()
+        );
         
         // Persist
         DB::transaction(function() use($user, $student) {
@@ -67,7 +82,64 @@ class StudentController extends Controller
 
         return redirect()
             ->route('students.index')
-            ->with('message-success', 'Data berhasil ditambahkan.');
+            ->with('message-success', __('messages.create.success'));
+    }
+
+    public function edit(Student $student)
+    {
+        return view('students.edit', [
+            'student' => $student,
+            'grades' => $this->getGrades()
+        ]);
+    }
+
+    public function processEdit(Student $student)
+    {
+        $data = collect($this->validate(
+            request(),
+            [
+                'name' => 'required|string',
+                'username' => ['required', 'alpha_dash', 'min:8', Rule::unique('users')->ignore($student->user->id)],
+                'student_id' => ['required', 'string', Rule::unique('students')->ignore($student->id)],
+                'password' => 'sometimes|nullable|string|confirmed',
+                'birthplace' => 'required|string',
+                'birthdate' => 'required|string',
+                'current_grade' => 'required|integer|min:1',
+                'religion' => 'required|string',
+                'address' => 'required|string',
+                'phone' => 'required|string',
+                'sex' => 'required|string',
+                'nth_child' => 'sometimes|nullable|integer|min:1',
+                'mother_name' => 'sometimes|nullable|string',
+                'mother_occupation' => 'sometimes|nullable|string',
+                'father_name' => 'sometimes|nullable|string',
+                'father_occupation' => 'sometimes|nullable|string',
+                'parents_address' => 'sometimes|nullable|string',
+                'guardian_name' => 'sometimes|nullable|string',
+                'guardian_occupation' => 'sometimes|nullable|string',
+                'guardian_address' => 'sometimes|nullable|string'
+            ]
+        ));
+
+        DB::transaction(function() use($student, $data) {
+            // Updates user data
+            $student->user->update([
+                'name' => $data['name'],
+                'username' => $data['username'],
+                'privilege' => 'student',
+                'password' => filled($data['password']) ? bcrypt($data['password']) : bcrypt($data['username'])
+            ]);
+
+            // Updates student data
+            $student->update(
+                $data->except(['name', 'username', 'password'])
+                    ->all()
+            );
+        });
+
+        return redirect()
+            ->route('students.index')
+            ->with('message-success', __('messages.update.success'));
     }
 
     public function delete(Student $student)
@@ -75,5 +147,14 @@ class StudentController extends Controller
         $student->delete();
         return back()
             ->with('message-success', 'Data berhasil dihapus.');
+    }
+
+    private function getGrades()
+    {
+        return DB::table('rooms')
+            ->select('grade')
+            ->groupBy('grade')
+            ->get()
+            ->pluck('grade');
     }
 }

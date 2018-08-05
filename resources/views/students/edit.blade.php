@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 
-@section('title', 'Tambahkan Siswa Baru')
+@section('title', 'Sunting Data Siswa')
 @section('content')
 
 <p class="h1">
     <i class="fa fa-plus"></i>
-    Tambahkan Siswa Baru
+    Sunting Data Siswa
 </p>
 
 <hr/>
@@ -32,7 +32,7 @@
     <div class="form-group">
         <label for="name"> Nama Asli: </label>
         <input id="name" name="name" type="text" 
-            value="{{ old('name') }}"
+            value="{{ old('name', $student->user->name) }}"
             class="form-control {{ !$errors->has('name') ?: 'is-invalid' }}">
         <div class="invalid-feedback">
             {{ $errors->first('name') }}
@@ -42,7 +42,7 @@
     <div class="form-group">
         <label for="username"> Nama Pengguna Akun: </label>
         <input id="username" name="username" type="text"
-            value="{{ old('username') }}"
+            value="{{ old('username', $student->user->username) }}"
             class="form-control {{ !$errors->has('username') ?: 'is-invalid' }}">
         <div class="invalid-feedback">
             {{ $errors->first('username') }}
@@ -52,7 +52,7 @@
     <div class="form-group">
         <label for="student_id"> Nomor Induk Siswa: </label>
         <input id="student_id" name="student_id" type="text"
-            value="{{ old('student_id') }}"
+            value="{{ old('student_id', $student->student_id) }}"
             class="form-control {{ !$errors->has('student_id') ?: 'is-invalid' }}">
         <div class="invalid-feedback">
             {{ $errors->first('student_id') }}
@@ -89,7 +89,7 @@
         <label for='current_grade'> Jenjang: </label>
         <select name='current_grade' id='current_grade' class='form-control'>
             @foreach($grades as $grade)
-            <option {{ old('current_grade') !== $grade ?: 'selected' }} value='{{ $grade }}'> {{ $grade }} </option>
+            <option {{ old('current_grade', $student->grade) !== $grade ?: 'selected' }} value='{{ $grade }}'> {{ $grade }} </option>
             @endforeach
         </select>
         <div class='invalid-feedback'>
@@ -114,7 +114,7 @@
     
         <input
             id='birthplace' name='birthplace' type='text'
-            value='{{ old('birthplace') }}'
+            value='{{ old('birthplace', $student->birthplace) }}'
             class='form-control {{ !$errors->has('birthplace') ?: 'is-invalid' }}'>
     
         <div class='invalid-feedback'>
@@ -127,7 +127,7 @@
     
         <input
             id='birthdate' name='birthdate' type='date'
-            value='{{ old('birthdate') }}'
+            value='{{ old('birthdate', $student->birthdate) }}'
             class='form-control {{ !$errors->has('birthdate') ?: 'is-invalid' }}'>
     
         <div class='invalid-feedback'>
@@ -139,7 +139,7 @@
         <label for='religion'> Agama: </label>
         <select name='religion' id='religion' class='form-control'>
             @foreach(\App\Student::RELIGIONS as $religion_id => $religion_caption)
-            <option {{ old('religion') !== $religion_id ?: 'selected' }} value='{{ $religion_id }}'> {{ $religion_caption }} </option>
+            <option {{ old('religion', $student->religion) !== $religion_id ?: 'selected' }} value='{{ $religion_id }}'> {{ $religion_caption }} </option>
             @endforeach
         </select>
         <div class='invalid-feedback'>
@@ -154,7 +154,7 @@
             id='address' name='address'
             class='form-control {{ !$errors->has('address') ?: 'is-invalid' }}'
             col='30' row='6'
-            >{{ old('address') }}</textarea>
+            >{{ old('address', $student->address) }}</textarea>
     
         <div class='invalid-feedback'>
             {{ $errors->first('address') }}
@@ -166,7 +166,7 @@
     
         <input
             id='phone' name='phone' type='phone'
-            value='{{ old('phone') }}'
+            value='{{ old('phone', $student->phone) }}'
             class='form-control {{ !$errors->has('phone') ?: 'is-invalid' }}'>
     
         <div class='invalid-feedback'>
@@ -179,7 +179,7 @@
     
         <input
             id='nth_child' name='nth_child' type='number'
-            value='{{ old('nth_child') }}'
+            value='{{ old('nth_child', $student->nth_child) }}'
             class='form-control {{ !$errors->has('nth_child') ?: 'is-invalid' }}'>
     
         <div class='invalid-feedback'>
@@ -192,7 +192,7 @@
     
         <input
             id='father_name' name='father_name' type='text'
-            value='{{ old('father_name') }}'
+            value='{{ old('father_name', $student->father_name) }}'
             class='form-control {{ !$errors->has('father_name') ?: 'is-invalid' }}'>
     
         <div class='invalid-feedback'>
@@ -205,7 +205,7 @@
     
         <input
             id='father_occupation' name='father_occupation' type='text'
-            value='{{ old('father_occupation') }}'
+            value='{{ old('father_occupation', $student->father_occupation) }}'
             class='form-control {{ !$errors->has('father_occupation') ?: 'is-invalid' }}'>
     
         <div class='invalid-feedback'>
@@ -218,7 +218,7 @@
     
         <input
             id='mother_name' name='mother_name' type='text'
-            value='{{ old('mother_name') }}'
+            value='{{ old('mother_name', $student->mother_name) }}'
             class='form-control {{ !$errors->has('mother_name') ?: 'is-invalid' }}'>
     
         <div class='invalid-feedback'>
@@ -231,7 +231,7 @@
     
         <input
             id='mother_occupation' name='mother_occupation' type='text'
-            value='{{ old('mother_occupation') }}'
+            value='{{ old('mother_occupation', $student->mother_occupation) }}'
             class='form-control {{ !$errors->has('mother_occupation') ?: 'is-invalid' }}'>
     
         <div class='invalid-feedback'>
@@ -240,16 +240,18 @@
     </div>
 
     <div class='form-group'>
-        <label for='parent_address'> Alamat Orang Tua: </label>
+        <label for='parents_address'> Alamat Orang Tua: </label>
     
         <textarea
-            id='parent_address' name='parent_address'
-            class='form-control {{ !$errors->has('parent_address') ?: 'is-invalid' }}'
+            id='parents_address' name='parents_address'
+            class='form-control {{ !$errors->has('parents_address') ?: 'is-invalid' }}'
             col='30' row='6'
-            >{{ old('parent_address') }}</textarea>
+            >
+            {{ old('parents_address', $student->parents_address) }}
+        </textarea>
     
         <div class='invalid-feedback'>
-            {{ $errors->first('parent_address') }}
+            {{ $errors->first('parents_address') }}
         </div>
     </div>
 
@@ -258,7 +260,7 @@
     
         <input
             id='guardian_name' name='guardian_name' type='text'
-            value='{{ old('guardian_name') }}'
+            value='{{ old('guardian_name', $student->guardian_name) }}'
             class='form-control {{ !$errors->has('guardian_name') ?: 'is-invalid' }}'>
     
         <div class='invalid-feedback'>
@@ -271,7 +273,7 @@
     
         <input
             id='guardian_occupation' name='guardian_occupation' type='text'
-            value='{{ old('guardian_occupation') }}'
+            value='{{ old('guardian_occupation', $student->guardian_occupation) }}'
             class='form-control {{ !$errors->has('guardian_occupation') ?: 'is-invalid' }}'>
     
         <div class='invalid-feedback'>
@@ -286,7 +288,7 @@
             id='guardian_address' name='guardian_address'
             class='form-control {{ !$errors->has('guardian_address') ?: 'is-invalid' }}'
             col='30' row='6'
-            >{{ old('guardian_address') }}</textarea>
+            >{{ old('guardian_address', $student->guardian_address) }}</textarea>
     
         <div class='invalid-feedback'>
             {{ $errors->first('guardian_address') }}
@@ -297,8 +299,8 @@
 
     <div class="form-group text-right">
         <button class="btn btn-primary btn-sm">
-            <i class="fa fa-plus"></i>
-            Tambahkan
+            <i class="fa fa-check"></i>
+            Perbarui
         </button>
     </div>
 </form>

@@ -23,6 +23,8 @@ Route::prefix('/students')->group(function() {
     Route::get('/', 'StudentController@index')->name('students.index');
     Route::get('/create', 'StudentController@create')->name('students.create');
     Route::post('/create', 'StudentController@processCreate')->name('students.create');
+    Route::get('/edit/{student}', 'StudentController@edit')->name('students.edit');
+    Route::post('/edit/{student}', 'StudentController@processEdit')->name('students.edit');
     Route::post('/delete/{student}', 'StudentController@delete')->name('students.delete');
 });
 
