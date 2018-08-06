@@ -2,6 +2,18 @@
 
 @section('title', 'Seluruh Siswa')
 
+@section('styles')
+
+<link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
+
+<style>
+    #table {
+        border-collapse: collapse !important;
+    }
+</style>
+
+@endsection
+
 @section('content')
 
 <p class="h1">
@@ -27,7 +39,7 @@
     </a>
 </div>
 
-<table class='table table-sm table-striped'>
+<table id="table" class='table table-sm table-striped table-responsive-xl table-sm'>
     <thead class='thead-dark'>
         <tr>
             <th> # </th>
@@ -35,7 +47,7 @@
             <th> Nama Pengguna </th>
             <th> Nomor Induk </th>
             <th> Jenis Kelamin </th>
-            <th> Tempat, Tanggal Lahir </th>
+            {{-- <th> Tempat, Tanggal Lahir </th> --}}
             <th> Jenjang </th>
             <th> Kendali </th>
         </tr>
@@ -49,7 +61,7 @@
             <td> {{ $student->user->username }} </td>
             <td> {{ $student->student_id }} </td>
             <td> {{ \App\Student::SEXES[$student->sex] }} </td>
-            <td> {{ $student->birthplace }}, {{ $student->birthdate }} </td>
+            {{-- <td> {{ $student->birthplace }}, {{ $student->birthdate }} </td> --}}
             <td> {{ $student->current_grade }} </td>
             <td>
                 <a href="{{ route('students.edit', $student) }}" class="btn btn-dark btn-sm"> 
@@ -79,9 +91,24 @@
 @endsection
 
 @section('script')
+<script src="{{ asset('js/jquery.dataTables.js') }}"> </script>
+<script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"> </script>
 <script src="{{ asset('js/sweetalert.min.js') }}"> </script>
 <script>
     $(document).ready(function() {
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        // DataTable
+        $(".table").DataTable({
+            "language": {
+                "url": "{{ asset("Indonesian.json") }}"
+            },
+            "pagingType": "full",
+            "lengthMenu": [12, 24, 36],
+            "pageLength": 12
+        });
+
         // Handle delete button click
         $(".form-delete").each(function() {
             let form = $(this);

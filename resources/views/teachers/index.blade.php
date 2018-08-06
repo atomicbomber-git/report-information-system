@@ -44,8 +44,6 @@
     </div>
 </div>
 
-<hr>
-
 <table id="table" class='table table-striped table-responsive-xl table-sm'>
     <thead class='thead-dark'>
         <tr>
@@ -123,7 +121,7 @@
 
                 let label = form.data('teacher');
 
-                swal('Anda yakin ingin menghapus guru ' + label + '?', {
+                swal(`Anda yakin ingin menghapus guru ${label}?`, {
                     title: "Konfirmasi Penghapusan",
                     icon: "warning",
                     buttons: ["Tidak", "Ya"],

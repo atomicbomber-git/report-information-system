@@ -2,7 +2,6 @@
 
 @section('title', 'Seluruh Tahun Ajaran')
 
-
 @section('styles')
 <style>
     .container-course {
@@ -15,10 +14,27 @@
 
 <p class="h1">
     <i class="fa fa-list"></i>
-    Kelola Mata Pelajaran Kelas {{ $information->grade }} Tahun Ajaran {{ $information->term->code }}
+    Kelola Guru Mata Pelajaran Kelas {{ $information->grade }} Tahun Ajaran {{ $information->term->code }} Semester {{ $information->even_odd }}
 </p>
 
-<hr>
+<hr/>
+
+<div class="container" style="padding: 0.6rem 0rem 0.6rem 0rem">
+    <div class="row">
+        <div class="col col-md-3 text-left">
+            <a href="{{ route('course_teachers.term_index') }}" class="btn btn-sm btn-secondary">
+                <i class="fa fa-arrow-left"></i>
+                Kembali
+            </a>
+        </div>
+        <div class="col-md-6">
+        </div>
+        <div class="col col-md-3 text-right">
+        </div>
+    </div>
+</div>
+
+<hr/>
 
 @if( session('message-success') )
     <div class="alert alert-success">

@@ -17,24 +17,26 @@ class TeacherManagementController extends Controller
     {
         $teacher_id = auth()->user()->teacher->id;
         
-        // $course_teachers_query = DB::table('teachers')
-        //     ->select('terms.id', 'terms.code')
-        //     ->join('course_teachers', 'course_teachers.teacher_id', '=', 'teachers.id')
-        //     ->join('room_terms', 'room_terms.id', '=', 'course_teachers.room_term_id')
-        //     ->join('terms', 'terms.id', '=', 'room_terms.term_id');
-
-        // return $terms;
-
-        $terms = DB::table('course_teachers')
-            ->select('terms.id', 'terms.code', 'room_terms.even_odd')
+        $course_teachers_query = DB::table('teachers')
+            ->select('terms.id', 'terms.code', 'room_terms.even_odd', 'terms.term_end')
+            ->join('course_teachers', 'course_teachers.teacher_id', '=', 'teachers.id')
             ->join('room_terms', 'room_terms.id', '=', 'course_teachers.room_term_id')
-            //->join('room_terms AS rx', 'rx.teacher_id', '=', 'course_teachers.teacher_id')
             ->join('terms', 'terms.id', '=', 'room_terms.term_id')
-            ->groupBy('terms.id', 'terms.code', 'room_terms.even_odd')
-            ->orderBy('term_end', 'desc')
-            ->orderBY('room_terms.even_odd')
-            ->where('course_teachers.teacher_id', $teacher_id)
-            ->get();
+            ->where('teachers.id', $teacher_id);
+
+        $room_terms_query = DB::table('teachers')
+            ->select('terms.id', 'terms.code', 'room_terms.even_odd', 'terms.term_end')
+            ->join('room_terms', 'room_terms.teacher_id', 'teachers.id')
+            ->join('terms', 'terms.id', '=', 'room_terms.term_id')
+            ->where('teachers.id', $teacher_id);
+
+        $terms = $course_teachers_query
+            ->unionAll($room_terms_query)
+            ->get()
+            ->unique(function ($item) {
+                return $item->id . $item->even_odd;
+            })
+            ->sortByDesc('term_end');
 
         $terms = $terms->map(function($term) {
             $term->semester = RoomTerm::EVEN_ODD[$term->even_odd];

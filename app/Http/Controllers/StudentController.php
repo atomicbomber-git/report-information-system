@@ -15,6 +15,7 @@ class StudentController extends Controller
     public function index()
     {
         $students = Student::where('active', 1)
+            ->orderBy('current_grade', 'DESC')
             ->orderBy('created_at', 'DESC')
             ->get();
 
