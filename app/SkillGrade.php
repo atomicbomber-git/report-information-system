@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class SkillGrade extends Model
 {
+    const SCORE_TYPES = [
+        'PRAKTIK',
+        'PRODUK',
+        'PROYEK',
+        'PORTOFOLIO'
+    ];
+
     public $fillable = [
         'course_report_id',
         'knowledge_basic_competency_id',

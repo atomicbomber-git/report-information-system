@@ -17,7 +17,6 @@ class CreateCoursesTable extends Migration
             $table->increments('id');
 
             $table->string('name')->index(); // Nama mata pelajaran
-            $table->integer('passing_grade'); // KKM
             $table->enum('group', ['A', 'B']); // Kelompok mata pelajarn (A atau B)
             $table->text('description'); // Deskripsi mata pelajaran (Kurikulum, kelas, dsb.)
             $table->boolean('has_spiritual_grades')->default(0); // Memiliki nilai spiritual / tidak

@@ -24,6 +24,8 @@
     </div>
 @endif
 
+<hr>
+
 <div class="container" style="padding: 1.2rem 0rem 1.2rem 0rem">
     <div class="row">
         <div class="col col-md-3 text-left">

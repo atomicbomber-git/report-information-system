@@ -26,7 +26,6 @@
         <i class="fa fa-plus"></i>
     </a>
 </div>
-    
 
 <table class='table'>
     <thead class='thead-dark'>

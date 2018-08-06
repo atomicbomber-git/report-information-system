@@ -7,6 +7,7 @@ use App\Course;
 use App\CourseTeacher;
 use App\KnowledgeBasicCompetency;
 use App\KnowledgeGrade;
+use App\SkillGrade;
 use App\CourseReport;
 use DB;
 
@@ -143,6 +144,14 @@ class CourseController extends Controller
                     'course_report_id' => $course_report->id,
                     'knowledge_basic_competency_id' => $basic_competency->id
                 ]);
+                
+                foreach (SkillGrade::SCORE_TYPES as $score_type) {
+                    SkillGrade::create([
+                        'course_report_id' => $course_report->id,
+                        'knowledge_basic_competency_id' => $basic_competency->id,
+                        'type' => $score_type
+                    ]);
+                }
             }
         });
 

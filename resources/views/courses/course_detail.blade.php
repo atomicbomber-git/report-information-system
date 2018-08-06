@@ -18,6 +18,8 @@
     Kelola Mata Pelajaran {{ $information->course->name }} Kelas {{ $information->grade }} Tahun Ajaran {{ $information->term->code }}
 </p>
 
+<hr>
+
 @if( session('message-success') )
     <div class="alert alert-success">
         {{ session('message-success') }}
@@ -38,8 +40,6 @@
         </div>
     </div>
 </div>
-
-<hr/>
 
 <fieldset>
     <legend>

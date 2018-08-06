@@ -64,8 +64,6 @@
     </div>
 </div>
 
-<hr>
-
 <table id="table" class='table table-striped table-sm table-responsive-xl' style="display: none">
     <thead class='thead-dark'>
         <tr>

@@ -6,7 +6,7 @@
 
 <p class="h1">
     <i class="fa fa-list"></i>
-    Kelola Mata Pelajaran yang Diajar
+    Kelola Nilai Siswa
 </p>
 
 <hr>

@@ -47,8 +47,6 @@ class ReportController extends Controller
 
     public function processCreate(RoomTerm $room_term)
     {
-        $skill_score_types = ['PRAKTIK', 'PRODUK', 'PROYEK', 'PORTOFOLIO'];
-
         $room_term->load('room');
 
         // IDs of the students that are going to be added
@@ -94,11 +92,11 @@ class ReportController extends Controller
                                 'knowledge_basic_competency_id' => $basic_competency->id
                             ]);
                             
-                            foreach ($skill_score_types as $type) {
+                            foreach (SkillGrade::SCORE_TYPES as $score_type) {
                                 SkillGrade::create([
                                     'course_report_id' => $course_report->id,
                                     'knowledge_basic_competency_id' => $basic_competency->id,
-                                    'type' => $type
+                                    'type' => $score_type
                                 ]);
                             }
                         }
