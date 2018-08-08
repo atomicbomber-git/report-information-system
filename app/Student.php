@@ -16,7 +16,8 @@ class Student extends Model
         'catholicism' => 'Kristen Katolik',
         'protestantism' => 'Kristen Protestan',
         'buddhism' => 'Buddha',
-        'hinduism' => 'Hindu'
+        'hinduism' => 'Hindu',
+        'confucianism' => 'Kong Hu Cu'
     ];
 
     protected $fillable = [
@@ -27,6 +28,16 @@ class Student extends Model
         'mother_occupation', 'guardian_name', 'guardian_address',
         'guardian_occupation', 'current_grade'
     ];
+
+    public function religion()
+    {
+        return $this::RELIGIONS[$this->religion];
+    }
+
+    public function sex()
+    {
+        return $this::SEXES[$this->sex];
+    }
 
     public function user()
     {

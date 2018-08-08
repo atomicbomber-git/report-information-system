@@ -63,7 +63,9 @@
                 <label for="teacher_id"> Wali Kelas </label>
                 <select name="teacher_id" id="teacher_id" class="form-control">
                 @foreach($teachers as $teacher)
-                    <option value="{{ $teacher->id }}" @if($teacher->id === $room_term->teacher_id) selected="true" @endif> {{ $teacher->name }} </option>
+                    <option value="{{ $teacher->id }}" @if($teacher->id === $room_term->teacher_id) selected="true" @endif>
+                        {{ $teacher->name }} ({{ $teacher->teacher_id }})
+                    </option>
                 @endforeach
                 </select>
             </div>

@@ -34,7 +34,7 @@
     <h3> <i class="fa fa-list"></i> Daftar Siswa </h3>
     <hr/>
 
-    <table class="table table-striped table-responsive-xl table-sm" style="max-width: 24rem">
+    <table class="table table-striped table-responsive-xl table-sm" style="max-width: 35rem">
         <thead class="thead-dark">
             <tr>
                 <th> # </th>
@@ -54,8 +54,12 @@
                 </td>
 
                 <td>
+                    <a href="{{ route('teacher.management.print_report_cover', $report->id) }}" class="btn btn-sm btn-dark">
+                        Cetak Cover Rapor
+                        <i class="fa fa-print"></i>
+                    </a>
                     <a href="{{ route('teacher.management.print_report', $report->id) }}" class="btn btn-sm btn-dark">
-                        Cetak Rapor
+                        Cetak Isi Rapor
                         <i class="fa fa-print"></i>
                     </a>
                 </td>

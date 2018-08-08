@@ -122,7 +122,7 @@ class TermController extends Controller
             ->orderBy('users.name')
             ->get();
         
-        $teachers = Teacher::select('teachers.id', 'users.name')
+        $teachers = Teacher::select('teachers.id', 'users.name', 'teachers.teacher_id')
             ->join('users', 'teachers.user_id', '=', 'users.id')
             ->where('teachers.active', 1)
             ->get();

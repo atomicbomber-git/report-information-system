@@ -10,6 +10,12 @@
 
 <hr/>
 
+@if( session('message-success') )
+    <div class="alert alert-success">
+        {{ session('message-success') }}
+    </div>
+@endif
+
 <div class="container" style="padding: 0.6rem 0rem 0.6rem 0rem">
     <div class="row">
         <div class="col col-md-3 text-left">
@@ -246,9 +252,7 @@
             id='parents_address' name='parents_address'
             class='form-control {{ !$errors->has('parents_address') ?: 'is-invalid' }}'
             col='30' row='6'
-            >
-            {{ old('parents_address', $student->parents_address) }}
-        </textarea>
+            >{{ old('parents_address', $student->parents_address) }}</textarea>
     
         <div class='invalid-feedback'>
             {{ $errors->first('parents_address') }}
@@ -304,4 +308,10 @@
         </button>
     </div>
 </form>
+@endsection
+
+@section('script')
+<script>
+    $('.alert-success').fadeOut(3000);
+</script>
 @endsection

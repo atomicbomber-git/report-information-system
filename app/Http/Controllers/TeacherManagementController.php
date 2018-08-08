@@ -8,6 +8,7 @@ use DB;
 use App\RoomTerm;
 use App\Term;
 use App\Course;
+use App\Report;
 use App\KnowledgeGrade;
 use App\SkillGrade;
 
@@ -258,6 +259,7 @@ class TeacherManagementController extends Controller
                 'course_reports.id',
                 'courses.group',
                 'course_reports.mid_exam',
+                'course_reports.mid_exam',
                 'course_reports.final_exam',
                 'course_reports.knowledge_description',
                 'course_reports.skill_description'
@@ -268,6 +270,13 @@ class TeacherManagementController extends Controller
         
         return view('teacher_management.print_report', [
             'course_report_groups' => $course_report_groups
+        ]);
+    }
+
+    public function printReportCover(Report $report)
+    {
+        return view('teacher_management.print_cover', [
+            'report' => $report
         ]);
     }
 

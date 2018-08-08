@@ -138,8 +138,7 @@ class StudentController extends Controller
             );
         });
 
-        return redirect()
-            ->route('students.index')
+        return back()
             ->with('message-success', __('messages.update.success'));
     }
 

@@ -3,5 +3,6 @@
     "/js/notification.js": "/js/notification.js",
     "/css/app.css": "/css/app.css",
     "/js/sweetalert.min.js": "/js/sweetalert.min.js",
-    "/js/jquery.dataTables.js": "/js/jquery.dataTables.js"
+    "/js/jquery.dataTables.js": "/js/jquery.dataTables.js",
+    "/css/paper.css": "/css/paper.css"
 }

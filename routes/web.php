@@ -87,6 +87,9 @@ Route::prefix('/teacher_management')->group(function() {
     Route::get('/print_report/{report_id}', 'TeacherManagementController@printReport')
         ->name("teacher.management.print_report");
 
+    Route::get('/print_report_cover/{report}', 'TeacherManagementController@printReportCover')
+        ->name("teacher.management.print_report_cover");
+
     Route::get('/terms/{term_id}/{even_odd}/courses', 'TeacherManagementController@courses')
         ->where(['even_odd' => '^(even|odd)$'])
         ->name('teacher.management.courses');
