@@ -42,6 +42,7 @@
         <tr>
             <th> # </th>
             <th> Kelas </th>
+            <th> Jumlah Siswa </th>
             <th> Kendali</th>
         </tr>
     </thead>
@@ -51,6 +52,7 @@
         <tr>
             <td> {{ $loop->iteration }}. </td>
             <td> {{ $room_term->name }} </td>
+            <td> {{ $room_term->report_count }} </td>
             <td>
                 <a href="{{ route('teacher.management.room_term', $room_term->id) }}" class="btn btn-dark btn-sm">
                     Detail

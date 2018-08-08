@@ -78,12 +78,14 @@ class TeacherManagementController extends Controller
 
         $room_term_groups = $room_terms->groupBy('grade');
 
-        $managed_room_terms = DB::table('room_terms')
-            ->select('room_terms.id', 'rooms.name', 'room_terms.even_odd')
+        $managed_room_terms = DB::table('reports')
+            ->select(DB::raw('COUNT(reports.id) AS report_count'), 'room_terms.id', 'rooms.name', 'room_terms.even_odd')
+            ->rightJoin('room_terms', 'room_terms.id', '=', 'reports.room_term_id')
             ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
             ->where('room_terms.term_id', $term_id)
             ->where('room_terms.even_odd', $even_odd)
             ->where('room_terms.teacher_id', $teacher_id)
+            ->groupBy('room_terms.id')
             ->get();
         
         return view('teacher_management.courses', [

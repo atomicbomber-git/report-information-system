@@ -68,7 +68,7 @@ class ReportController extends Controller
             ->get()
             ->groupBy('course_id');
         
-        DB::transaction(function() use ($student_ids, $room_term, $courses, $knowledge_basic_competencies, $skill_score_types) {
+        DB::transaction(function() use ($student_ids, $room_term, $courses, $knowledge_basic_competencies) {
             foreach ($student_ids as $student_id) {
                 
                 // Report creation
