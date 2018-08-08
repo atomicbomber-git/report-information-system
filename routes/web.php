@@ -109,11 +109,19 @@ Route::prefix('/teacher_management')->group(function() {
         ->where(['even_odd' => '^(even|odd)$'])
         ->name('teacher.management.courses.skill_detail');
 
-    Route::post('/update/skill_grade', 'SkillGradeController@updateSkillGrade')
-        ->name('skill_grades.update');
-
-    Route::post('/update/course_report', 'TeacherManagementController@updateCourseReport')
+    Route::post('/course_report/update', 'TeacherManagementController@updateCourseReport')
         ->name('course_reports.update');
+
+    Route::prefix('/skill_grade')->group(function() {
+        Route::post('/update', 'SkillGradeController@updateSkillGrade')
+            ->name('skill_grades.update');
+    
+        Route::post('/addScoreType', 'SkillGradeController@addScoreType')
+            ->name('skill_grades.add_score_type');
+
+        Route::post('/removeScoreType', 'SkillGradeController@removeScoreType')
+            ->name('skill_grades.remove_score_type');
+    });
 });
 
 Route::prefix('/course_teachers')->group(function() {

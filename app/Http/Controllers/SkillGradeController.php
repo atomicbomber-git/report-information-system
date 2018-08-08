@@ -7,18 +7,24 @@ use DB;
 use App\RoomTerm;
 use App\Course;
 use App\Term;
+use App\SkillGrade;
 
 class SkillGradeController extends Controller
 {
     // Get every skill type that is currently used in a particular roomterm-course pair
-    private function usedSkillTypes($room_term_id, $course_id)
+    private function getUsedSkillTypes($room_term_id, $course_id)
     {
         return DB::table('skill_grades')
             ->select('skill_grades.type')
+
+            // Filter by course id
             ->join('course_reports', 'course_reports.id', '=', 'skill_grades.course_report_id')
-            ->join('reports', 'reports.id',  '=', 'course_reports.report_id')
             ->where('course_reports.course_id', $course_id)
+
+            // Filter by roomterm id
+            ->join('reports', 'reports.id',  '=', 'course_reports.report_id')
             ->where('reports.room_term_id', $room_term_id)
+            
             ->groupBy('skill_grades.type')
             ->pluck('type');
     }
@@ -48,12 +54,24 @@ class SkillGradeController extends Controller
 
     public function skillDetail($term_id, $even_odd, $room_term_id, $course_id)
     {
-        // return $this->usedSkillTypes($room_term_id, $course_id);
+
+        $used_skill_types = $this->getUsedSkillTypes($room_term_id, $course_id);
+        
+        $skill_type_usages = collect(SkillGrade::SCORE_TYPES)
+            ->map(
+                function($type) use ($used_skill_types) {
+                    return [
+                        'type' => $type,
+                        'is_used' => in_array($type, $used_skill_types->all())
+                    ];
+                }
+            );
 
         return view('teacher_management.skill_detail', [
             'course' => Course::find($course_id),
             'room_term' => RoomTerm::find($room_term_id),
-            'skill_grade_groups' => $this->getSkillGrades($room_term_id, $course_id)
+            'skill_grade_groups' => $this->getSkillGrades($room_term_id, $course_id),
+            'skill_type_usages' => $skill_type_usages
         ]);
     }
 
@@ -66,5 +84,55 @@ class SkillGradeController extends Controller
                     ->update($record);
             }
         });
+    }
+
+    public function addScoreType()
+    {
+        $course_reports = DB::table('course_reports')
+            ->select('course_reports.id')
+            ->where('course_reports.course_id', request('course_id'))
+            ->join('reports', 'reports.id', '=', 'course_reports.report_id')
+            ->where('reports.room_term_id', request('room_term_id'))
+            ->get();
+
+        $basic_competencies = DB::table('knowledge_basic_competencies')
+            ->select('knowledge_basic_competencies.id')
+            ->where('knowledge_basic_competencies.course_id', request('course_id'))
+            ->get();
+
+        DB::transaction(function() use($course_reports, $basic_competencies) {
+            foreach ($course_reports as $course_report) {
+                foreach ($basic_competencies as $basic_competency) {
+                    SkillGrade::create([
+                        'course_report_id' => $course_report->id,
+                        'knowledge_basic_competency_id' => $basic_competency->id,
+                        'type' => request('type')
+                    ]);
+                }
+            }
+        });
+        
+        return back()
+            ->with('message-success', __('messages.create.success'));
+    }
+
+    public function removeScoreType()
+    {
+        DB::table('skill_grades')
+            // Filter by skill grade type
+            ->where('skill_grades.type', request('type'))
+
+            // Filter by course id
+            ->join('course_reports', 'course_reports.id', '=', 'skill_grades.course_report_id')
+            ->where('course_reports.course_id', request('course_id'))
+
+            // Filter by roomterm id
+            ->join('reports', 'reports.id', '=', 'course_reports.report_id')
+            ->where('reports.room_term_id', request('room_term_id'))
+
+            ->delete();
+        
+        return back()
+            ->with('message-success', __('messages.delete.success'));
     }
 }

@@ -59,6 +59,30 @@
 <hr>
 
 <div class="container">
+
+    <h4> Kendali Tipe Penilaian: </h4>
+
+    @foreach($skill_type_usages as $usage)
+        <form
+            method="POST"
+            action="{{ $usage['is_used'] ? route('skill_grades.remove_score_type') : route('skill_grades.add_score_type') }}"
+            class="d-inline-block">
+            
+            @csrf
+
+            <input type="hidden" name="type" value="{{ $usage['type'] }}">
+            <input type="hidden" name="room_term_id" value="{{ $room_term->id }}">
+            <input type="hidden" name="course_id" value="{{ $course->id }}">
+            
+            <button class="btn btn-{{ $usage['is_used'] ? 'success' : 'danger' }} btn-sm">
+                {{ $usage['type'] }}
+                <i class="fa fa-{{ $usage['is_used'] ? 'check' : 'times' }} }}"></i>
+            </button>
+        </form>
+    @endforeach
+
+    <hr>
+
     @foreach ($skill_grade_groups as $basic_competency => $group)
     <h4> KD {{ $loop->iteration }}: {{ $basic_competency }} </h4>
     <table class='table table-striped table-responsive-xl table-sm'>
@@ -202,6 +226,8 @@
                 }
             });
         });
+
+        $('alert-success').fadeOut(3000);
     });
 </script>
 
