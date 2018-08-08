@@ -116,6 +116,32 @@
     </div>
 
     <div class='form-group'>
+            <label for='alma_mater'> Sekolah Asal: </label>
+        
+            <input
+                id='alma_mater' name='alma_mater' type='text'
+                value='{{ old('alma_mater', $student->alma_mater) }}'
+                class='form-control {{ !$errors->has('alma_mater') ?: 'is-invalid' }}'>
+        
+            <div class='invalid-feedback'>
+                {{ $errors->first('alma_mater') }}
+            </div>
+        </div>
+    
+        <div class='form-group'>
+            <label for='acceptance_date'> Tanggal Penerimaan: </label>
+        
+            <input
+                id='acceptance_date' name='acceptance_date' type='text'
+                value='{{ old('acceptance_date', $student->acceptance_date) }}'
+                class='form-control {{ !$errors->has('acceptance_date') ?: 'is-invalid' }}'>
+        
+            <div class='invalid-feedback'>
+                {{ $errors->first('acceptance_date') }}
+            </div>
+        </div>
+
+    <div class='form-group'>
         <label for='birthplace'> Tempat Lahir: </label>
     
         <input
@@ -168,7 +194,7 @@
     </div>
 
     <div class='form-group'>
-        <label for='phone'> Phone: </label>
+        <label for='phone'> Nomor Telepon Rumah: </label>
     
         <input
             id='phone' name='phone' type='phone'
@@ -260,6 +286,19 @@
     </div>
 
     <div class='form-group'>
+        <label for='parents_phone'> Nomor Telepon Orang Tua: </label>
+    
+        <input
+            id='parents_phone' name='parents_phone' type='phone'
+            value='{{ old('parents_phone', $student->parents_phone) }}'
+            class='form-control {{ !$errors->has('parents_phone') ?: 'is-invalid' }}'>
+    
+        <div class='invalid-feedback'>
+            {{ $errors->first('parents_phone') }}
+        </div>
+    </div>
+
+    <div class='form-group'>
         <label for='guardian_name'> Nama Wali: </label>
     
         <input
@@ -296,6 +335,19 @@
     
         <div class='invalid-feedback'>
             {{ $errors->first('guardian_address') }}
+        </div>
+    </div>
+
+    <div class='form-group'>
+        <label for='guardian_phone'> Nomor Telepon Wali: </label>
+    
+        <input
+            id='guardian_phone' name='guardian_phone' type='phone'
+            value='{{ old('guardian_phone', $student->guardian_phone) }}'
+            class='form-control {{ !$errors->has('guardian_phone') ?: 'is-invalid' }}'>
+    
+        <div class='invalid-feedback'>
+            {{ $errors->first('guardian_phone') }}
         </div>
     </div>
 
