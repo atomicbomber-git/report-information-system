@@ -34,6 +34,11 @@
     <h3> <i class="fa fa-list"></i> Daftar Siswa </h3>
     <hr/>
 
+    <div class="form-group" style="width: 13rem">
+        <label for="print_date"> Tanggal Pencetakan: </label>
+        <input form="print-cover-form" class="form-control" name="print_date" type="date" value="{{ today()->format('Y-m-d') }}">
+    </div>
+
     <table class="table table-striped table-responsive-xl table-sm" style="max-width: 35rem">
         <thead class="thead-dark">
             <tr>
@@ -54,10 +59,17 @@
                 </td>
 
                 <td>
-                    <a href="{{ route('teacher.management.print_report_cover', $report->id) }}" class="btn btn-sm btn-dark">
-                        Cetak Cover Rapor
-                        <i class="fa fa-print"></i>
-                    </a>
+                    <form
+                        id="print-cover-form"
+                        action="{{ route('teacher.management.print_report_cover', $report->id) }}"
+                        class="d-inline-block"
+                        method="GET">
+                        <button class="btn btn-sm btn-dark">
+                            Cetak Cover Rapor
+                            <i class="fa fa-print"></i>
+                        </button>
+                    </form>
+                    
                     <a href="{{ route('teacher.management.print_report', $report->id) }}" class="btn btn-sm btn-dark">
                         Cetak Isi Rapor
                         <i class="fa fa-print"></i>

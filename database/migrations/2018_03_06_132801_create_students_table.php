@@ -22,6 +22,7 @@ class CreateStudentsTable extends Migration
             $table->date('birthdate'); // Tanggal lahir
             $table->string('religion'); // Agama
             $table->string('alma_mater')->nullable(); // Sekolah asal
+            $table->date('acceptance_date')->nullable(); // Sekolah asal
             $table->string('status_in_family')->nullable(); // Status dalam keluarga
             $table->integer('nth_child')->nullable(); // Anak ke-
             $table->string('address')->nullable(); // Alamat siswa

@@ -275,8 +275,18 @@ class TeacherManagementController extends Controller
 
     public function printReportCover(Report $report)
     {
+        $first_class = DB::table('rooms')
+            ->select('rooms.name')
+            ->join('room_terms', 'room_terms.room_id', '=', 'rooms.id')
+            ->join('terms', 'terms.id', '=', 'room_terms.term_id')
+            ->join('reports', 'reports.room_term_id', '=', 'room_terms.id')
+            ->where('reports.student_id', $report->student->id)
+            ->orderBy('terms.term_start')
+            ->value('name');
+
         return view('teacher_management.print_cover', [
-            'report' => $report
+            'report' => $report,
+            'first_class' => $first_class
         ]);
     }
 
