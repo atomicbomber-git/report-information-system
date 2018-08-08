@@ -102,14 +102,14 @@ Route::prefix('/teacher_management')->group(function() {
         ->where(['even_odd' => '^(even|odd)$'])
         ->name('teacher.management.courses.exams');
 
-    Route::get('/terms/{term_id}/{even_odd}/room_terms/{room_term_id}/courses/{course_id}/skill', 'TeacherManagementController@skillDetail')
-        ->where(['even_odd' => '^(even|odd)$'])
-        ->name('teacher.management.courses.skill_detail');
-
     Route::post('/update/knowlegde_grade', 'TeacherManagementController@updateKnowledgeGrade')
         ->name('knowledge_grades.update');
 
-    Route::post('/update/skill_grade', 'TeacherManagementController@updateSkillGrade')
+    Route::get('/terms/{term_id}/{even_odd}/room_terms/{room_term_id}/courses/{course_id}/skill', 'SkillGradeController@skillDetail')
+        ->where(['even_odd' => '^(even|odd)$'])
+        ->name('teacher.management.courses.skill_detail');
+
+    Route::post('/update/skill_grade', 'SkillGradeController@updateSkillGrade')
         ->name('skill_grades.update');
 
     Route::post('/update/course_report', 'TeacherManagementController@updateCourseReport')

@@ -25,11 +25,11 @@
 </p>
 
 <p class="lead">
-    Kelas {{ $room->name }}
+    Kelas {{ $room_term->room->name }}
 </p>
 
 <p class="lead">
-    Tahun Ajaran {{ $information->term_code }} Semester {{ $information->semester }}
+    Tahun Ajaran {{ $room_term->term->code }} Semester {{ $room_term->even_odd }}
 </p>
 
 <hr>
@@ -43,7 +43,8 @@
 <div class="container" style="padding: 0.6rem 0rem 0.6rem 0rem">
     <div class="row">
         <div class="col col-md-3 text-left">
-            <a href="{{ route('teacher.management.courses', ['term_id' => $information->id, 'even_odd' => $information->even_odd]) }}" class="btn btn-sm btn-secondary">
+            <a href="{{ route('teacher.management.courses', ['term_id' => $room_term->term->id, 'even_odd' => $room_term->getOriginal('even_odd') ]) }}"
+                class="btn btn-sm btn-secondary">
                 <i class="fa fa-arrow-left"></i>
                 Kembali
             </a>

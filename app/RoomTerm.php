@@ -34,8 +34,6 @@ class RoomTerm extends Pivot
         return $this->belongsTo('App\Term');
     }
 
-     
-
     public function students()
     {
         return $this->belongsToMany('App\Student', 'reports', 'room_term_id', 'student_id')
