@@ -65,8 +65,10 @@
     @foreach($skill_type_usages as $usage)
         <form
             method="POST"
+            data-actionname="{{ $usage['is_used'] ? 'menghapus' : 'menambahkan' }}"
+            data-skilltype="{{ $usage['type'] }}"
             action="{{ $usage['is_used'] ? route('skill_grades.remove_score_type') : route('skill_grades.add_score_type') }}"
-            class="d-inline-block">
+            class="form-manage-skilltype d-inline-block">
             
             @csrf
 
@@ -138,7 +140,7 @@
     <div class="text-right">
         <button
             data-basic-competency-id="{{ $grade->basic_competency_id }}"
-            class="btn btn-primary btn-sm">
+            class="btn btn-primary btn-sm btn-update">
             Perbaharui Data
             <i class="fa fa-pencil"></i>
         </button>
@@ -160,8 +162,9 @@
 
 {{-- Floating notification message --}}
 <div id="notification-container" class="floating-notification-container">
-
 </div>
+
+<script src="{{ asset('js/sweetalert.min.js') }}"> </script>
 
 <script>
     function create_notification(message, container, status, timeout = 2000) {
@@ -207,8 +210,12 @@
             basic_competency_unit[$(this).data('id')][$(this).data('field')] = $(this).val();
         });
 
-        $('button').click(function () {
+        $('button.btn-update').click(function () {
             let basic_competency_id = $(this).data('basic-competency-id');
+
+            if ( ! (basic_competency_id in changed_data)) {
+                return;
+            }
             
             $.ajax({
                 method: 'POST',
@@ -228,6 +235,26 @@
         });
 
         $('alert-success').fadeOut(3000);
+
+        $('.form-manage-skilltype').submit(function(e) {
+            e.preventDefault();
+            
+            let form = $(this);
+            let action_name = form.data('actionname');
+            let skill_type = form.data('skilltype');
+
+            swal(`Anda yakin ingin ${action_name} aspek penilaian ${skill_type}?`, {
+                title: "Konfirmasi Tindakan",
+                icon: "warning",
+                buttons: ["Tidak", "Ya"],
+                dangerMode: true
+            })
+            .then(function(willSubmit) {
+                if (willSubmit) {
+                    form.off("submit").submit();
+                }
+            });
+        });
     });
 </script>
 
