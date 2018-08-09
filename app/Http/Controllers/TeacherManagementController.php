@@ -239,7 +239,7 @@ class TeacherManagementController extends Controller
         ]);
     }
 
-    public function printReport($report_id)
+    public function printReport(Report $report)
     {
         $course_reports = KnowledgeGrade
             ::select(
@@ -254,7 +254,7 @@ class TeacherManagementController extends Controller
             )
             ->join('course_reports', 'course_reports.id', '=', 'knowledge_grades.course_report_id')
             ->join('courses', 'courses.id', '=', 'course_reports.course_id')
-            ->where('course_reports.report_id', $report_id)
+            ->where('course_reports.report_id', $report->id)
             ->groupBy(
                 'course_reports.course_id',
                 'courses.name',
@@ -269,8 +269,9 @@ class TeacherManagementController extends Controller
             ->get();
         
         $course_report_groups = $course_reports->groupBy('group');
-        
+
         return view('teacher_management.print_report', [
+            'report' => $report,
             'course_report_groups' => $course_report_groups
         ]);
     }

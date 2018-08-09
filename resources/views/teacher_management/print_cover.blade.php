@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>
-        Laporan Hasil Belajar {{ $report->student->user->name }} ({{ $report->student->student_id }})
+        Cover Laporan Hasil Belajar {{ $report->student->user->name }} ({{ $report->student->student_id }})
     </title>
     <link href="{{ asset('css/paper.css') }}" rel="stylesheet">
     <style>

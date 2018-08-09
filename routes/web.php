@@ -84,7 +84,7 @@ Route::prefix('/teacher_management')->group(function() {
     Route::get('/room_term/{room_term_id}', 'TeacherManagementController@roomTerm')
         ->name("teacher.management.room_term");
 
-    Route::get('/print_report/{report_id}', 'TeacherManagementController@printReport')
+    Route::get('/print_report/{report}', 'TeacherManagementController@printReport')
         ->name("teacher.management.print_report");
 
     Route::get('/print_report_cover/{report}', 'TeacherManagementController@printReportCover')
