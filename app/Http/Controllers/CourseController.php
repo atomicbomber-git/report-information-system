@@ -136,6 +136,10 @@ class CourseController extends Controller
             ]);
 
             $course_reports = DB::table('course_reports')
+                ->select('course_reports.id')
+                ->join('reports', 'reports.id', '=', 'course_reports.report_id')
+                ->join('room_terms', 'room_terms.id', '=', 'reports.room_term_id')
+                ->where('room_terms.even_odd', request('even_odd'))
                 ->where('course_reports.course_id', $course_id)
                 ->get();
 
