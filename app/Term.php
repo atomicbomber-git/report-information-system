@@ -7,7 +7,7 @@ use App\RoomTerm;
 
 class Term extends Model
 {
-    public $fillable = ['term_start', 'term_end', 'code'];
+    public $fillable = ['term_start', 'term_end', 'code', 'passing_grade'];
 
     public function room_terms()
     {

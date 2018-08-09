@@ -151,7 +151,7 @@
                             'student_ids': picked_students
                         },
                         success: function(data, status) {
-                            window.location.replace('{{ route('room_terms.detail', $room_term) }}');
+                            // window.location.replace('{{ route('room_terms.detail', $room_term) }}');
                         }
                     });
                 }

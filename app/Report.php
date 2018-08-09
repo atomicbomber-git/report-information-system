@@ -15,6 +15,11 @@ class Report extends Pivot
         return $this->belongsTo('App\Student');
     }
 
+    public function room_term()
+    {
+        return $this->belongsTo('App\RoomTerm');
+    }
+
     // TEMPORARY WORKAROUND
     public function getUpdatedAtColumn()
     {

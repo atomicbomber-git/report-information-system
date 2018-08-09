@@ -17,11 +17,15 @@ class KnowledgeBasicCompetenciesSeeder extends Seeder
         $courses = Course::select('id')->get();
 
         foreach ($courses as $course) {
-            factory(KnowledgeBasicCompetency::class, 5)->make()
-                ->each(function($basic_comp) use ($course) {
-                    $basic_comp->course_id = $course->id;
-                    $basic_comp->save();
-                });
+
+            $basic_comps = collect();
+            $basic_comps = $basic_comps->concat(factory(KnowledgeBasicCompetency::class, 2)->make([ 'even_odd' => 'odd' ]));
+            $basic_comps = $basic_comps->concat(factory(KnowledgeBasicCompetency::class, 2)->make([ 'even_odd' => 'even' ]));
+
+            $basic_comps->each(function($basic_comp) use ($course) {
+                $basic_comp->course_id = $course->id;
+                $basic_comp->save();
+            });
         }
     }
 }

@@ -38,16 +38,8 @@ class ReportsTableSeeder extends Seeder
 
         $course_grade_groups = DB::table('courses')
             ->select('courses.id', 'courses.grade')
-            ->where('active', 1)
             ->get()
             ->groupBy('grade');
-
-        $knowledge_basic_competencies = DB::table('knowledge_basic_competencies')
-            ->select('knowledge_basic_competencies.id', 'courses.id AS course_id', 'courses.grade AS grade')
-            ->join('courses', 'courses.id', '=', 'knowledge_basic_competencies.course_id')
-            ->where('courses.active', 1)
-            ->get()
-            ->groupBy('course_id');
 
         foreach ($student_grade_groups as $grade => $student_groups) {
             // Only create reports if room terms from this grade exist
@@ -75,20 +67,6 @@ class ReportsTableSeeder extends Seeder
                                     'knowledge_description' => $faker->paragraph(4),
                                     'skill_description' => $faker->paragraph(4)
                                 ]);
-
-                                if (isset($knowledge_basic_competencies[$course_report->course_id])) {
-                                    foreach ($knowledge_basic_competencies[$course_report->course_id] as $basic_competency) {
-                                        KnowledgeGrade::create([
-                                            'course_report_id' => $course_report->id,
-                                            'knowledge_basic_competency_id' => $basic_competency->id,
-                                            'first_assignment' => $faker->biasedNumberBetween(50, 100),
-                                            'second_assignment' => $faker->biasedNumberBetween(50, 100),
-                                            'third_assignment' => $faker->biasedNumberBetween(50, 100),
-                                            'first_exam' => $faker->biasedNumberBetween(50, 100),
-                                            'second_exam' => $faker->biasedNumberBetween(50, 100)
-                                        ]);
-                                    }
-                                }
                             }
                         }
                     }

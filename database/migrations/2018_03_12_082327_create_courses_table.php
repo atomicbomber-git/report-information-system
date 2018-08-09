@@ -18,11 +18,8 @@ class CreateCoursesTable extends Migration
 
             $table->string('name')->index(); // Nama mata pelajaran
             $table->enum('group', ['A', 'B']); // Kelompok mata pelajarn (A atau B)
-            $table->text('description'); // Deskripsi mata pelajaran (Kurikulum, kelas, dsb.)
-            $table->boolean('has_spiritual_grades')->default(0); // Memiliki nilai spiritual / tidak
-            $table->boolean('has_social_grades')->default(0); // Memiliki nilai sosial / tidak
+            $table->string('scoring_method'); // Metode penilaian (normal, spiritual, social)
             $table->integer('grade')->unsigned()->index(); // Jenjang (7, 8, 9)
-            $table->boolean('active')->default(1); // Status aktif / non-aktif
             $table->integer('term_id')->unsigned();
 
             $table->foreign('term_id')->references('id')->on('terms')

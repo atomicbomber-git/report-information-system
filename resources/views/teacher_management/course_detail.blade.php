@@ -25,7 +25,7 @@
 </p>
 
 <p class="lead">
-    Kelas {{ $room->name }}
+    Kelas {{ $room_term->room->name }}
 </p>
 
 <p class="lead">
@@ -51,7 +51,7 @@
         <div class="col-md-6">
         </div>
         <div class="col col-md-3 text-right">
-            <a href="{{ route('teacher.management.courses.exams', [$information->id, $information->even_odd, $information->room_term_id, $information->course_id]) }}"
+            <a href="{{ route('teacher.management.courses.exams', [$information->id, $information->even_odd, $room_term->id, $information->course_id]) }}"
                 class="btn btn-primary btn-sm">
                 Nilai UTS / UAS
                 <i class="fa fa-list-alt"></i>
@@ -62,8 +62,14 @@
 
 <hr>
 
+@php
+    $last_count = $room_term->getOriginal('even_odd') == 'odd' ?
+        0 :
+        \App\KnowledgeBasicCompetency::where('course_id', $course->id)->where('even_odd', '<>', 'odd')->count();
+@endphp
+
 @foreach($knowledge_grade_groups as $key => $group)
-<h4> KD {{ $loop->iteration }}: {{ $basic_competencies[$key]->name }} </h4>
+<h4> KD {{ $loop->iteration + $last_count }}: {{ $basic_competencies[$key]->name }} </h4>
     <div class="basic-competency-unit" data-id="{{ $key }}">
         <table class='table table-striped table-responsive-xl table-sm'>
             <thead class='thead-dark'>

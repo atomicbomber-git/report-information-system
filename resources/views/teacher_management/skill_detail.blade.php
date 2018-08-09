@@ -85,8 +85,14 @@
 
     <hr>
 
+    @php
+    $last_count = $room_term->getOriginal('even_odd') == 'odd' ?
+        0 :
+        \App\KnowledgeBasicCompetency::where('course_id', $course->id)->where('even_odd', '<>', 'odd')->count();
+    @endphp
+
     @foreach ($skill_grade_groups as $basic_competency => $group)
-    <h4> KD {{ $loop->iteration }}: {{ $basic_competency }} </h4>
+    <h4> KD {{ $loop->iteration + $last_count }}: {{ $basic_competency }} </h4>
     <table class='table table-striped table-responsive-xl table-sm'>
         <thead class="thead thead-dark text-center">
             <tr>

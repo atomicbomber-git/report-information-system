@@ -129,12 +129,6 @@ class TeacherManagementController extends Controller
         $information->semester = RoomTerm::EVEN_ODD[$even_odd];
         $information->room_term_id = $room_term_id;
         $information->course_id = $course_id;
-
-        $room = DB::table('room_terms')
-            ->select('rooms.name')
-            ->where('room_terms.id', $room_term_id)
-            ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
-            ->first();
         
         $basic_competencies = DB::table('knowledge_basic_competencies')
             ->select('id', 'name')
@@ -147,7 +141,7 @@ class TeacherManagementController extends Controller
             'knowledge_grade_groups' => $knowledge_grade_groups,
             'basic_competencies' => $basic_competencies,
             'information' => $information,
-            'room' => $room
+            'room_term' => RoomTerm::find($room_term_id)
         ]);
     }
 

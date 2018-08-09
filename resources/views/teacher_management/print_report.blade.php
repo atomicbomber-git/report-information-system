@@ -67,7 +67,7 @@
                     <td> </td>
                     <td> <h4 class="title"> Ketuntasan Belajar Minimal</h4> </td>
                     <td> : </td>
-                    <td> <h4 class="title"> 76 </h4> </td>
+                    <td> <h4 class="title"> {{ $report->room_term->term->passing_grade  }} </h4> </td>
                 </tr>
             </tbody>
         </table>

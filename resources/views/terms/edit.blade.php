@@ -55,6 +55,19 @@
         </div>
     </div>
 
+    <div class='form-group'>
+        <label for='passing_grade'> Nilai KKM: </label>
+    
+        <input
+            id='passing_grade' name='passing_grade' type='number'
+            value='{{ old('passing_grade', $term->passing_grade) }}'
+            class='form-control {{ !$errors->has('passing_grade') ?: 'is-invalid' }}'>
+    
+        <div class='invalid-feedback'>
+            {{ $errors->first('passing_grade') }}
+        </div>
+    </div>
+
     @if($errors->has('code'))
         <div class="alert alert-danger">
             {{ $errors->first('code') }}
@@ -64,7 +77,7 @@
     <div style="height: 15px"> </div>
 
     <div class="form-group text-right">
-        <button class="btn btn-primary">
+        <button class="btn btn-primary btn-sm">
             <i class="fa fa-check"></i>
             Perbarui
         </button>

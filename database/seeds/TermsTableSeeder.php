@@ -13,8 +13,8 @@ class TermsTableSeeder extends Seeder
     public function run()
     {
         $default_terms = [
-            ['start' => 2015, 'end' => 2016],
-            ['start' => 2016, 'end' => 2017],
+            ['start' => 2015, 'end' => 2016, 'passing_grade' => 76],
+            ['start' => 2016, 'end' => 2017, 'passing_grade' => 76],
             // ['start' => 2017, 'end' => 2018]
         ];
 

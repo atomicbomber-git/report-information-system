@@ -53,22 +53,22 @@ class ReportController extends Controller
         $student_ids = request('student_ids');
         
         // All active courses of the room_term's grade
-        $courses = Course::select('courses.id')
+        $courses = Course::select('courses.id', 'courses.scoring_method')
             ->where('grade', $room_term->room->grade)
             ->where('term_id', $room_term->term_id)
-            ->where('active', 1)
             ->get();
 
         // All knowledge basic competencies of each respective courses
-        $knowledge_basic_competencies = KnowledgeBasicCompetency::select('knowledge_basic_competencies.id', 'courses.id AS course_id')
+        $basic_competency_groups = KnowledgeBasicCompetency::query()
+            ->select('knowledge_basic_competencies.id','courses.id AS course_id')
             ->join('courses', 'courses.id', '=', 'knowledge_basic_competencies.course_id')
+            ->where('knowledge_basic_competencies.even_odd', $room_term->getOriginal('even_odd'))
             ->where('grade', $room_term->room->grade)
             ->where('courses.term_id', $room_term->term_id)
-            ->where('active', 1)
             ->get()
             ->groupBy('course_id');
         
-        DB::transaction(function() use ($student_ids, $room_term, $courses, $knowledge_basic_competencies) {
+        DB::transaction(function() use ($student_ids, $room_term, $courses, $basic_competency_groups) {
             foreach ($student_ids as $student_id) {
                 
                 // Report creation
@@ -84,13 +84,18 @@ class ReportController extends Controller
                         'report_id' => $report->id, 'course_id' => $course->id
                     ]);
 
-                    if (isset($knowledge_basic_competencies[$course->id])) {
-                        // Knowledge grades creation
-                        foreach ($knowledge_basic_competencies[$course->id] as $basic_competency) {
-                            KnowledgeGrade::create([
-                                'course_report_id' => $course_report->id,
-                                'knowledge_basic_competency_id' => $basic_competency->id
-                            ]);
+                    if ( ! isset($basic_competency_groups[$course->id])) {
+                        continue;
+                    }
+                    
+                    foreach ($basic_competency_groups[$course->id] as $basic_competency) {
+                        KnowledgeGrade::create([
+                            'course_report_id' => $course_report->id,
+                            'knowledge_basic_competency_id' => $basic_competency->id
+                        ]);
+                        
+                        switch($course->scoring_method) {
+                            case 'normal':
                             
                             foreach (SkillGrade::SCORE_TYPES as $score_type) {
                                 SkillGrade::create([
@@ -99,6 +104,16 @@ class ReportController extends Controller
                                     'type' => $score_type
                                 ]);
                             }
+                            break;
+    
+                            case 'spiritual':
+                            break;
+    
+                            case 'social':
+                            break;
+    
+                            default:
+                            break;
                         }
                     }
                 }

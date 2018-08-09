@@ -14,18 +14,18 @@ class CoursesTableSeeder extends Seeder
     {
         $default_courses = [
             // Kelompok A
-            ['grade' => 8, 'name' => 'Pendidikan Agama dan Budi Pekerti', 'description' => "", 'group' => 'A', 'has_spiritual_grades' => true],
-            ['grade' => 8, 'name' => 'Pendidikan Pancasila dan Kewarganegaraan', 'description' => "", 'group' => 'A', 'has_social_grades' => true],
-            ['grade' => 8, 'name' => 'Bahasa Indonesia', 'description' => "", 'group' => 'A'],
-            ['grade' => 8, 'name' => 'Matematika', 'description' => "", 'group' => 'A'],
-            ['grade' => 8, 'name' => 'Ilmu Pengetahuan Alam', 'description' => "", 'group' => 'A'],
-            ['grade' => 8, 'name' => 'Ilmu Pengetahuan Sosial', 'description' => "", 'group' => 'A'],
-            ['grade' => 8, 'name' => 'Bahasa Inggris', 'description' => "", 'group' => 'A'],
+            ['grade' => 8, 'scoring_method' => 'spiritual', 'name' => 'Pendidikan Agama dan Budi Pekerti', 'group' => 'A'],
+            ['grade' => 8, 'scoring_method' => 'social', 'name' => 'Pendidikan Pancasila dan Kewarganegaraan', 'group' => 'A'],
+            ['grade' => 8, 'scoring_method' => 'normal', 'name' => 'Bahasa Indonesia', 'group' => 'A'],
+            ['grade' => 8, 'scoring_method' => 'normal', 'name' => 'Matematika', 'group' => 'A'],
+            ['grade' => 8, 'scoring_method' => 'normal', 'name' => 'Ilmu Pengetahuan Alam', 'group' => 'A'],
+            ['grade' => 8, 'scoring_method' => 'normal', 'name' => 'Ilmu Pengetahuan Sosial', 'group' => 'A'],
+            ['grade' => 8, 'scoring_method' => 'normal', 'name' => 'Bahasa Inggris', 'group' => 'A'],
             
             // Kelompok B
-            ['grade' => 8, 'name' => 'Seni Budaya', 'description' => '', 'group' => 'B'],
-            ['grade' => 8, 'name' => 'Pendidikan Jasmani, Olahraga dan Kesehatan', 'description' => '', 'group' => 'B'],
-            ['grade' => 8, 'name' => 'Prakarya', 'description' => '', 'group' => 'B']
+            ['grade' => 8, 'scoring_method' => 'normal', 'name' => 'Seni Budaya', 'group' => 'B'],
+            ['grade' => 8, 'scoring_method' => 'normal', 'name' => 'Pendidikan Jasmani, Olahraga dan Kesehatan', 'group' => 'B'],
+            ['grade' => 8, 'scoring_method' => 'normal', 'name' => 'Prakarya', 'group' => 'B']
         ];
         
         $term = DB::table('terms')->first();

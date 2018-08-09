@@ -42,6 +42,7 @@ class TermController extends Controller
             [
                 'term_start' => 'required|integer|min:1800',
                 'term_end' => 'required|integer|min:1800',
+                'passing_grade' => 'required|integer|min:0|max:100',
                 'code' => [
                     'required',
                     'string',
@@ -63,6 +64,46 @@ class TermController extends Controller
         return redirect()
             ->route('terms.index')
             ->with('message-success', __('messages.create.success'));
+    }
+
+    public function edit(Term $term)
+    {
+        return view('terms.edit', ['term' => $term]);
+    }
+
+    public function processEdit(Term $term)
+    {
+        request()->request->add([
+            'code' => request('term_start') . '-' . request('term_end')
+        ]);
+
+        $this->validate(
+            request(), 
+            [
+                'term_start' => 'required|integer|min:1800',
+                'term_end' => 'required|integer|min:1800',
+                'passing_grade' => 'required|integer|min:0|max:100',
+                'code' => [
+                    'required',
+                    'string',
+                    Rule::unique('terms')->ignore($term->id),
+                    function($attribute, $value, $fail) {
+                        if (request('term_end') - request('term_start') !== 1) {
+                            $fail('Tahun akhir wajib berselisih satu tahun dengan tahun mulai');
+                        }
+                    }
+                ]
+            ],
+            [
+                'code.unique' => 'Tahun ajaran ' . request('code') . ' telah ada.'
+            ]
+        );
+
+        $term->update(request()->all());
+        
+        return redirect()
+            ->route('terms.index')
+            ->with('message-success', __('messages.update.success'));
     }
 
     public function delete(Term $term)
@@ -208,44 +249,5 @@ class TermController extends Controller
     {
         $room_term->delete();
         return back()->with('message-success', __('messages.delete.success'));
-    }
-
-    public function edit(Term $term)
-    {
-        return view('terms.edit', ['term' => $term]);
-    }
-
-    public function processEdit(Term $term)
-    {
-        request()->request->add([
-            'code' => request('term_start') . '-' . request('term_end')
-        ]);
-
-        $this->validate(
-            request(), 
-            [
-                'term_start' => 'required|integer|min:1800',
-                'term_end' => 'required|integer|min:1800',
-                'code' => [
-                    'required',
-                    'string',
-                    Rule::unique('terms')->ignore($term->id),
-                    function($attribute, $value, $fail) {
-                        if (request('term_end') - request('term_start') !== 1) {
-                            $fail('Tahun akhir wajib berselisih satu tahun dengan tahun mulai');
-                        }
-                    }
-                ]
-            ],
-            [
-                'code.unique' => 'Tahun ajaran ' . request('code') . ' telah ada.'
-            ]
-        );
-
-        $term->update(request()->all());
-        
-        return redirect()
-            ->route('terms.index')
-            ->with('message-success', __('messages.update.success'));
     }
 }
