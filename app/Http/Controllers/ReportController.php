@@ -106,7 +106,7 @@ class ReportController extends Controller
                         ]);
                         
                         if ( ! isset($skill_type_groups[$course->id])) {
-                            break;
+                            continue;
                         }
 
                         foreach ($skill_type_groups[$course->id] as $score_type) {
