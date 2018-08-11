@@ -33,7 +33,7 @@ class ReportController extends Controller
             })
             
             ->join('users', 'students.user_id', '=', 'users.id')
-            ->where('active', 1)
+            ->where('students.active', 1)
             ->orderBy('users.name')
             ->get();
 
@@ -47,8 +47,6 @@ class ReportController extends Controller
 
     public function processCreate(RoomTerm $room_term)
     {
-        $room_term->load('room');
-
         // IDs of the students that are going to be added
         $student_ids = request('student_ids');
         
@@ -59,7 +57,7 @@ class ReportController extends Controller
             ->get();
 
         // All knowledge basic competencies of each respective courses
-        $basic_competency_groups = KnowledgeBasicCompetency::query()
+        $basic_competency_groups = DB::table('knowledge_basic_competencies')
             ->select('knowledge_basic_competencies.id','courses.id AS course_id')
             ->join('courses', 'courses.id', '=', 'knowledge_basic_competencies.course_id')
             ->where('knowledge_basic_competencies.even_odd', $room_term->getOriginal('even_odd'))
@@ -68,7 +66,21 @@ class ReportController extends Controller
             ->get()
             ->groupBy('course_id');
         
-        DB::transaction(function() use ($student_ids, $room_term, $courses, $basic_competency_groups) {
+        $skill_type_groups = DB::table('skill_grades')
+            ->select('course_reports.course_id', 'skill_grades.type')
+            ->rightJoin('course_reports', 'course_reports.id', '=', 'skill_grades.course_report_id')
+            ->join('courses', 'courses.id', '=', 'course_reports.course_id')
+            ->join('reports', 'reports.id', '=', 'course_reports.report_id')
+            ->where('courses.scoring_method', '=', 'normal')
+            ->where('reports.room_term_id', '=', $room_term->id)
+            ->whereNotNull('skill_grades.type')
+            ->groupBy('course_reports.course_id', 'skill_grades.type')
+            ->get()
+            ->mapToGroups(function ($item) {
+                return [$item->course_id => $item->type];
+            });
+        
+        DB::transaction(function() use ($student_ids, $room_term, $courses, $basic_competency_groups, $skill_type_groups) {
             foreach ($student_ids as $student_id) {
                 
                 // Report creation
@@ -96,16 +108,21 @@ class ReportController extends Controller
                         
                         switch($course->scoring_method) {
                             case 'normal':
-                            
-                            foreach (SkillGrade::SCORE_TYPES as $score_type) {
-                                SkillGrade::create([
-                                    'course_report_id' => $course_report->id,
-                                    'knowledge_basic_competency_id' => $basic_competency->id,
-                                    'type' => $score_type
-                                ]);
-                            }
-                            break;
-    
+                                {
+                                    if ( ! isset($skill_type_groups[$course->id])) {
+                                        break;
+                                    }
+
+                                    foreach ($skill_type_groups[$course->id] as $score_type) {
+                                        SkillGrade::create([
+                                            'course_report_id' => $course_report->id,
+                                            'knowledge_basic_competency_id' => $basic_competency->id,
+                                            'type' => $score_type
+                                        ]);
+                                    }
+
+                                    break;
+                                }
                             case 'spiritual':
                             break;
     
@@ -160,9 +177,8 @@ class ReportController extends Controller
                 'course_reports.mid_exam',
                 'course_reports.final_exam'
             )
-            ->get();
-        
-        $course_reports = $course_reports->groupBy('group');
+            ->get()
+            ->groupBy('group');
 
         return view('reports.detail', [
             'information' => $information,
@@ -188,8 +204,9 @@ class ReportController extends Controller
         $room_terms = DB::table('room_terms')
             ->select('rooms.name AS room_name', 'room_terms.even_odd', 'room_terms.id')
             ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
-            ->where('room_terms.term_id', '=', $room_term->term_id)
+            ->where('room_terms.term_id', $room_term->term_id)
             ->where('room_terms.id', '<>', $room_term->id)
+            ->where('room_terms.even_odd', $room_term->getOriginal('even_odd'))
             ->orderBy('rooms.grade')
             ->orderBy('rooms.name')
             ->orderBy('room_terms.even_odd')

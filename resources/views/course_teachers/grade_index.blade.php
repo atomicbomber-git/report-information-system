@@ -51,7 +51,7 @@
     <table class="table table-sm table-striped">
         <thead class="thead-dark">
             <tr>
-                <th> No. </th>
+                <th> # </th>
                 <th> Nama Kelas </th>
                 <th> Guru </th>
             </tr>

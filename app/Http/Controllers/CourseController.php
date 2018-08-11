@@ -115,7 +115,10 @@ class CourseController extends Controller
                 ->get();
 
             foreach ($reports as $report) {
-                CourseReport::create(['report_id' => $report->id, 'course_id' => $course->id]);
+                CourseReport::create([
+                    'report_id' => $report->id,
+                    'course_id' => $course->id]
+                );
             }
         });
 
@@ -127,8 +130,17 @@ class CourseController extends Controller
     public function createKnowledgeBasicCompetency($course_id)
     {
         // TODO: Add validation
+        $skill_type_groups = DB::table('skill_grades')
+            ->select('course_reports.id', 'skill_grades.type')
+            ->join('course_reports', 'course_reports.id', '=', 'skill_grades.course_report_id')
+            ->where('course_reports.course_id', $course_id)
+            ->groupBy('course_reports.id', 'skill_grades.type')
+            ->get()
+            ->mapToGroups(function ($item) {
+                return [$item->id => $item->type];
+            });
 
-        DB::transaction(function() use($course_id) {
+        DB::transaction(function() use($course_id, $skill_type_groups) {
             $basic_competency = KnowledgeBasicCompetency::create([
                 'course_id' => $course_id,
                 'name' => request('name'),
@@ -149,7 +161,11 @@ class CourseController extends Controller
                     'knowledge_basic_competency_id' => $basic_competency->id
                 ]);
                 
-                foreach (SkillGrade::SCORE_TYPES as $score_type) {
+                $types = isset($skill_type_groups[$course_report->id]) ?
+                    $skill_type_groups[$course_report->id] :
+                    [];
+
+                foreach ($types as $score_type) {
                     SkillGrade::create([
                         'course_report_id' => $course_report->id,
                         'knowledge_basic_competency_id' => $basic_competency->id,
@@ -187,13 +203,13 @@ class CourseController extends Controller
             request(),
             [
                 'name' => 'required|string',
-                'even_odd' => 'required|in:even,odd'
+                // 'even_odd' => 'required|in:even,odd'
             ]
         );
 
         $basic_competency->update([
             'name' => $data['name'],
-            'even_odd' => $data['even_odd']
+            // 'even_odd' => $data['even_odd']
         ]);
 
         return redirect()

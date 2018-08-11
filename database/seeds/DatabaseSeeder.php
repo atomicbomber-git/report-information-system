@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(KnowledgeBasicCompetenciesSeeder::class);
         $this->call(ReportsTableSeeder::class);
         $this->call(CourseTeachersTableSeeder::class);
+        $this->call(KnowledgeGradesTableSeeder::class);
         $this->call(SkillGradeSeeder::class);
     }
 }

@@ -61,14 +61,14 @@
                 id="name" name="name" type="text" class="form-control">
         </div>
 
-        <div class="form-group">
+        {{-- <div class="form-group">
             <label for="even_odd"> Semester Ganjil / Genap: </label>
 
             <select required name="even_odd" id="even_odd" class="form-control">
-                <option {{ $basic_competency->even_odd == 'odd' ?: 'selected' }} value="odd"> Ganjil </option>
-                <option {{ $basic_competency->even_odd == 'even' ?: 'selected' }} value="even"> Genap </option>
+                <option {{ $basic_competency->even_odd == 'odd' ? 'selected=true' : '' }} value="odd"> Ganjil </option>
+                <option {{ $basic_competency->even_odd == 'even' ? 'selected=true' : '' }} value="even"> Genap </option>
             </select>
-        </div>
+        </div> --}}
 
         <div class="form-group text-right">
             <button class="btn btn-primary btn-sm">

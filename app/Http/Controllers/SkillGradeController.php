@@ -45,6 +45,7 @@ class SkillGradeController extends Controller
             ->join('knowledge_basic_competencies', 'knowledge_basic_competencies.id', '=', 'skill_grades.knowledge_basic_competency_id')
             ->where('reports.room_term_id', $room_term_id)
             ->where('course_reports.course_id', $course_id)
+            ->orderBy('users.name')
             ->get()
             ->groupBy('basic_competency_name')
             ->map(function ($group) {
@@ -88,6 +89,8 @@ class SkillGradeController extends Controller
 
     public function addScoreType()
     {
+        $even_odd = RoomTerm::find(request('room_term_id'))->getOriginal('even_odd');
+
         $course_reports = DB::table('course_reports')
             ->select('course_reports.id')
             ->where('course_reports.course_id', request('course_id'))
@@ -98,6 +101,7 @@ class SkillGradeController extends Controller
         $basic_competencies = DB::table('knowledge_basic_competencies')
             ->select('knowledge_basic_competencies.id')
             ->where('knowledge_basic_competencies.course_id', request('course_id'))
+            ->where('knowledge_basic_competencies.even_odd', $even_odd)
             ->get();
 
         DB::transaction(function() use($course_reports, $basic_competencies) {
@@ -118,6 +122,8 @@ class SkillGradeController extends Controller
 
     public function removeScoreType()
     {
+        $even_odd = RoomTerm::find(request('room_term_id'))->getOriginal('even_odd');
+
         DB::table('skill_grades')
             // Filter by skill grade type
             ->where('skill_grades.type', request('type'))
@@ -129,6 +135,10 @@ class SkillGradeController extends Controller
             // Filter by roomterm id
             ->join('reports', 'reports.id', '=', 'course_reports.report_id')
             ->where('reports.room_term_id', request('room_term_id'))
+
+            // Filter by even_odd
+            ->join('knowledge_basic_competencies', 'knowledge_basic_competencies.id', '=', 'skill_grades.knowledge_basic_competency_id')
+            ->where('knowledge_basic_competencies.even_odd', $even_odd)
 
             ->delete();
         

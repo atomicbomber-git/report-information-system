@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Nilai Mata Pelajaran')
+@section('title', 'Nilai Keterampilan Mata Pelajaran')
 
 @section('styles')
 <style>
@@ -143,7 +143,7 @@
         </tbody>
     <table>
 
-    <div class="text-right">
+    <div class="text-right" style="width: 100%">
         <button
             data-basic-competency-id="{{ $grade->basic_competency_id }}"
             class="btn btn-primary btn-sm btn-update">
