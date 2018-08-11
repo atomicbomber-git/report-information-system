@@ -5,7 +5,7 @@
 
 <p class="h2">
     <i class="fa fa-arrow-up"></i>
-    Pindah Kelas dari {{ $room_term->name }} Tahun Ajaran {{ $room_term->code }} Semester {{ $room_term->even_odd }}
+    Pindah Kelas dari {{ $report->room_term->room->name }} Tahun Ajaran {{ $report->room_term->term->code }} Semester {{ $report->room_term->even_odd }}
 </p>
 
 <hr>
@@ -25,7 +25,7 @@
 <div class="container" style="padding: 0.6rem 0rem 0.6rem 0rem">
     <div class="row">
         <div class="col col-md-3 text-left">
-            <a href="{{ route('room_terms.detail', $room_term->id) }}" class="btn btn-sm btn-secondary">
+            <a href="{{ route('room_terms.detail', $report->room_term->id) }}" class="btn btn-sm btn-secondary">
                 <i class="fa fa-arrow-left"></i>
                 Kembali
             </a>

@@ -132,7 +132,7 @@
             <label for='acceptance_date'> Tanggal Penerimaan: </label>
         
             <input
-                id='acceptance_date' name='acceptance_date' type='text'
+                id='acceptance_date' name='acceptance_date' type='date'
                 value='{{ old('acceptance_date', $student->acceptance_date) }}'
                 class='form-control {{ !$errors->has('acceptance_date') ?: 'is-invalid' }}'>
         
