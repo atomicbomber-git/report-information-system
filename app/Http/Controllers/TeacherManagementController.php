@@ -85,7 +85,7 @@ class TeacherManagementController extends Controller
             ->where('room_terms.term_id', $term_id)
             ->where('room_terms.even_odd', $even_odd)
             ->where('room_terms.teacher_id', $teacher_id)
-            ->groupBy('room_terms.id')
+            ->groupBy('room_terms.id', 'rooms.name', 'room_terms.even_odd')
             ->get();
         
         return view('teacher_management.courses', [
