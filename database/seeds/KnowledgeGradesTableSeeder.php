@@ -18,7 +18,7 @@ class KnowledgeGradesTableSeeder extends Seeder
         $basic_competency_groups = DB::table('course_reports')
             ->join('knowledge_basic_competencies', 'knowledge_basic_competencies.course_id', '=', 'course_reports.course_id')
             ->select('knowledge_basic_competencies.id', 'course_reports.course_id', 'knowledge_basic_competencies.even_odd')
-            ->groupBy('knowledge_basic_competencies.id','course_reports.course_id')
+            ->groupBy('knowledge_basic_competencies.id','course_reports.course_id', 'knowledge_basic_competencies.even_odd')
             ->get()
             ->groupBy('even_odd')
             ->map(function($group) { return $group->groupBy('course_id'); });

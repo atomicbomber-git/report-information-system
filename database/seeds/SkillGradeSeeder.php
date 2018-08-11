@@ -22,7 +22,7 @@ class SkillGradeSeeder extends Seeder
             ->select('knowledge_basic_competencies.id', 'course_reports.course_id', 'knowledge_basic_competencies.even_odd')
             ->groupBy('knowledge_basic_competencies.id','course_reports.course_id')
             ->get()
-            ->groupBy('even_odd')
+            ->groupBy('even_odd', 'knowledge_basic_competencies.id', 'course_reports.course_id')
             ->map(function($group) { return $group->groupBy('course_id'); });
         
         $course_report_groups = DB::table('course_reports')
