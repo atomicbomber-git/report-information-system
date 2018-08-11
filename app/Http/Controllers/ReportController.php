@@ -51,7 +51,7 @@ class ReportController extends Controller
         $student_ids = request('student_ids');
         
         // All active courses of the room_term's grade
-        $courses = Course::select('courses.id', 'courses.scoring_method')
+        $courses = Course::select('courses.id')
             ->where('grade', $room_term->room->grade)
             ->where('term_id', $room_term->term_id)
             ->get();
@@ -71,7 +71,6 @@ class ReportController extends Controller
             ->rightJoin('course_reports', 'course_reports.id', '=', 'skill_grades.course_report_id')
             ->join('courses', 'courses.id', '=', 'course_reports.course_id')
             ->join('reports', 'reports.id', '=', 'course_reports.report_id')
-            ->where('courses.scoring_method', '=', 'normal')
             ->where('reports.room_term_id', '=', $room_term->id)
             ->whereNotNull('skill_grades.type')
             ->groupBy('course_reports.course_id', 'skill_grades.type')
@@ -106,31 +105,16 @@ class ReportController extends Controller
                             'knowledge_basic_competency_id' => $basic_competency->id
                         ]);
                         
-                        switch($course->scoring_method) {
-                            case 'normal':
-                                {
-                                    if ( ! isset($skill_type_groups[$course->id])) {
-                                        break;
-                                    }
+                        if ( ! isset($skill_type_groups[$course->id])) {
+                            break;
+                        }
 
-                                    foreach ($skill_type_groups[$course->id] as $score_type) {
-                                        SkillGrade::create([
-                                            'course_report_id' => $course_report->id,
-                                            'knowledge_basic_competency_id' => $basic_competency->id,
-                                            'type' => $score_type
-                                        ]);
-                                    }
-
-                                    break;
-                                }
-                            case 'spiritual':
-                            break;
-    
-                            case 'social':
-                            break;
-    
-                            default:
-                            break;
+                        foreach ($skill_type_groups[$course->id] as $score_type) {
+                            SkillGrade::create([
+                                'course_report_id' => $course_report->id,
+                                'knowledge_basic_competency_id' => $basic_competency->id,
+                                'type' => $score_type
+                            ]);
                         }
                     }
                 }

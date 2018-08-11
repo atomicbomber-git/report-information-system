@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
-    public $fillable = ['name', 'grade', 'term_id', 'description', 'scoring_method'];
+    public $fillable = ['name', 'grade', 'term_id', 'description'];
 
     public function term()
     {

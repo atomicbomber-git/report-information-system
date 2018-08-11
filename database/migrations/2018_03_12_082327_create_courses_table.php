@@ -18,7 +18,6 @@ class CreateCoursesTable extends Migration
 
             $table->string('name')->index(); // Nama mata pelajaran
             $table->enum('group', ['A', 'B']); // Kelompok mata pelajarn (A atau B)
-            $table->string('scoring_method'); // Metode penilaian (normal, spiritual, social)
             $table->integer('grade')->unsigned()->index(); // Jenjang (7, 8, 9)
             $table->integer('term_id')->unsigned();
 

@@ -235,9 +235,10 @@ class TeacherManagementController extends Controller
 
     public function printReport(Report $report)
     {
-        $course_reports = KnowledgeGrade
+        $course_report_groups = KnowledgeGrade
             ::select(
                 'course_reports.id AS id',
+                'courses.id AS course_id',
                 'courses.name',
                 'courses.group',
                 'course_reports.mid_exam',
@@ -260,13 +261,27 @@ class TeacherManagementController extends Controller
                 'course_reports.knowledge_description',
                 'course_reports.skill_description'
             )
-            ->get();
+            ->get()
+            ->groupBy('group');
         
-        $course_report_groups = $course_reports->groupBy('group');
+        $skill_grade_groups = DB::table('skill_grades')
+            ->select(
+                'course_reports.course_id',
+                DB::raw('ROUND(AVG(GREATEST(score_1, score_2, score_3, score_4, score_5, score_6))) AS grade')
+            )
+            ->join('course_reports', 'course_reports.id', '=', 'skill_grades.course_report_id')
+            ->join('courses', 'courses.id', '=', 'course_reports.course_id')
+            ->where('course_reports.report_id', $report->id)
+            ->groupBy('course_reports.course_id')
+            ->get()
+            ->mapWithKeys(function ($item) { return [$item->course_id => $item->grade]; });
+        
+        // dd($skill_grade_groups);
 
         return view('teacher_management.print_report', [
             'report' => $report,
-            'course_report_groups' => $course_report_groups
+            'course_report_groups' => $course_report_groups,
+            'skill_grade_groups' => $skill_grade_groups
         ]);
     }
 

@@ -30,7 +30,6 @@ class SkillGradeSeeder extends Seeder
             ->join('courses', 'courses.id', '=', 'course_reports.course_id')
             ->join('reports', 'reports.id', '=', 'course_reports.report_id')
             ->join('room_terms', 'room_terms.id', '=', 'reports.room_term_id')
-            ->where('courses.scoring_method', 'normal')
             ->get()
             ->groupBy('even_odd');
 

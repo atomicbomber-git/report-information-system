@@ -22,7 +22,8 @@ class TermsTableSeeder extends Seeder
             Term::create([
                 'term_start' => $term['start'],
                 'term_end' => $term['end'],
-                'code' => $term['start'] . '-' . $term['end']
+                'code' => $term['start'] . '-' . $term['end'],
+                'passing_grade' => $term['passing_grade']
             ]);
         }
     }

@@ -105,8 +105,8 @@
                         <td class="score"> {{ $course_report->knowledge_grade }} </td>
                         <td class="grade"> {{ \App\Helper::grade($course_report->knowledge_grade) }} </td>
                         <td class="description"> {{ $course_report->knowledge_description }} </td>
-                        <td>  </td>
-                        <td>  </td>
+                        <td class="score"> {{ $skill_grade_groups[$course_report->course_id] }} </td>
+                        <td class="grade"> {{ \App\Helper::grade($skill_grade_groups[$course_report->course_id]) }} </td>
                         <td class="description"> {{ $course_report->skill_description }} </td>
                     </tr>
                     @endforeach
@@ -149,8 +149,8 @@
                         <td class="score"> {{ $course_report->knowledge_grade }} </td>
                         <td class="grade"> {{ \App\Helper::grade($course_report->knowledge_grade) }} </td>
                         <td class="description"> {{ $course_report->knowledge_description }} </td>
-                        <td>  </td>
-                        <td>  </td>
+                        <td class="score"> {{ $skill_grade_groups[$course_report->course_id] }} </td>
+                        <td class="grade"> {{ \App\Helper::grade($skill_grade_groups[$course_report->course_id]) }} </td>
                         <td class="description"> {{ $course_report->skill_description }} </td>
                     </tr>
                     @endforeach
