@@ -19,10 +19,10 @@ class CreateCourseReportsTable extends Migration
             $table->integer('course_id')->unsigned()->index(); // ID mapel
             $table->integer('report_id')->unsigned()->index(); // ID laporan mapel
 
-            $table->double('mid_exam')->nullable(); // Nilai ujian mid semester
-            $table->double('final_exam')->nullable(); // Nilai ujian semester
-            $table->text('skill_description')->nullable(); // Deskripsi keterampilan
-            $table->text('knowledge_description')->nullable(); // Deskripsi pengetahuan
+            $table->double('mid_exam')->default(0); // Nilai ujian mid semester
+            $table->double('final_exam')->default(0); // Nilai ujian semester
+            $table->text('skill_description')->default(''); // Deskripsi keterampilan
+            $table->text('knowledge_description')->default(''); // Deskripsi pengetahuan
 
             $table->unique(['course_id', 'report_id']);
 

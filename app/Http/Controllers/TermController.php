@@ -123,21 +123,17 @@ class TermController extends Controller
                 'rooms.name AS room_name',
                 'room_terms.even_odd',
                 'users.name AS teacher_name',
+                'teachers.teacher_id',
                 DB::raw('COUNT(reports.id) AS report_count')
             )
             ->rightJoin('room_terms', 'room_terms.id', '=', 'reports.room_term_id')
             ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
             ->join('teachers', 'teachers.id', '=', 'room_terms.teacher_id')
             ->join('users', 'users.id', '=', 'teachers.user_id')
-            ->groupBy('room_terms.id', 'rooms.name', 'room_terms.even_odd', 'users.name')
+            ->groupBy('room_terms.id', 'rooms.name', 'room_terms.even_odd', 'users.name', 'teachers.teacher_id')
             ->where('room_terms.term_id', $term_id)
             ->orderBy('rooms.grade')
             ->get();
-
-        $room_terms = $room_terms->map(function($room_term) {
-            $room_term->even_odd = RoomTerm::EVEN_ODD[$room_term->even_odd];
-            return $room_term;
-        });
         
         return view('terms.detail',
             [

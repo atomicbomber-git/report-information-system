@@ -65,7 +65,7 @@
                 </tr>
                 <tr>
                     <td> </td>
-                    <td> <h4 class="title"> Ketuntasan Belajar Minimal</h4> </td>
+                    <td> <h4 class="title"> Ketuntasan Belajar Minimal </h4> </td>
                     <td> : </td>
                     <td> <h4 class="title"> {{ $report->room_term->term->passing_grade  }} </h4> </td>
                 </tr>
@@ -157,6 +157,47 @@
                 @endif
             </tbody>
         </table>
+
+        <table>
+            <tbody>
+                <tr>
+                    <td> <h4 class="title"> C. </h4> </td>
+                    <td> <h4 class="title"> Ekstrakurikuler </h4> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="report">
+            <thead>
+                <tr>
+                    <th> No </th>
+                    <th> Kegiatan Ekstrakurikuler </th>
+                    <th> Keterangan </th>
+                </tr>
+            </thead>
+        </table>
+
+        <table>
+            <tbody>
+                <tr>
+                    <td> <h4 class="title"> D. </h4> </td>
+                    <td> <h4 class="title"> Ketidakhadiran </h4> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="report">
+            <thead>
+                <tr> <td> Sakit </td> <td> {{ $report->absence_sick }} hari </td> </tr>
+                <tr> <td> Izin </td> <td> {{ $report->absence_permit }} hari </td> </tr>
+                <tr> <td> Tanpa Keterangan </td> <td> {{ $report->absence_unknown }} hari </td> </tr>
+            </thead>
+        </table>
+        
     </section>
 </body>
 </html>
