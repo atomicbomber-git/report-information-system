@@ -47,7 +47,7 @@ class ReportsTableSeeder extends Seeder
                 foreach ($student_groups as $student_group) {
 
                     // Pick a random room term
-                    $room_term_id = $room_term_grade_groups[$grade]->random()->id;
+                    $room_term_id = $room_term_grade_groups[$grade][0]->id;
 
                     foreach ($student_group as $student) {
                         // Report creation
@@ -56,9 +56,9 @@ class ReportsTableSeeder extends Seeder
                             'student_id' => $student->id,
                             'social_attitude_description' => $faker->paragraph(2),
                             'spiritual_attitude_description' => $faker->paragraph(2),
-                            'presence_sick' => $faker->randomNumber(1),
-                            'presence_permit' => $faker->randomNumber(1),
-                            'presence_unknown' => $faker->randomNumber(1)
+                            'absence_sick' => $faker->randomNumber(1),
+                            'absence_permit' => $faker->randomNumber(1),
+                            'absence_unknown' => $faker->randomNumber(1)
                         ]);
 
                         // Create course reports for each report

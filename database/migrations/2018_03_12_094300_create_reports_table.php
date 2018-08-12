@@ -21,9 +21,9 @@ class CreateReportsTable extends Migration
             $table->integer('room_term_id')->unsigned()->index(); // ID kelas (room term == kelas)
             $table->unique(['room_term_id', 'student_id']);
 
-            $table->integer('presence_sick')->unsigned()->default(0); // Sakit
-            $table->integer('presence_permit')->unsigned()->default(0); // Izin
-            $table->integer('presence_unknown')->unsigned()->default(0); // Alpa
+            $table->integer('absence_sick')->unsigned()->default(0); // Sakit
+            $table->integer('absence_permit')->unsigned()->default(0); // Izin
+            $table->integer('absence_unknown')->unsigned()->default(0); // Alpa
 
             $table->text('social_attitude_description')->nullable(); // Deskripsi sikap sosial
             $table->text('spiritual_attitude_description')->nullable(); // Deskripsi sikap spiritual

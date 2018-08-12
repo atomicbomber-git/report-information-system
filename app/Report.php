@@ -11,9 +11,9 @@ class Report extends Pivot
     protected $fillable = [
         'student_id',
         'room_term_id',
-        'presence_sick',
-        'presence_permit',
-        'presence_unknown',
+        'absence_sick',
+        'absence_permit',
+        'absence_unknown',
         'social_attitude_description',
         'spiritual_attitude_description'
     ];
