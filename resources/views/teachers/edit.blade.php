@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Sunting Data Guru')
+@section('title', "Sunting Data Guru \"" . $teacher->user->name . "\" ($teacher->teacher_id)")
 
 @section('styles')
 

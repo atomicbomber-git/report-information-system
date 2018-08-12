@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Detail Kelas')
+@section('title', "Detail Kelas $room_term->name Tahun Ajaran $room_term->code Semester $room_term->even_odd")
 @section('content')
 
 @section("styles")
@@ -92,9 +92,15 @@
         </h4>
 
         <div class="row">
-            <div class="col col-md-3"></div>
-            <div class="col col-md-6"></div>
-            <div class="col col-md-3 text-right">
+            <div class="col col-md-12 text-right">
+                @if($reports->count() == 0 && $room_term->getOriginal('even_odd') == 'even')
+                <form method="POST" class="d-inline-block" action="{{ route('reports.create_previous', $room_term) }}">
+                    @csrf
+                    <button class="btn btn-sm btn-dark">
+                        Tambahkan Siswa dari Semester Sebelumnya <i class="fa fa-plus"></i>
+                    </button>
+                </form>
+                @endif
                 <a class="btn btn-primary btn-sm" href="{{ route('reports.create', $room_term) }}">
                     Tambahkan Siswa Baru <i class="fa fa-plus"></i>
                 </a>

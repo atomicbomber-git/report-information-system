@@ -1,6 +1,11 @@
 @extends('layouts.admin')
 
-@section('title', 'Detail Kelas')
+@section(
+    "title",
+    "Tambahkan Siswa ke Kelas " . $room_term->room->name . " Tahun Ajaran " .
+    $room_term->term->code . " Semester " . $room_term->even_odd
+)
+
 @section('content')
 
 @section('styles')

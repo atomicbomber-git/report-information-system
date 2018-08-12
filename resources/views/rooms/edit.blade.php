@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Tambahkan Siswa Baru')
+@section('title', "Sunting Data Ruangan $room->name")
 @section('content')
 
 <p class="h1">

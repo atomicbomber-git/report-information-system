@@ -42,7 +42,7 @@
     </div>
 @endif
 
-@foreach($courses as $course_name => $course)
+@foreach($course_teacher_groups as $course_name => $course_teachers)
 <div style="max-width: 34rem" class="input-unit">
 
     {{-- Title --}}
@@ -58,17 +58,20 @@
         </thead>
 
         <tbody>
-        @foreach($course as $room_term)
+        @foreach($course_teachers as $course_teacher)
             <tr>
                 <td> {{ $loop->iteration }}. </td>
-                <td> {{ $room_term->room_name }} </td>
+                <td> {{ $course_teacher->room_name }} </td>
                 <td>
-                    <select data-id="{{ $room_term->id }}" data-prev-value="{{ $room_term->teacher_id }}">
+                    <select
+                        class="course-teacher"
+                        data-id="{{ $course_teacher->id }}"
+                        data-course-id="{{ $course_teacher->course_id }}"
+                        data-prev-value="{{ $course_teacher->teacher_id }}">
                     @foreach($teachers as $teacher)
                         <option
                             value="{{ $teacher->id }}"
-                            {{ $teacher->id == $room_term->teacher_id ? "selected" : "" }}
-                            >
+                            {{ $teacher->id == $course_teacher->teacher_id ? "selected" : "" }}>
                             {{ $teacher->name }} ({{ $teacher->teacher_id }})
                         </option>
                     @endforeach
@@ -80,7 +83,7 @@
     </table>
 
     <div class="text-right">
-        <button class="btn btn-primary btn-sm btn-update">
+        <button class="btn btn-primary btn-sm btn-update" data-course-id="{{ $course_teacher->course_id }}">
             Perbarui Data
             <i class="fa fa-pencil"></i>
         </button>
@@ -100,73 +103,71 @@
 <script>
     $(document).ready(function() {
 
-        let changed_indicator = 'table-warning';
-        $('select').each(function() {
-            
-            let select_elem = $(this);
-            let table_row = select_elem.parent().parent();
+        let warning_class = 'table-warning';
+        let changed = {};
 
-            $(this).change(function() {
+        $('select.course-teacher').each((i, elem) => {
+            $(elem).change(() => {
+
+                let course_id = $(elem).data('course-id');
+                let course_teacher_id = $(elem).data('id');
+                let select_val = $(elem).val();
                 
-                if (select_elem.data('prev-value') != select_elem.val()) {
-                    if ( ! table_row.hasClass(changed_indicator)) {
-                        table_row.toggleClass(changed_indicator);
+                if (select_val != $(elem).data('prev-value')) {
+                    $(elem).parent().addClass(warning_class);
+                
+                    if (!changed.hasOwnProperty(course_id)) {
+                        changed[course_id] = {};
                     }
+
+                    changed[course_id][course_teacher_id] = select_val;
                 }
                 else {
-                    if (table_row.hasClass(changed_indicator)) {
-                        table_row.toggleClass(changed_indicator);
-                    }
-                }
+                    delete changed[course_id][course_teacher_id];
 
+                    if (Object.keys(changed[course_id]).length == 0) {
+                        delete changed[course_id];
+                    }
+
+                    $(elem).parent().removeClass(warning_class);
+                }
+                
             });
         });
 
-        $('.input-unit').each(function() {
+        $('button.btn-update').click(function() {
+            let course_id = $(this).data('course-id');
             
-            let container = $(this);
-
-            container.find('.btn-update').click(function() {
-                
-                let data = [];
-                container.find(`.${changed_indicator} select`).each(function() {
-                    data.push({
-                        id: $(this).data('id'),
-                        teacher_id: $(this).val()
+            if (!changed.hasOwnProperty(course_id)) {
+                return;
+            }
+            
+            $.ajax({
+                method: 'POST',
+                url: '{{ route('course_teachers.update') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    data: changed[course_id]
+                },
+                success: () => {
+                    $(`select[data-course-id=${course_id}]`).each((i, elem) => {
+                        $(elem).data('prev-value', $(elem).val());
+                        $(elem).parent().removeClass(warning_class);
                     });
-                });
 
-                if (data.length == 0) { return; }
-                
-                $.ajax({
-                    method: 'POST',
-                    url: '{{ route('course_teachers.update') }}',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        data: data
-                    },
-                    success: function() {
-                        $(`.${changed_indicator}`).each(function() {
-                            $(this).removeClass(changed_indicator);
-                            let select_elem = $(this).find('select');
-                            select_elem.data('prev-value', select_elem.val());
-                        });
-
-                        create_notification(
-                            'Data berhasil diperbarui',
-                            document.getElementById('notification-container'),
-                            'success'
-                        );
-                    },
-                    error: function() {
-                        create_notification(
-                            'Data gagal diperbarui',
-                            document.getElementById('notification-container'),
-                            'danger'
-                        );
-                    }
-                });
-
+                    create_notification(
+                        '{{ __('messages.update.success') }}',
+                        document.getElementById('notification-container'),
+                        'success'
+                    );
+                },
+                error: () => {
+                    create_notification(
+                        '{{ __('messages.update.failure') }}',
+                        document.getElementById('notification-container'),
+                        'danger'
+                    );
+                }
             });
         });
     });

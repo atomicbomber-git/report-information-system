@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Seluruh Tahun Ajaran')
+@section('title', "Detail Tahun Ajaran $term->code")
 
 @section("styles")
     <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">

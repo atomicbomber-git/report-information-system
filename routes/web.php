@@ -45,23 +45,24 @@ Route::prefix('/terms')->group(function() {
     Route::post('/edit/{term}', 'TermController@processEdit')->name('terms.edit');
     Route::get('/delete/{term}', 'TermController@delete')->name('terms.delete');
     Route::get('/detail/{term}', 'TermController@detail')->name('terms.detail');
+});
 
-    Route::prefix('/room_terms')->group(function() {
-        Route::get('/create/{term}', 'TermController@createRoomTerm')->name('room_terms.create');
-        Route::post('/create/{term}', 'TermController@processCreateRoomTerm')->name('room_terms.create');
-        Route::get('/detail/{room_term_id}', 'TermController@detailRoomTerm')->name('room_terms.detail');
-        Route::post('/update/{room_term}', 'TermController@updateRoomTerm')->name('room_terms.update');
-        Route::post('/delete/{room_term}', 'TermController@deleteRoomTerm')->name('room_terms.delete');
-    });
+Route::prefix('/room_terms')->group(function() {
+    Route::get('/create/{term}', 'TermController@createRoomTerm')->name('room_terms.create');
+    Route::post('/create/{term}', 'TermController@processCreateRoomTerm')->name('room_terms.create');
+    Route::get('/detail/{room_term_id}', 'TermController@detailRoomTerm')->name('room_terms.detail');
+    Route::post('/update/{room_term}', 'TermController@updateRoomTerm')->name('room_terms.update');
+    Route::post('/delete/{room_term}', 'TermController@deleteRoomTerm')->name('room_terms.delete');
+});
 
-    Route::prefix('/reports')->group(function() {
-        Route::get('/detail/{report}', 'ReportController@detail')->name('reports.detail');
-        Route::get('/create/{room_term}', 'ReportController@create')->name('reports.create');
-        Route::post('/create/{room_term}', 'ReportController@processCreate')->name('reports.create');
-        Route::post('/delete/{report}', 'ReportController@delete')->name('reports.delete');
-        Route::get('/move/{report}', 'ReportController@move')->name('reports.move');
-        Route::post('/move/{report}', 'ReportController@processMove')->name('reports.move');
-    });
+Route::prefix('/reports')->group(function() {
+    Route::get('/detail/{report}', 'ReportController@detail')->name('reports.detail');
+    Route::get('/create/{room_term}', 'ReportController@create')->name('reports.create');
+    Route::post('/create/{room_term}', 'ReportController@processCreate')->name('reports.create');
+    Route::post('/create_from_previous_semester/{room_term}', 'ReportController@createFromPreviousSemester')->name('reports.create_previous');
+    Route::post('/delete/{report}', 'ReportController@delete')->name('reports.delete');
+    Route::get('/move/{report}', 'ReportController@move')->name('reports.move');
+    Route::post('/move/{report}', 'ReportController@processMove')->name('reports.move');
 });
 
 Route::prefix('/course_reports')->group(function() {

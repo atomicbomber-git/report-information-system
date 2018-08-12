@@ -32,6 +32,7 @@ class ReportsTableSeeder extends Seeder
         $student_grade_groups = DB::table('students')
             ->select('students.id', 'students.current_grade')
             ->where('active', 1)
+            ->limit(10)
             ->get()
             ->groupBy('current_grade')
             ->map(function($student_grade_group) { return $student_grade_group->chunk(5); });

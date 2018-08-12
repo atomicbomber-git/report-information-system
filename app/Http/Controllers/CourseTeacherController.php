@@ -32,9 +32,10 @@ class CourseTeacherController extends Controller
 
     public function gradeIndex($term_id, $even_odd, $grade)
     {
-        $courses = DB::table('course_teachers')
+        $course_teacher_groups = DB::table('course_teachers')
             ->select(
                 'course_teachers.id',
+                'courses.id AS course_id',
                 'courses.name AS course_name',
                 'rooms.name AS room_name',
                 'users.name AS teacher_name',
@@ -52,7 +53,7 @@ class CourseTeacherController extends Controller
             ->orderBy('courses.name')
             ->orderBy('rooms.name')
             ->get()
-            ->groupBy('course_name', 'course_teachers.id', 'course_name', 'room_name', 'teacher_name', 'teacher_code', 'course_teachers.teacher_id');
+            ->groupBy('course_name');
 
         $teachers = DB::table('teachers')
             ->select('teachers.id', 'teachers.teacher_id', 'users.name')
@@ -75,7 +76,7 @@ class CourseTeacherController extends Controller
 
         return view('course_teachers.grade_index', [
             'information' => $information,
-            'courses' => $courses,
+            'course_teacher_groups' => $course_teacher_groups,
             'teachers' => $teachers
         ]);
     }
@@ -83,12 +84,12 @@ class CourseTeacherController extends Controller
     public function update()
     {
         $data = request('data');
-
+        
         DB::transaction(function() use ($data) {
-            foreach ($data as $record) {
+            foreach ($data as $course_teacher_id => $teacher_id) {
                 DB::table('course_teachers')
-                    ->where('id', $record['id'])
-                    ->update(['teacher_id' => $record['teacher_id']]);
+                    ->where('id', $course_teacher_id)
+                    ->update(['teacher_id' => $teacher_id]);
             }
         });
 

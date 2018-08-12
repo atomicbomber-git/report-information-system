@@ -1,6 +1,10 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Mata Pelajaran')
+@section(
+    "title",
+    "Detail Mata Pelajaran " . $information->course->name . " Kelas " . $information->grade .
+    " Tahun Ajaran " . $information->term->code
+)
 
 
 @section('styles')

@@ -45,11 +45,7 @@ class ReportController extends Controller
         );
     }
 
-    public function processCreate(RoomTerm $room_term)
-    {
-        // IDs of the students that are going to be added
-        $student_ids = request('student_ids');
-        
+    private function createReports(RoomTerm $room_term, $student_ids) {
         // All active courses of the room_term's grade
         $courses = Course::select('courses.id')
             ->where('grade', $room_term->room->grade)
@@ -120,10 +116,34 @@ class ReportController extends Controller
                 }
             }
         });
+    }
 
-        request()->session()->flash('message-success', 'Siswa berhasil ditambahkan ke dalam kelas.');
+    public function processCreate(RoomTerm $room_term)
+    {
+        // IDs of the students that are going to be added
+        $student_ids = request('student_ids');
+        $this->createReports($room_term, $student_ids);
+
+        request()
+            ->session()
+            ->flash('message-success', 'Siswa berhasil ditambahkan ke dalam kelas.');
 
         return ['status' => 'success'];
+    }
+
+    public function createFromPreviousSemester(RoomTerm $room_term)
+    {
+        $student_ids = DB::table('students')
+            ->select('students.id')
+            ->join('reports', 'reports.student_id', '=', 'students.id')
+            ->join('room_terms', 'room_terms.id', '=', 'reports.room_term_id')
+            ->where('room_terms.even_odd', 'odd')
+            ->pluck('id');
+
+        $this->createReports($room_term, $student_ids);
+
+        return back()
+            ->with('message-success', 'Siswa berhasil ditambahkan ke dalam kelas.');    
     }
 
     public function detail(Report $report)

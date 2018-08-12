@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Mata Pelajaran')
+@section('title', "Kelola Mata Pelajaran Kelas $information->grade Tahun Ajaran " . $information->term->code)
 
 
 @section('styles')

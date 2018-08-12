@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Sunting Data Siswa')
+@section('title', "Sunting Data Siswa \"" . $student->user->name . "\" ($student->student_id)")
 @section('content')
 
 <p class="h1">
