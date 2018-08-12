@@ -106,7 +106,7 @@ class ReportController extends Controller
                         ]);
                         
                         if ( ! isset($skill_type_groups[$course->id])) {
-                            break;
+                            continue;
                         }
 
                         foreach ($skill_type_groups[$course->id] as $score_type) {
@@ -179,18 +179,13 @@ class ReportController extends Controller
 
     public function move(Report $report)
     {
-        $room_term = RoomTerm::where('room_terms.id', $report->room_term_id)
-            ->select('room_terms.id', 'room_terms.even_odd', 'rooms.name', 'terms.code', 'room_terms.term_id', 'room_terms.teacher_id')
-            ->join('terms', 'room_terms.term_id', '=', 'terms.id')
-            ->join('rooms', 'room_terms.room_id', '=', 'rooms.id')
-            ->first();
-
         $room_terms = DB::table('room_terms')
             ->select('rooms.name AS room_name', 'room_terms.even_odd', 'room_terms.id')
             ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
-            ->where('room_terms.term_id', $room_term->term_id)
-            ->where('room_terms.id', '<>', $room_term->id)
-            ->where('room_terms.even_odd', $room_term->getOriginal('even_odd'))
+            ->where('room_terms.term_id', $report->room_term->term_id)
+            ->where('room_terms.id', '<>', $report->room_term->id)
+            ->where('rooms.grade', $report->room_term->room->grade)
+            ->where('room_terms.even_odd', $report->room_term->getOriginal('even_odd'))
             ->orderBy('rooms.grade')
             ->orderBy('rooms.name')
             ->orderBy('room_terms.even_odd')
@@ -198,7 +193,6 @@ class ReportController extends Controller
 
         return view('reports.move',
             [
-                'room_term' => $room_term,
                 'room_terms' => $room_terms,
                 'report' => $report
             ]

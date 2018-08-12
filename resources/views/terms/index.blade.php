@@ -32,9 +32,10 @@
     <thead class='thead-dark'>
         <tr>
             <th> # </th>
-            <th> Tahun Mulai </th>
-            <th> Tahun Selesai </th>
-            <th> Kendali </th>
+            <th st> Tahun Mulai </th>
+            <th st> Tahun Selesai </th>
+            <th st> Nilai KKM (Kriteria Ketuntasan Minimal) </th>
+            <th st> Kendali </th>
         </tr>
     </thead>
 
@@ -44,16 +45,17 @@
             <td> {{ $loop->iteration }}. </td>
             <td> {{ $term->term_start }} </td>
             <td> {{ $term->term_end }} </td>
+            <td> {{ $term->passing_grade }} </td>
             <td>
                 <a href="{{ route('terms.detail', $term) }}" class="btn btn-dark btn-sm">
                     <i class="fa fa-list-alt"></i>
                     Detail
                 </a>
+
                 <a href="{{ route('terms.edit', $term) }}" class="btn btn-dark btn-sm">
                     Sunting
                     <i class="fa fa-pencil"></i>
                 </a>
-
 
                 <form
                     class="form-delete" action="{{ route('terms.delete', $term) }}"
