@@ -81,8 +81,8 @@ Route::prefix('/courses')->group(function() {
 Route::prefix('/teacher_management')->group(function() {
     Route::get('/terms', 'TeacherManagementController@terms')->name('teacher.management.terms');
     Route::get('/room_term/{room_term_id}', 'TeacherManagementController@roomTerm')->name("teacher.management.room_term");
-    Route::get('/print_report/{report}/content', 'TeacherManagementController@printReport')->name("teacher.management.print_report");
-    Route::get('/print_report/{report}/cover', 'TeacherManagementController@printReportCover')->name("teacher.management.print_report_cover");
+    Route::get('/print_report/{report}/content', 'ReportPrintController@printReport')->name("teacher.management.print_report");
+    Route::get('/print_report/{report}/cover', 'ReportPrintController@printReportCover')->name("teacher.management.print_report_cover");
 
     Route::get('/terms/{term_id}/{even_odd}/courses', 'TeacherManagementController@courses')
         ->where(['even_odd' => '^(even|odd)$'])

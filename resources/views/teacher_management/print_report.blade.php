@@ -97,17 +97,17 @@
                 </tr>
             </thead>
             <tbody>
-                @if(isset($course_report_groups['A'])) 
-                    @foreach($course_report_groups['A'] as $course_report)
+                @if(isset($course_groups['A'])) 
+                    @foreach($course_groups['A'] as $course)
                     <tr>
                         <td> {{ $loop->iteration }} </td>
-                        <td> {{ $course_report->name }} </td>
-                        <td class="score"> {{ $course_report->knowledge_grade }} </td>
-                        <td class="grade"> {{ \App\Helper::grade($course_report->knowledge_grade) }} </td>
-                        <td class="description"> {{ $course_report->knowledge_description }} </td>
-                        <td class="score"> {{ $skill_grade_groups[$course_report->course_id] }} </td>
-                        <td class="grade"> {{ \App\Helper::grade($skill_grade_groups[$course_report->course_id]) }} </td>
-                        <td class="description"> {{ $course_report->skill_description }} </td>
+                        <td> {{ $course->name }} </td>
+                        <td class="score"> {{ $knowledge_grades[$course->id] }} </td>
+                        <td class="grade"> {{ \App\Helper::grade($knowledge_grades[$course->id]) }} </td>
+                        <td class="description"> {{ $descriptions[$course->id]->knowledge_description }} </td>
+                        <td class="score"> {{ $skill_grades[$course->id] }} </td>
+                        <td class="grade"> {{ \App\Helper::grade($skill_grades[$course->id]) }} </td>
+                        <td class="description"> {{ $descriptions[$course->id]->skill_description }} </td>
                     </tr>
                     @endforeach
                 @endif
@@ -141,17 +141,17 @@
                 </tr>
             </thead>
             <tbody>
-                @if(isset($course_report_groups['B'])) 
-                    @foreach($course_report_groups['B'] as $course_report)
+                @if(isset($course_groups['B'])) 
+                    @foreach($course_groups['B'] as $course)
                     <tr>
                         <td> {{ $loop->iteration }} </td>
-                        <td> {{ $course_report->name }} </td>
-                        <td class="score"> {{ $course_report->knowledge_grade }} </td>
-                        <td class="grade"> {{ \App\Helper::grade($course_report->knowledge_grade) }} </td>
-                        <td class="description"> {{ $course_report->knowledge_description }} </td>
-                        <td class="score"> {{ $skill_grade_groups[$course_report->course_id] }} </td>
-                        <td class="grade"> {{ \App\Helper::grade($skill_grade_groups[$course_report->course_id]) }} </td>
-                        <td class="description"> {{ $course_report->skill_description }} </td>
+                        <td> {{ $course->name }} </td>
+                        <td class="score"> {{ $knowledge_grades[$course->id] }} </td>
+                        <td class="grade"> {{ \App\Helper::grade($knowledge_grades[$course->id]) }} </td>
+                        <td class="description"> {{ $descriptions[$course->id]->knowledge_description }} </td>
+                        <td class="score"> {{ $skill_grades[$course->id] }} </td>
+                        <td class="grade"> {{ \App\Helper::grade($skill_grades[$course->id]) }} </td>
+                        <td class="description"> {{ $descriptions[$course->id]->skill_description }} </td>
                     </tr>
                     @endforeach
                 @endif
