@@ -80,15 +80,9 @@ Route::prefix('/courses')->group(function() {
 
 Route::prefix('/teacher_management')->group(function() {
     Route::get('/terms', 'TeacherManagementController@terms')->name('teacher.management.terms');
-
-    Route::get('/room_term/{room_term_id}', 'TeacherManagementController@roomTerm')
-        ->name("teacher.management.room_term");
-
-    Route::get('/print_report/{report}', 'TeacherManagementController@printReport')
-        ->name("teacher.management.print_report");
-
-    Route::get('/print_report_cover/{report}', 'TeacherManagementController@printReportCover')
-        ->name("teacher.management.print_report_cover");
+    Route::get('/room_term/{room_term_id}', 'TeacherManagementController@roomTerm')->name("teacher.management.room_term");
+    Route::get('/print_report/{report}/content', 'TeacherManagementController@printReport')->name("teacher.management.print_report");
+    Route::get('/print_report/{report}/cover', 'TeacherManagementController@printReportCover')->name("teacher.management.print_report_cover");
 
     Route::get('/terms/{term_id}/{even_odd}/courses', 'TeacherManagementController@courses')
         ->where(['even_odd' => '^(even|odd)$'])
@@ -122,6 +116,9 @@ Route::prefix('/teacher_management')->group(function() {
         Route::post('/removeScoreType', 'SkillGradeController@removeScoreType')
             ->name('skill_grades.remove_score_type');
     });
+
+    Route::get('/presence/edit/{room_term}', 'PresenceController@edit')->name('teacher.management.presence.edit');
+    Route::post('/presence/edit/{room_term}', 'PresenceController@processEdit')->name('teacher.management.presence.edit');
 });
 
 Route::prefix('/course_teachers')->group(function() {

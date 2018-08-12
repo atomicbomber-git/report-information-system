@@ -8,7 +8,15 @@ class Report extends Pivot
 {
     protected $table = 'reports';
 
-    protected $fillable = ['student_id', 'room_term_id'];
+    protected $fillable = [
+        'student_id',
+        'room_term_id',
+        'presence_sick',
+        'presence_permit',
+        'presence_unknown',
+        'social_attitude_description',
+        'spiritual_attitude_description'
+    ];
 
     public function student()
     {

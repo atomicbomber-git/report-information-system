@@ -10,7 +10,6 @@ class CourseReport extends Pivot
 
     protected $fillable = [
         'course_id', 'report_id', 'mid_exam', 'final_exam',
-        'skill_description', 'knowledge_description', 'spiritual_attitude_description',
-        'social_attitude_description'
+        'skill_description', 'knowledge_description',
     ];
 }

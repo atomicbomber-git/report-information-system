@@ -54,9 +54,14 @@
             <td> {{ $room_term->name }} </td>
             <td> {{ $room_term->report_count }} </td>
             <td>
-                <a href="{{ route('teacher.management.room_term', $room_term->id) }}" class="btn btn-dark btn-sm">
-                    Detail
+                <a href="{{ route('teacher.management.presence.edit', $room_term->id)  }}" class="btn btn-dark btn-sm">
+                    Kehadiran Siswa
                     <i class="fa fa-list-alt"></i>
+                </a>
+
+                <a href="{{ route('teacher.management.room_term', $room_term->id) }}" class="btn btn-dark btn-sm">
+                    Cetak Laporan
+                    <i class="fa fa-print"></i>
                 </a>
             </td>
         </tr>

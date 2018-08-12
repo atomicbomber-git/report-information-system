@@ -53,7 +53,12 @@ class ReportsTableSeeder extends Seeder
                         // Report creation
                         $report = Report::create([
                             'room_term_id' => $room_term_id,
-                            'student_id' => $student->id
+                            'student_id' => $student->id,
+                            'social_attitude_description' => $faker->paragraph(2),
+                            'spiritual_attitude_description' => $faker->paragraph(2),
+                            'presence_sick' => $faker->randomNumber(1),
+                            'presence_permit' => $faker->randomNumber(1),
+                            'presence_unknown' => $faker->randomNumber(1)
                         ]);
 
                         // Create course reports for each report

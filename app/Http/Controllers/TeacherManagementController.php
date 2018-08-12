@@ -58,7 +58,7 @@ class TeacherManagementController extends Controller
         $information->even_odd = $even_odd;
         $information->semester = RoomTerm::EVEN_ODD[$even_odd];
 
-        $room_terms = DB::table('course_teachers')
+        $room_term_groups = DB::table('course_teachers')
             ->select(
                 'rooms.name AS room_name',
                 'courses.name AS course_name',
@@ -74,9 +74,8 @@ class TeacherManagementController extends Controller
             ->where('room_terms.even_odd', $even_odd)
             ->where('course_teachers.teacher_id', $teacher_id)
             ->groupBy('room_terms.id', 'rooms.name', 'courses.name', 'courses.id', 'rooms.grade')
-            ->get();
-
-        $room_term_groups = $room_terms->groupBy('grade');
+            ->get()
+            ->groupBy('grade');
 
         $managed_room_terms = DB::table('reports')
             ->select(DB::raw('COUNT(reports.id) AS report_count'), 'room_terms.id', 'rooms.name', 'room_terms.even_odd')
