@@ -2,14 +2,6 @@
 
 @section('title', "Kelola Deskripsi Nilai Spiritual Kelas " . $room_term->room->name . " Semester $room_term->even_odd")
 
-@section('styles')
-<style>
-    .container-course {
-        width: 30rem;
-    }
-</style>
-@endsection
-
 @section('content')
 
 <h1>
