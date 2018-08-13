@@ -124,8 +124,6 @@
                     });
                 },
                 error: () => {
-                    changed = {};
-
                     create_notification(
                         '{{ __('messages.update.failure') }}',
                         document.getElementById('notification-container'),
