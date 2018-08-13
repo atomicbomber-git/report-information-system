@@ -1,38 +1,45 @@
 @extends('layouts.admin')
 
-@section('title', "Deskripsi Nilai Keterampilan Mata Pelajaran $course->name")
+@section('title', "Kelola Deskripsi Nilai Spiritual Kelas " . $room_term->room->name . " Semester $room_term->even_odd")
 
 @section('styles')
 <style>
-    .basic-competency-unit input {
-        max-width: 7rem;
-    }
-
-    .floating-notification-container {
-        position: fixed;
-        width: 20rem;
-        bottom: 0.2rem;
-        right: 0.2rem;
+    .container-course {
+        width: 30rem;
     }
 </style>
 @endsection
 
 @section('content')
 
-<p class="h1">
+<h1>
     <i class="fa fa-list"></i>
-    Deskripsi Nilai Keterampilan Mata Pelajaran {{ $course->name }}
-</p>
+    Kelola Deskripsi Sikap Spiritual
+</h1>
 
 <p class="lead">
-    Kelas {{ $room_term->room->name }}
+    Kelas {{ $room_term->room->name }} Semester {{ $room_term->even_odd }}
 </p>
 
-<p class="lead">
-    Tahun Ajaran {{ $room_term->term->code }} Semester {{ $room_term->even_odd }}
-</p>
+<hr/>
 
-<hr>
+<div class="container" style="padding: 0.6rem 0rem 0.6rem 0rem">
+    <div class="row">
+        <div class="col col-md-3 text-left">
+            <a href="{{ route('teacher.management.courses', ['term_id' => $room_term->term->id, 'even_odd' => $room_term->getOriginal('even_odd') ]) }}"
+                class="btn btn-sm btn-secondary">
+                <i class="fa fa-arrow-left"></i>
+                Kembali
+            </a>
+        </div>
+        <div class="col-md-6">
+        </div>
+        <div class="col col-md-3 text-right">
+        </div>
+    </div>
+</div>
+
+<hr/>
 
 @if( session('message-success') )
     <div class="alert alert-success">
@@ -40,41 +47,22 @@
     </div>
 @endif
 
-<div class="container" style="padding: 0.6rem 0rem 0.6rem 0rem">
-    <div class="row">
-        <div class="col col text-left">
-            <a href="{{ route('teacher.management.courses.skill_detail', [$room_term->term->id, $room_term->getOriginal('even_odd'),$room_term->id, $course->id]) }}"
-                class="btn btn-sm btn-secondary">
-                <i class="fa fa-arrow-left"></i>
-                Kembali
-            </a>
-        </div>
-        <div class="col-md-4">
-        </div>
-        <div class="col col text-right">
-        </div>
-    </div>
-</div>
-
-<hr>
-
 <div class="container">
-    <table class='table table-striped table-responsive-xl table-sm'>
+    <table class="table table-striped table-responsive-xl table-sm">
         <thead class="thead thead-dark">
             <tr>
                 <th> # </th>
                 <th> Nama Siswa </th>
-                <th> Deskripsi Nilai Keterampilan </th>
+                <th> Deskripsi Sikap Spiritual </th>
             </tr>
         </thead>
+
         <tbody>
-            @foreach ($descriptions as $description)
+            @foreach ($reports as $report)
             <tr>
                 <td> {{ $loop->iteration }}. </td>
-                <td> {{ $description->student_name }} ({{ $description->student_id }}) </td>
-                <td>
-                    <textarea data-id="{{ $description->course_report_id }}" data-prev-value="{{ $description->skill_description }}" class="description form-control" style="width: 100%" rows="2">{{ $description->skill_description }}</textarea>
-                </td>
+                <td> {{ $report->student_name }} ({{ $report->student_id }}) </td>
+                <td> <textarea data-id="{{ $report->id }}" data-prev-value="{{ $report->spiritual_attitude_description }}" class="description form-control" rows="2">{{ $report->spiritual_attitude_description }}</textarea></td>
             </tr>
             @endforeach
         </tbody>
@@ -92,11 +80,8 @@
 
 @section('script')
 
-{{-- Floating notification message --}}
-<div id="notification-container" class="floating-notification-container">
-</div>
+<div id="notification-container" style="position: fixed; bottom: 3rem; right: 3rem"></div>
 
-<script src="{{ asset('js/sweetalert.min.js') }}"> </script>
 <script src="{{ asset('js/notification.js') }}"></script>
 
 <script>
@@ -127,7 +112,7 @@
 
             $.ajax({
                 method: 'POST',
-                url: '{{ route('teacher.management.descriptions.edit', [$room_term, $course]) }}',
+                url: '{{ route('teacher.management.spiritual_description', $room_term->id) }}',
                 data: {
                     _token: '{{ csrf_token() }}',
                     data: changed

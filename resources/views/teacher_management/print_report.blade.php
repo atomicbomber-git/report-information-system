@@ -50,9 +50,102 @@
         table.report .grade {
             max-width: 3rem;
         }
+
+        table.header {
+            width: 100%;
+            padding: 1rem;
+            border-bottom: medium solid black;
+        }
     </style>
 </head>
 <body class="A4">
+    <section class="sheet padding-10mm">
+        <table class="header">
+            <tbody>
+                <tr>
+                    <td> Nama Sekolah </td>
+                    <td> : </td>
+                    <td> <strong> SMP Negeri 16 Pontianak </strong> </td>
+                    <td> Kelas </td>
+                    <td> : </td>
+                    <td> {{ $report->room_term->room->name }} </td>
+                </tr>
+
+                <tr>
+                    <td> Alamat </td>
+                    <td> : </td>
+                    <td> JL. RE Martadinata Pontianak </td>
+                    <td> Semester </td>
+                    <td> : </td>
+                    <td> {{ $report->room_term->even_odd_numeric() }} / {{ $report->room_term->even_odd }} </td>
+                </tr>
+
+                <tr>
+                    <td> Nama </td>
+                    <td> : </td>
+                    <td> <strong> {{ strtoupper($report->student->user->name) }} </strong> </td>
+                    <td> Tahun Pelajaran </td>
+                    <td> : </td>
+                    <td> {{ $report->room_term->term->code }} </td>
+                </tr>
+
+                <tr>
+                    <td> Nomor Induk/NISN </td>
+                    <td> : </td>
+                    <td> {{ $report->student->student_id }} </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <h3 class="title" style="text-align:center; padding: 2.5rem 0 2.5rem 0"> PENCAPAIAN KOMPETENSI PESERTA DIDIK </h1>
+
+        <table style="width: 100%">
+            <tbody>
+                <tr>
+                    <td> <h4 class="title"> A. </h4> </td>
+                    <td> <h4 class="title"> Sikap </h4> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+
+                <tr>
+                    <td> <h4 class="title"> </h4> </td>
+                    <td> <h4 class="title"> 1. Sikap Spiritual </h4> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+
+                <tr>
+                    <td> </td>
+                    <td colspan="3" style="border: medium solid black; width: 100%">
+                        <h4 class="title"> Deskripsi: </h4>
+                        <p style="padding: 2.5rem 0 2.5rem 0">
+                            {{ $report->spiritual_attitude_description }}
+                        </p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td> <h4 class="title"> </h4> </td>
+                    <td> <h4 class="title"> 2. Sikap Sosial </h4> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+
+                <tr>
+                    <td> </td>
+                    <td colspan="3" style="border: medium solid black; width: 100%">
+                        <h4 class="title"> Deskripsi: </h4>
+                        <p style="padding: 2.5rem 0 2.5rem 0">
+                            {{ $report->social_attitude_description }}
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
     <section class="sheet padding-10mm">
         
         <table>

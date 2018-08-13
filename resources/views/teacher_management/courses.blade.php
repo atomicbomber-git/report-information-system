@@ -111,6 +111,19 @@
                             Keterampilan
                             <i class="fa fa-list-alt"></i>
                         </a>
+
+                        @if($room_term->course_type == 'spiritual')
+                        <a href="{{ route('teacher.management.spiritual_description', $room_term->id) }}" class="btn btn-sm btn-dark">
+                            Spiritual
+                            <i class="fa fa-list-alt"></i>
+                        </a>
+                        @elseif($room_term->course_type == 'social')
+                        <a href="{{ route('teacher.management.social_description', $room_term->id) }}" class="btn btn-sm btn-dark">
+                            Sosial
+                            <i class="fa fa-list-alt"></i>
+                        </a>
+                        @endif
+
                     </td>
                 </tr>
             @endforeach

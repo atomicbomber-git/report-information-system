@@ -81,7 +81,7 @@
         <tr>
             <td> {{ $loop->iteration }}. </td>
             <td> {{ $room_term->room_name }}</td>
-            <td> {{ $room_term->even_odd }} </td>
+            <td> {{ \App\RoomTerm::EVEN_ODD[$room_term->even_odd] }} </td>
             <td> {{ $room_term->teacher_name }} ({{ $room_term->teacher_id }}) </td>
             <td> {{ $room_term->report_count }} </td>
             <td>

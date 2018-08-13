@@ -62,6 +62,7 @@ class TeacherManagementController extends Controller
             ->select(
                 'rooms.name AS room_name',
                 'courses.name AS course_name',
+                'courses.type AS course_type',
                 'courses.id AS course_id', 'rooms.grade',
                 DB::raw('COUNT(reports.id) AS report_count'),
                 'room_terms.id'
@@ -73,7 +74,7 @@ class TeacherManagementController extends Controller
             ->where('room_terms.term_id', $term_id)
             ->where('room_terms.even_odd', $even_odd)
             ->where('course_teachers.teacher_id', $teacher_id)
-            ->groupBy('room_terms.id', 'rooms.name', 'courses.name', 'courses.id', 'rooms.grade')
+            ->groupBy('room_terms.id', 'rooms.name', 'courses.name', 'courses.type', 'courses.id', 'rooms.grade')
             ->get()
             ->groupBy('grade');
 

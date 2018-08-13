@@ -123,6 +123,11 @@ Route::prefix('/teacher_management')->group(function() {
 
     Route::get('/room_term/{room_term}/course/{course}/descriptions/edit', 'SkillGradeController@editDescriptions')->name('teacher.management.descriptions.edit');
     Route::post('/room_term/{room_term}/course/{course}/descriptions/edit', 'SkillGradeController@processEditDescriptions')->name('teacher.management.descriptions.edit');
+
+    Route::get('/room_term/{room_term}/spiritual_description/edit', 'SocialSpiritualDescriptionController@editSpiritualDescriptions')->name('teacher.management.spiritual_description');
+    Route::post('/room_term/{room_term}/spiritual_description/edit', 'SocialSpiritualDescriptionController@processEditSpiritualDescriptions')->name('teacher.management.spiritual_description');
+    Route::get('/room_term/{room_term}/social_description/edit', 'SocialSpiritualDescriptionController@editSocialDescriptions')->name('teacher.management.social_description');
+    Route::post('/room_term/{room_term}/social_description/edit','SocialSpiritualDescriptionController@processEditSocialDescriptions')->name('teacher.management.social_description');
 });
 
 Route::prefix('/course_teachers')->group(function() {
