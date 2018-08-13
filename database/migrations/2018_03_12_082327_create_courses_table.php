@@ -20,6 +20,7 @@ class CreateCoursesTable extends Migration
             $table->enum('group', ['A', 'B']); // Kelompok mata pelajarn (A atau B)
             $table->integer('grade')->unsigned()->index(); // Jenjang (7, 8, 9)
             $table->integer('term_id')->unsigned();
+            $table->string('type'); // Tipe penilaian (normal, spiritual, sosial)
 
             $table->foreign('term_id')->references('id')->on('terms')
                 ->onDelete('cascade');

@@ -46,6 +46,18 @@
         </select>
     </div>
 
+    <div class='form-group'>
+        <label for='type'> Tipe Penilaian: </label>
+        <select name='type' id='type' class='form-control'>
+            @foreach(\App\Course::types() as $key => $value)
+            <option {{ old('type') !== $key ?: 'selected' }} value='{{ $key }}'> {{ $value }} </option>
+            @endforeach
+        </select>
+        <div class='invalid-feedback'>
+            {{ $errors->first('type') }}
+        </div>
+    </div>
+
     <input type="hidden" name="term_id" value="{{ $information->term->id }}">
     <input type="hidden" name="grade" value="{{ $information->grade }}">
     <input type="hidden" name="description" value="Test Test">

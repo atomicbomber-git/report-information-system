@@ -6,7 +6,27 @@ use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
-    public $fillable = ['name', 'grade', 'term_id'];
+    public $fillable = ['name', 'grade', 'term_id', 'group', 'type'];
+
+    const TYPES = [
+        'normal' => 'Normal',
+        'spiritual' => 'Spiritual',
+        'social' => 'Social'
+    ];
+
+    const GROUPS = [
+        'A', 'B'
+    ];
+
+    public static function types()
+    {
+        return self::TYPES;
+    }
+
+    public static function groups()
+    {
+        return self::GROUPS;
+    }
 
     public function term()
     {

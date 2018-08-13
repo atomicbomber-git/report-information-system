@@ -9,6 +9,7 @@ use App\KnowledgeBasicCompetency;
 use App\KnowledgeGrade;
 use App\SkillGrade;
 use App\CourseReport;
+use Illuminate\Validation\Rule;
 use DB;
 
 class CourseController extends Controller
@@ -117,14 +118,39 @@ class CourseController extends Controller
             foreach ($reports as $report) {
                 CourseReport::create([
                     'report_id' => $report->id,
-                    'course_id' => $course->id]
-                );
+                    'course_id' => $course->id
+                ]);
             }
         });
 
         return redirect()
             ->route('courses.grade_index', [$term_id, $grade])
             ->with('message-success', 'Mata pelajaran berhasil ditambahkan');
+    }
+
+    public function edit(Course $course)
+    {
+        return view('courses.edit', [
+            'course' => $course
+        ]);
+    }
+
+    public function processEdit(Course $course)
+    {
+        $data = $this->validate(
+            request(),
+            [
+                'name' => 'required|string',
+                'type' => ['required', Rule::in(array_keys(Course::types()))],
+                'group' => ['required', Rule::in(Course::groups())]
+            ]
+        );
+
+        $course->update($data);
+
+        return redirect()
+            ->route('courses.grade_index', [$course->term->id, $course->grade])
+            ->with('message-success', __('messages.update.success'));
     }
 
     public function createKnowledgeBasicCompetency($course_id)

@@ -21,8 +21,8 @@ class CreateCourseReportsTable extends Migration
 
             $table->double('mid_exam')->default(0); // Nilai ujian mid semester
             $table->double('final_exam')->default(0); // Nilai ujian semester
-            $table->text('skill_description')->default(''); // Deskripsi keterampilan
-            $table->text('knowledge_description')->default(''); // Deskripsi pengetahuan
+            $table->text('skill_description')->nullable(); // Deskripsi keterampilan
+            $table->text('knowledge_description')->nullable(); // Deskripsi pengetahuan
 
             $table->unique(['course_id', 'report_id']);
 

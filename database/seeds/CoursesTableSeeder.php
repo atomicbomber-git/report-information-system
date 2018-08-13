@@ -14,18 +14,18 @@ class CoursesTableSeeder extends Seeder
     {
         $default_courses = [
             // Kelompok A
-            ['grade' => 8, 'name' => 'Pendidikan Agama dan Budi Pekerti', 'group' => 'A'],
-            ['grade' => 8, 'name' => 'Pendidikan Pancasila dan Kewarganegaraan', 'group' => 'A'],
-            ['grade' => 8, 'name' => 'Bahasa Indonesia', 'group' => 'A'],
-            ['grade' => 8, 'name' => 'Matematika', 'group' => 'A'],
-            ['grade' => 8, 'name' => 'Ilmu Pengetahuan Alam', 'group' => 'A'],
-            ['grade' => 8, 'name' => 'Ilmu Pengetahuan Sosial', 'group' => 'A'],
-            ['grade' => 8, 'name' => 'Bahasa Inggris', 'group' => 'A'],
+            ['grade' => 8, 'type' => 'spiritual', 'name' => 'Pendidikan Agama dan Budi Pekerti', 'group' => 'A'],
+            ['grade' => 8, 'type' => 'social', 'name' => 'Pendidikan Pancasila dan Kewarganegaraan', 'group' => 'A'],
+            ['grade' => 8, 'type' => 'normal', 'name' => 'Bahasa Indonesia', 'group' => 'A'],
+            ['grade' => 8, 'type' => 'normal', 'name' => 'Matematika', 'group' => 'A'],
+            ['grade' => 8, 'type' => 'normal', 'name' => 'Ilmu Pengetahuan Alam', 'group' => 'A'],
+            ['grade' => 8, 'type' => 'normal', 'name' => 'Ilmu Pengetahuan Sosial', 'group' => 'A'],
+            ['grade' => 8, 'type' => 'normal', 'name' => 'Bahasa Inggris', 'group' => 'A'],
             
             // Kelompok B
-            ['grade' => 8, 'name' => 'Seni Budaya', 'group' => 'B'],
-            ['grade' => 8, 'name' => 'Pendidikan Jasmani, Olahraga dan Kesehatan', 'group' => 'B'],
-            ['grade' => 8, 'name' => 'Prakarya', 'group' => 'B']
+            ['grade' => 8, 'type' => 'normal', 'name' => 'Seni Budaya', 'group' => 'B'],
+            ['grade' => 8, 'type' => 'normal', 'name' => 'Pendidikan Jasmani, Olahraga dan Kesehatan', 'group' => 'B'],
+            ['grade' => 8, 'type' => 'normal', 'name' => 'Prakarya', 'group' => 'B']
         ];
         
         $term = DB::table('terms')->first();

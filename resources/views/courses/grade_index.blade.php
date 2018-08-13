@@ -61,6 +61,11 @@
             <td> {{ $course->name }} </td>
             <td>
                 
+                <a href="{{ route('courses.edit', $course->id) }}" class="btn btn-dark btn-sm">
+                    Sunting
+                    <i class="fa fa-pencil"></i>
+                </a>
+
                 <a href="{{ route('courses.detail', ['term_id' => $information->term->id, 'grade' => $information->grade, 'course_id' => $course->id]) }}" class="btn btn-sm btn-dark">
                     Detail
                     <i class="fa fa-list-alt"></i>
