@@ -120,6 +120,9 @@ Route::prefix('/teacher_management')->group(function() {
 
     Route::get('/presence/edit/{room_term}', 'PresenceController@edit')->name('teacher.management.presence.edit');
     Route::post('/presence/edit/{room_term}', 'PresenceController@processEdit')->name('teacher.management.presence.edit');
+
+    Route::get('/room_term/{room_term}/course/{course}/descriptions/edit', 'SkillGradeController@editDescriptions')->name('teacher.management.descriptions.edit');
+    Route::post('/room_term/{room_term}/course/{course}/descriptions/edit', 'SkillGradeController@processEditDescriptions')->name('teacher.management.descriptions.edit');
 });
 
 Route::prefix('/course_teachers')->group(function() {

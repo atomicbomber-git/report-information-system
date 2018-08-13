@@ -42,16 +42,20 @@
 
 <div class="container" style="padding: 0.6rem 0rem 0.6rem 0rem">
     <div class="row">
-        <div class="col col-md-3 text-left">
+        <div class="col col text-left">
             <a href="{{ route('teacher.management.courses', ['term_id' => $room_term->term->id, 'even_odd' => $room_term->getOriginal('even_odd') ]) }}"
                 class="btn btn-sm btn-secondary">
                 <i class="fa fa-arrow-left"></i>
                 Kembali
             </a>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
         </div>
-        <div class="col col-md-3 text-right">
+        <div class="col col text-right">
+            <a href="{{ route('teacher.management.descriptions.edit', [$room_term, $course]) }}" class="btn btn-dark btn-sm">
+                Deskripsi Nilai Keterampilan
+                <i class="fa fa-list-alt"></i>
+            </a>
         </div>
     </div>
 </div>

@@ -145,4 +145,37 @@ class SkillGradeController extends Controller
         return back()
             ->with('message-success', __('messages.delete.success'));
     }
+
+    public function editDescriptions(RoomTerm $room_term, Course $course)
+    {
+        $descriptions = DB::table('course_reports')
+            ->select('course_reports.id AS course_report_id', 'users.name AS student_name', 'students.student_id', 'course_reports.skill_description')
+            ->join('reports', 'reports.id', '=', 'course_reports.report_id')
+            ->join('students', 'students.id', '=', 'reports.student_id')
+            ->join('users', 'users.id', '=', 'students.user_id')
+            ->where('course_reports.course_id', $course->id)
+            ->where('reports.room_term_id', $room_term->id)
+            ->get();
+
+        return view('teacher_management.skill_grade.descriptions', [
+            'course' => $course,
+            'room_term' => $room_term,
+            'descriptions' => $descriptions
+        ]);
+    }
+
+    public function processEditDescriptions(RoomTerm $room_term, Course $course)
+    {
+        $data = request('data');
+
+        DB::transaction(function() use($data) {
+            foreach ($data as $course_report_id => $skill_description) {
+
+                DB::table('course_reports')
+                    ->where('id', $course_report_id)
+                    ->update(['skill_description' => $skill_description]);
+
+            }
+        });
+    }
 }

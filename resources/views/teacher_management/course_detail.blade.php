@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Nilai Mata Pelajaran')
+@section('title', "Nilai Pengetahuan Mata Pelajaran $course->name Kelas " . $room_term->room->name . " Tahun Ajaran " . $room_term->term->code)
 
 @section('styles')
 <style>
@@ -42,18 +42,18 @@
 
 <div class="container" style="padding: 0.6rem 0rem 0.6rem 0rem">
     <div class="row">
-        <div class="col col-md-3 text-left">
+        <div class="col text-left">
             <a href="{{ route('teacher.management.courses', ['term_id' => $information->id, 'even_odd' => $information->even_odd]) }}" class="btn btn-sm btn-secondary">
                 <i class="fa fa-arrow-left"></i>
                 Kembali
             </a>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
         </div>
-        <div class="col col-md-3 text-right">
+        <div class="col text-right">
             <a href="{{ route('teacher.management.courses.exams', [$information->id, $information->even_odd, $room_term->id, $information->course_id]) }}"
-                class="btn btn-primary btn-sm">
-                Nilai UTS / UAS
+                class="btn btn-dark btn-sm">
+                Nilai UTS, UAS, dan Deskripsi Nilai Pengetahuan
                 <i class="fa fa-list-alt"></i>
             </a>
         </div>

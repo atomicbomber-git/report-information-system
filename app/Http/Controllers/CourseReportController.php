@@ -38,5 +38,5 @@ class CourseReportController extends Controller
             'course_report' => $course_report,
             'knowledge_grades' => $knowledge_grades
         ]);
-     }
+    }
 }
