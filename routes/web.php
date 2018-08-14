@@ -185,4 +185,11 @@ Route::prefix('/extracurriculars')->group(function() {
     Route::get('/edit/{extracurricular}', 'ExtracurricularController@edit')->name('extracurriculars.edit');
     Route::post('/edit/{extracurricular}', 'ExtracurricularController@processEdit')->name('extracurriculars.edit');
     Route::post('/delete/{extracurricular}', 'ExtracurricularController@delete')->name('extracurriculars.delete');
+
+    Route::prefix('/{extracurricular}/reports/{semester}')->group(function() {
+        Route::get('/', 'ExtracurricularReportController@index')->name('extracurricular_reports.index');
+        Route::get('/create', 'ExtracurricularReportController@create')->name('extracurricular_reports.create');
+        Route::post('/create', 'ExtracurricularReportController@processCreate')->name('extracurricular_reports.create');
+        Route::post('/delete/{extracurricular_report}', 'ExtracurricularReportController@delete')->name('extracurricular_reports.delete');
+    });
 });

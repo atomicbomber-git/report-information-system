@@ -88,7 +88,7 @@
             <tr>
                 <th> # </th>
                 <th> Nama Ekstrakurikuler </th>
-                <th> Kendali </th>
+                <th class="text-center"> Kendali </th>
             </tr>
         </thead>
 
@@ -97,8 +97,17 @@
             <tr>
                 <td> {{ $loop->iteration }}. </td>
                 <td> {{ $extracurricular->name }} </td>
-                <td>
+                <td class="text-center">
 
+                    @foreach (\App\RoomTerm::EVEN_ODD as $even_odd => $semester)
+                        <a 
+                            href="{{ route('extracurricular_reports.index', [$extracurricular->id, $even_odd]) }}"
+                            class="btn btn-dark btn-sm">
+                            Peserta Semester {{ $semester }}
+                            <i class="fa fa-users"></i>
+                        </a>
+                    @endforeach
+                    
                     <a href="{{ route('extracurriculars.edit', $extracurricular->id) }}" class="btn btn-dark btn-sm">
                         Sunting
                         <i class="fa fa-pencil"></i>
