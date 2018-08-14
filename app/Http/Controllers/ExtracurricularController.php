@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Term;
 use App\Extracurricular;
 use DB;
@@ -38,7 +39,16 @@ class ExtracurricularController extends Controller
     {
         $data = $this->validate(
             request(),
-            ['name' => 'required|string']
+            [
+                'name' => [
+                    'required',
+                    'string',
+                    Rule::unique('extracurriculars')
+                    ->where(function ($query) use($term) {
+                        return $query->where('term_id', $term->id);
+                    })
+                ]
+            ]
         );
 
         Extracurricular::create([
@@ -52,12 +62,28 @@ class ExtracurricularController extends Controller
 
     public function edit(Extracurricular $extracurricular)
     {
-
+        return view('extracurriculars.edit', [
+            'extracurricular' => $extracurricular,
+        ]);
     }
 
     public function processEdit(Extracurricular $extracurricular)
     {
+        $data = $this->validate(
+            request(),
+            [
+                'name' => Rule::unique('extracurriculars')
+                    ->where(function ($query) use($extracurricular) {
+                        return $query->where('term_id', $extracurricular->term_id);
+                    })
+                    ->ignore($extracurricular->id)
+            ]
+        );
 
+        $extracurricular->update($data);
+
+        return back()
+            ->with('message-success', __('messages.update.success'));
     }
 
     public function delete(Extracurricular $extracurricular)

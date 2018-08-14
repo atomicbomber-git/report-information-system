@@ -15,6 +15,25 @@
 
 <hr/>
 
+<div class="container">
+    <div class="row">
+        <div class="col text-left">
+            <a href="{{ route('extracurriculars.index') }}" class="btn btn-secondary btn-sm">
+                <i class="fa fa-arrow-left"></i>
+                Kembali
+            </a>
+        </div>
+        <div class="col-3">
+
+        </div>
+        <div class="col text-right">
+
+        </div>
+    </div>
+</div>
+
+<hr/>
+
 @if( session('message-success') )
     <div class="alert alert-success">
         {{ session('message-success') }}
@@ -22,7 +41,7 @@
 @endif
 
 <div class="container">
-    <div class="card" style="width: 20rem">
+    <div class="card mb-5 d-inline-block">
         <div class="card-header">
             <i class="fa fa-plus"></i>
             Tambahkan Ekstrakurikuler Baru
@@ -59,7 +78,7 @@
         </div>
     </div>
 
-    <h2>
+    <h2 class="mb-3">
         <i class="fa fa-list"></i>
         Daftar Ekstrakurikuler
     </h2>

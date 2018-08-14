@@ -18,7 +18,9 @@ class CreateExtracurricularsTable extends Migration
             $table->timestamps();
 
             $table->integer('term_id')->unsigned(); // ID tahun ajaran
-            $table->string('name')->unique(); // Nama ekstrakurikuler
+            $table->string('name'); // Nama ekstrakurikuler
+
+            $table->unique(['term_id', 'name']);
 
             $table->foreign('term_id')->references('id')->on('terms')
                 ->onDelete('cascade');
