@@ -51,6 +51,14 @@
                         <a class="nav-link @if(isset($current_page) && $current_page === "course_teachers") active @endif" href="{{ route('course_teachers.term_index') }}"> Guru Mapel </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a
+                            class="nav-link {{ explode('.', request()->route()->getName())[0] == 'extracurriculars' ? 'active' : '' }}"
+                            href="{{ route('extracurriculars.index') }}">
+                            Ekstrakurikuler
+                        </a>
+                    </li>
+
                     @endif
 
                 </ul>

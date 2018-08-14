@@ -177,3 +177,12 @@ Route::prefix('/teachers')->group(function() {
     Route::post('/edit/{teacher}', 'TeacherController@processEdit')->name('teachers.edit');
     Route::post('/delete/{teacher}', 'TeacherController@delete')->name('teachers.delete');
 });
+
+Route::prefix('/extracurriculars')->group(function() {
+    Route::get('/', 'ExtracurricularController@index')->name('extracurriculars.index');
+    Route::get('/term/{term}/', 'ExtracurricularController@indexTerm')->name('extracurriculars.index_term');
+    Route::post('/term/{term}/create', 'ExtracurricularController@create')->name('extracurriculars.create');
+    Route::get('/edit/{extracurricular}', 'ExtracurricularController@edit')->name('extracurriculars.edit');
+    Route::post('/edit/{extracurricular}', 'ExtracurricularController@processEdit')->name('extracurriculars.edit');
+    Route::post('/delete/{extracurricular}', 'ExtracurricularController@delete')->name('extracurriculars.delete');
+});

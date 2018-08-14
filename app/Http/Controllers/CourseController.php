@@ -27,7 +27,6 @@ class CourseController extends Controller
             ->map(function ($room) { return $room->grade; });
 
         return view('courses.terms', [
-            'current_page' => 'courses',
             'terms' => $terms,
             'grades' => $grades
         ]);
