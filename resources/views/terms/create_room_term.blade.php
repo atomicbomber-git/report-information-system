@@ -8,7 +8,24 @@
     Tambahkan Kelas Baru
 </p>
 
-<hr>
+<hr/>
+    <div class="container">
+        <div class="row">
+            <div class="col text-left">
+                <a href="{{ route('terms.detail', $term_id) }}" class="btn btn-secondary btn-sm">
+                    <i class="fa fa-arrow-left"></i>
+                    Kembali
+                </a>
+            </div>
+            <div class="col-3">
+    
+            </div>
+            <div class="col text-right">
+                    
+            </div>
+        </div>
+    </div>
+<hr/>
 
 <form method="POST" action="{{ route('room_terms.create', $term_id) }}" style="max-width: 400px">
     @csrf
@@ -39,10 +56,7 @@
     <div style="height: 15px"> </div>
 
     <div class="form-group text-right">
-        <a href="{{ route('terms.detail', $term_id) }}" class="btn btn-secondary">
-            Kembali
-        </a>
-        <button class="btn btn-primary">
+        <button class="btn btn-primary btn-sm">
             <i class="fa fa-plus"></i>
             Tambahkan
         </button>
