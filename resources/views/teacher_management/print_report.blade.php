@@ -56,6 +56,34 @@
             padding: 1rem;
             border-bottom: medium solid black;
         }
+
+        table.box {
+            border: medium solid black;
+            border-collapse: collapse;
+        }
+
+        table.box td, table.box th {
+            border: thin solid black;
+            padding: 0.2rem;
+        }
+
+        .mt {
+            margin-top: 1rem;
+        }
+
+        table.signature {
+            width: 100%;
+        }
+        
+        table.signature td {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .underlined {
+            border-bottom: medium solid black;
+        }
+
     </style>
 </head>
 <body class="A4">
@@ -251,44 +279,100 @@
             </tbody>
         </table>
 
-        <table>
+        <table style="width: 100%" class="mt">
             <tbody>
                 <tr>
-                    <td> <h4 class="title"> C. </h4> </td>
+                    <td style="width: 2rem"> <h4 class="title"> C. </h4> </td>
                     <td> <h4 class="title"> Ekstrakurikuler </h4> </td>
-                    <td> </td>
-                    <td> </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <table class="box" style="width: 100%; text-align: center">
+                            <thead>
+                                <tr>
+                                    <th> No </th>
+                                    <th> Kegiatan Ekstrakurikuler </th>
+                                    <th> Keterangan </th>
+                                </tr>
+                            </thead>
+                
+                            <tbody>
+                                @foreach ($extracurriculars as $extracurricular)
+                                <tr>
+                                    <td> {{ $loop->iteration }} </td>
+                                    <td> {{ $extracurricular->name }} </td>
+                                    <td> {{ \App\ExtracurricularReport::GRADES[$extracurricular->score] }} </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </td>
                 </tr>
             </tbody>
         </table>
 
-        <table class="report">
-            <thead>
-                <tr>
-                    <th> No </th>
-                    <th> Kegiatan Ekstrakurikuler </th>
-                    <th> Keterangan </th>
-                </tr>
-            </thead>
-        </table>
-
-        <table>
+        <table class="mt">
             <tbody>
                 <tr>
-                    <td> <h4 class="title"> D. </h4> </td>
+                    <td style="width: 2rem"> <h4 class="title"> D. </h4> </td>
                     <td> <h4 class="title"> Ketidakhadiran </h4> </td>
-                    <td> </td>
-                    <td> </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <table class="box">
+                            <thead>
+                                <tr> <td> Sakit </td> <td> {{ $report->absence_sick }} hari </td> </tr>
+                                <tr> <td> Izin </td> <td> {{ $report->absence_permit }} hari </td> </tr>
+                                <tr> <td> Tanpa Keterangan </td> <td> {{ $report->absence_unknown }} hari </td> </tr>
+                            </thead>
+                        </table>
+                    </td>
                 </tr>
             </tbody>
         </table>
 
-        <table class="report">
-            <thead>
-                <tr> <td> Sakit </td> <td> {{ $report->absence_sick }} hari </td> </tr>
-                <tr> <td> Izin </td> <td> {{ $report->absence_permit }} hari </td> </tr>
-                <tr> <td> Tanpa Keterangan </td> <td> {{ $report->absence_unknown }} hari </td> </tr>
-            </thead>
+        <table class="signature" style="margin-top: 5rem">
+            <tbody>
+                <tr>
+                    <td> Mengetahui: </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td> Orang Tua/Wali </td>
+                    <td> Wali Kelas, </td>
+                    <td> Kepala Sekolah </td>
+                </tr>
+                <tr style="height: 5rem">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td style="vertical-align: bottom"> <div style="border-bottom: medium solid black"> </div> </td>
+                    <td style="vertical-align: bottom">
+                        <div style="border-bottom: medium solid black">
+                            <strong> {{ $report->room_term->teacher->user->name }} </strong>
+                        </div>
+                    </td>
+                    <td style="vertical-align: bottom">
+                        <div style="border-bottom: medium solid black">
+                            <strong> Dra. Elly Utarie Yuniar M.Pd </strong>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td> {{ $report->room_term->teacher->teacher_id }} </td>
+                    <td></td>
+                </tr>
+            </tbody>
         </table>
         
     </section>

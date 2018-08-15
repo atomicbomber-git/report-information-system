@@ -56,13 +56,21 @@ class ReportPrintController extends Controller
             ->groupBy('course_reports.course_id', 'course_reports.knowledge_description', 'course_reports.skill_description')
             ->get()
             ->keyBy('course_id');
+
+        $extracurriculars = DB::table('extracurricular_reports')
+            ->select('extracurriculars.name', 'extracurricular_reports.score')
+            ->join('extracurriculars', 'extracurriculars.id', '=', 'extracurricular_reports.extracurricular_id')
+            ->where('extracurricular_reports.report_id', $report->id)
+            ->orderBy('extracurriculars.name')
+            ->get();
         
         return view('teacher_management.print_report', [
             'report' => $report,
             'course_groups' => $course_groups,
             'knowledge_grades' => $knowledge_grades,
             'skill_grades' => $skill_grades,
-            'descriptions' => $descriptions
+            'descriptions' => $descriptions,
+            'extracurriculars' => $extracurriculars
         ]);
     }
 

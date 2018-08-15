@@ -13,7 +13,11 @@ class ExtracurricularReport extends Model
     ];
 
     const GRADES = [
-        'A', 'B', 'C', 'D', 'E'
+        'A' => 'Sangat Baik',
+        'B' => 'Baik',
+        'C' => 'Cukup',
+        'D' => 'Kurang',
+        'E' => 'Gagal'
     ];
 
     public function grades()
