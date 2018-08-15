@@ -19,6 +19,7 @@ class ExtracurricularReportController extends Controller
             ->join('room_terms', 'room_terms.id', '=', 'reports.room_term_id')
             ->where('extracurricular_reports.extracurricular_id', $extracurricular->id)
             ->where('room_terms.even_odd', $even_odd)
+            ->orderBy('users.name')
             ->get();
 
         return view('extracurricular_reports.index', [
@@ -63,6 +64,13 @@ class ExtracurricularReportController extends Controller
                     'score' => 'E'
                 ]);
             }
-        });        
+        });
+    }
+
+    public function delete(Extracurricular $extracurricular, $even_odd, ExtracurricularReport $extracurricular_report)
+    {
+        $extracurricular_report->delete();
+        return back()
+            ->with('message-success', __('messages.delete.success'));
     }
 }

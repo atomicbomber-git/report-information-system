@@ -66,11 +66,18 @@
         <tbody>
             @foreach($extracurricular_reports as $report)
             <tr>
-                <td> {{ $loop->iteration }} </td>
+                <td> {{ $loop->iteration }}. </td>
                 <td> {{ $report->student_name }} </td>
                 <td> {{ $report->student_id }} </td>
                 <td>
-                    <form action="" class="d-inline-block">
+                    <form
+                        method="POST"
+                        action="{{ route('extracurricular_reports.delete', [$extracurricular->id, $even_odd, $report->id]) }}"
+                        data-studentname="{{ $report->student_name }}"
+                        class="form-delete d-inline-block">
+                        
+                        @csrf
+                        
                         <button class="btn btn-danger btn-sm">
                             Hapus
                             <i class="fa fa-trash"></i>
@@ -94,9 +101,9 @@
             form.submit(function(e) {
                 e.preventDefault()
 
-                let label = form.data('label');
+                let label = form.data('studentname');
 
-                swal('Anda yakin ingin menghapus ekstrakurikuler ' + label + '?', {
+                swal(`Anda yakin ingin menghapus siswa ${label} dari ekstrakurikuler ini?`, {
                     title: "Konfirmasi Penghapusan",
                     icon: "warning",
                     buttons: ["Tidak", "Ya"],
