@@ -18,11 +18,19 @@ class CreateExtracurricularsTable extends Migration
             $table->timestamps();
 
             $table->integer('term_id')->unsigned(); // ID tahun ajaran
+            $table->integer('teacher_id')->unsigned(); // ID guru pembimbing
             $table->string('name'); // Nama ekstrakurikuler
 
             $table->unique(['term_id', 'name']);
 
-            $table->foreign('term_id')->references('id')->on('terms')
+            $table->foreign('term_id')
+                ->references('id')
+                ->on('terms')
+                ->onDelete('cascade');
+
+            $table->foreign('teacher_id')
+                ->references('id')
+                ->on('teachers')
                 ->onDelete('cascade');
         });
     }

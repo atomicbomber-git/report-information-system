@@ -8,7 +8,8 @@ class Extracurricular extends Model
 {
     public $fillable = [
         'name',
-        'term_id'
+        'term_id',
+        'teacher_id'
     ];
 
     public function term()

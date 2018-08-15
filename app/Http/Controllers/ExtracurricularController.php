@@ -25,13 +25,22 @@ class ExtracurricularController extends Controller
     public function indexTerm(Term $term)
     {
         $extracurriculars = DB::table('extracurriculars')
-            ->select('extracurriculars.id', 'extracurriculars.name')
+            ->select('extracurriculars.id', 'extracurriculars.name', 'users.name AS teacher_name', 'teachers.teacher_id')
+            ->join('teachers', 'teachers.id', '=', 'extracurriculars.teacher_id')
+            ->join('users', 'users.id', '=', 'teachers.user_id')
             ->where('extracurriculars.term_id', $term->id)
+            ->get();
+
+        $teachers = DB::table('teachers')
+            ->select('teachers.id', 'teachers.teacher_id', 'users.name')
+            ->join('users', 'users.id', '=', 'teachers.user_id')
+            ->where('teachers.active', TRUE)
             ->get();
 
         return view('extracurriculars.index_term', [
             'term' => $term,
-            'extracurriculars' => $extracurriculars
+            'extracurriculars' => $extracurriculars,
+            'teachers' => $teachers
         ]);
     }
 
@@ -47,13 +56,16 @@ class ExtracurricularController extends Controller
                     ->where(function ($query) use($term) {
                         return $query->where('term_id', $term->id);
                     })
-                ]
+                ],
+
+                'teacher_id' => ['required', 'integer']
             ]
         );
 
         Extracurricular::create([
             'term_id' => $term->id,
-            'name' => $data['name']
+            'name' => $data['name'],
+            'teacher_id' => $data['teacher_id']
         ]);
 
         return back()
@@ -62,8 +74,15 @@ class ExtracurricularController extends Controller
 
     public function edit(Extracurricular $extracurricular)
     {
+        $teachers = DB::table('teachers')
+            ->select('teachers.id', 'teachers.teacher_id', 'users.name')
+            ->join('users', 'users.id', '=', 'teachers.user_id')
+            ->where('teachers.active', TRUE)
+            ->get();
+
         return view('extracurriculars.edit', [
             'extracurricular' => $extracurricular,
+            'teachers' => $teachers
         ]);
     }
 
@@ -76,7 +95,8 @@ class ExtracurricularController extends Controller
                     ->where(function ($query) use($extracurricular) {
                         return $query->where('term_id', $extracurricular->term_id);
                     })
-                    ->ignore($extracurricular->id)
+                    ->ignore($extracurricular->id),
+                'teacher_id' => ['required', 'integer']
             ]
         );
 

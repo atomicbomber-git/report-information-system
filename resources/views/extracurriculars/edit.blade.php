@@ -65,6 +65,18 @@
                     {{ $errors->first('name') }}
                 </div>
             </div>
+
+            <div class='form-group'>
+                <label for='teacher_id'> Guru Pembimbing: </label>
+                <select name='teacher_id' id='teacher_id' class='form-control'>
+                    @foreach($teachers as $teacher)
+                    <option {{ old('teacher_id', $extracurricular->teacher_id) !== $teacher->id ?: 'selected' }} value='{{ $teacher->id }}'> {{ $teacher->name }} ({{ $teacher->teacher_id }}) </option>
+                    @endforeach
+                </select>
+                <div class='invalid-feedback'>
+                    {{ $errors->first('teacher_id') }}
+                </div>
+            </div>
     
             <div class="text-right mt-5">
                 <button class="btn btn-primary btn-sm">

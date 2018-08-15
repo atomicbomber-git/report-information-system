@@ -96,7 +96,7 @@
                 @if($reports->count() == 0 && $room_term->getOriginal('even_odd') == 'even')
                 <form method="POST" class="d-inline-block" action="{{ route('reports.create_previous', $room_term) }}">
                     @csrf
-                    <button class="btn btn-sm btn-dark">
+                    <button class="btn btn-sm btn-dark" {{ $odd_report_count != 0 ?: 'disabled' }}>
                         Tambahkan Siswa dari Semester Sebelumnya <i class="fa fa-plus"></i>
                     </button>
                 </form>

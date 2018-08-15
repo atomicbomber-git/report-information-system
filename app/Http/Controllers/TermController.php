@@ -147,7 +147,7 @@ class TermController extends Controller
     public function detailRoomTerm($room_term_id)
     {
         $room_term = RoomTerm::where('room_terms.id', $room_term_id)
-            ->select('room_terms.id', 'room_terms.even_odd', 'rooms.name', 'terms.code', 'room_terms.term_id', 'room_terms.teacher_id')
+            ->select('room_terms.id', 'room_terms.even_odd', 'rooms.name', 'rooms.id AS room_id', 'terms.code', 'room_terms.term_id', 'room_terms.teacher_id')
             ->join('terms', 'room_terms.term_id', '=', 'terms.id')
             ->join('rooms', 'room_terms.room_id', '=', 'rooms.id')
             ->first();
@@ -164,9 +164,18 @@ class TermController extends Controller
             ->where('teachers.active', 1)
             ->get();
 
+        $odd_report_count = DB::table('reports')
+            ->select(DB::raw('COUNT(reports.id) as count'))
+            ->join('room_terms', 'room_terms.id', '=', 'reports.room_term_id')
+            ->where('room_terms.room_id', $room_term->room_id)
+            ->where('room_terms.even_odd', 'odd')
+            ->first()
+            ->count;
+
         return view('room_terms.detail',
             [
                 'room_term' => $room_term,
+                'odd_report_count' => $odd_report_count,
                 'reports' => $reports,
                 'teachers' => $teachers
             ]

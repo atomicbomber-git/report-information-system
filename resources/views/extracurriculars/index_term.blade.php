@@ -66,8 +66,20 @@
                         {{ $errors->first('name') }}
                     </div>
                 </div>
+                
+                <div class='form-group'>
+                    <label for='teacher_id'> Guru Pembimbing: </label>
+                    <select name='teacher_id' id='teacher_id' class='form-control'>
+                        @foreach($teachers as $teacher)
+                        <option {{ old('teacher_id') }} value='{{ $teacher->id }}'> {{ $teacher->name }} ({{ $teacher->teacher_id }}) </option>
+                        @endforeach
+                    </select>
+                    <div class='invalid-feedback'>
+                        {{ $errors->first('teacher_id') }}
+                    </div>
+                </div>
 
-                <div class="text-right">
+                <div class="text-right mt-5">
                     <button class="btn btn-primary btn-sm">
                         Tambahkan
                         <i class="fa fa-plus"></i>
@@ -88,6 +100,7 @@
             <tr>
                 <th> # </th>
                 <th> Nama Ekstrakurikuler </th>
+                <th> Guru Pembimbing </th>
                 <th class="text-center"> Kendali </th>
             </tr>
         </thead>
@@ -97,6 +110,7 @@
             <tr>
                 <td> {{ $loop->iteration }}. </td>
                 <td> {{ $extracurricular->name }} </td>
+                <td> {{ $extracurricular->teacher_name }} ({{ $extracurricular->teacher_id }}) </td>
                 <td class="text-center">
 
                     @foreach (\App\RoomTerm::EVEN_ODD as $even_odd => $semester)

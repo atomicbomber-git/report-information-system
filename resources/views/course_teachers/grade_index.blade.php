@@ -12,9 +12,13 @@
 
 @section('content')
 
-<p class="h1">
+<h1>
     <i class="fa fa-list"></i>
-    Kelola Guru Mata Pelajaran Kelas {{ $information->grade }} Tahun Ajaran {{ $information->term->code }} Semester {{ $information->even_odd }}
+    Kelola Guru Mata Pelajaran Kelas {{ $information->grade }} Tahun Ajaran {{ $information->term->code }}
+</h1>
+
+<p class="lead">
+    Semester {{ $information->even_odd }}
 </p>
 
 <hr/>
