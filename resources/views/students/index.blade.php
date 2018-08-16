@@ -33,14 +33,31 @@
 <div class="container">
     <div class="row">
         <div class="col"></div>
-        <div class="col col-3"></div>
+        <div class="col-1"></div>
         <div class="col text-right">
             <a 
-                class="btn btn-primary btn-sm"
+                class="btn btn-primary btn-sm align-top"
                 href="{{ route('students.create') }}">
-                Tambah Siswa Baru
+                Tambah Siswa
                 <i class="fa fa-plus"></i>
             </a>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col text-right">
+
+            {{-- <a class="btn btn-dark btn-sm mr-3" href="">
+                Aktivasi Siswa
+                <i class="fa fa-pencil"></i>
+            </a> --}}
+
+            @foreach ($advancable_grades as $advancable_grade)
+            <a href="{{ route('students.advance_grades', $advancable_grade) }}" class="btn btn-dark btn-sm">
+                Kenaikan Kelas {{ $advancable_grade }}
+                <i class="fa fa-arrow-up"></i>
+            </a>
+            @endforeach
         </div>
     </div>
 </div>
@@ -56,7 +73,7 @@
             <th> Nomor Induk </th>
             <th> Jenis Kelamin </th>
             {{-- <th> Tempat, Tanggal Lahir </th> --}}
-            <th> Jenjang </th>
+            <th> Jenjang (Kelas) </th>
             <th> Kendali </th>
         </tr>
     </thead>
@@ -65,23 +82,23 @@
         @foreach ($students as $student)
         <tr>
             <td> {{ $loop->iteration }}. </td>
-            <td> {{ $student->user->name }} </td>
-            <td> {{ $student->user->username }} </td>
+            <td> {{ $student->name }} </td>
+            <td> {{ $student->username }} </td>
             <td> {{ $student->student_id }} </td>
             <td> {{ \App\Student::SEXES[$student->sex] }} </td>
             {{-- <td> {{ $student->birthplace }}, {{ $student->birthdate }} </td> --}}
             <td> {{ $student->current_grade }} </td>
             <td>
-                <a href="{{ route('students.edit', $student) }}" class="btn btn-dark btn-sm"> 
+                <a href="{{ route('students.edit', $student->id) }}" class="btn btn-dark btn-sm"> 
                     Sunting
                     <i class="fa fa-pencil"></i>
                 </a>
 
                 <form
                     method="POST"
-                    action="{{ route('students.delete', $student) }}"
+                    action="{{ route('students.delete', $student->id) }}"
                     class="form-delete d-inline-block"
-                    data-student="{{ $student->user->name }}">
+                    data-student="{{ $student->name }}">
 
                     @csrf
 

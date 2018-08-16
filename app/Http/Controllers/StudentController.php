@@ -14,14 +14,21 @@ class StudentController extends Controller
 {
     public function index()
     {
-        $students = Student::where('active', 1)
-            ->orderBy('current_grade', 'DESC')
-            ->orderBy('created_at', 'DESC')
+        $students = DB::table('students')
+            ->select('students.id', 'students.student_id', 'users.name AS name', 'students.current_grade', 'students.sex', 'students.birthplace', 'students.birthdate', 'users.username')
+            ->join('users', 'users.id', '=', 'students.user_id')
+            ->where('students.active', 1)
+            ->orderBy('students.current_grade')
+            ->orderBy('users.name')
             ->get();
+
+        $advancable_grades = $this->getGrades();
+        $last_grade = $advancable_grades->pop();
 
         return view('students.index', [
             'students' => $students,
-            'current_page' => 'students'
+            'current_page' => 'students',
+            'advancable_grades' => $advancable_grades
         ]);
     }
 
@@ -156,5 +163,37 @@ class StudentController extends Controller
             ->groupBy('grade')
             ->get()
             ->pluck('grade');
+    }
+
+    public function advanceGrades($grade) {
+        $students = DB::table('students')
+            ->select('students.id', 'students.student_id', 'users.name AS name', 'students.current_grade', 'students.sex')
+            ->join('users', 'users.id', '=', 'students.user_id')
+            ->where('students.active', 1)
+            ->where('students.current_grade', $grade)
+            ->orderBy('students.current_grade')
+            ->orderBy('users.name')
+            ->get();
+
+        $grades = DB::table('students')
+            ->select('students.current_grade')
+            ->groupBy('students.current_grade')
+            ->get();
+
+        return view('students.advance_grades', [
+            'grade' => $grade,
+            'grades' => $grades,
+            'students' => $students
+        ]);
+    }
+
+    public function processAdvanceGrades($grade)
+    {
+        $student_ids = request('student_ids');
+        
+        Student::whereIn('id', $student_ids)
+            ->increment('current_grade');
+
+        session()->flash('message-success', __('messages.update.success'));
     }
 }

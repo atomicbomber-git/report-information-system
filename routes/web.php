@@ -27,6 +27,9 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/edit/{student}', 'StudentController@edit')->name('students.edit');
         Route::post('/edit/{student}', 'StudentController@processEdit')->name('students.edit');
         Route::post('/delete/{student}', 'StudentController@delete')->name('students.delete');
+
+        Route::get('/advance_grades/{grade}', 'StudentController@advanceGrades')->name('students.advance_grades');
+        Route::post('/advance_grades/{grade}', 'StudentController@processAdvanceGrades')->name('students.advance_grades');
     });
     
     Route::prefix('/rooms')->group(function() {
