@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', "")
+@section('title', "Kelola Ekstrakurikuler")
 
 @section('content')
 
@@ -8,10 +8,6 @@
     <i class="fa fa-list"></i>
     Kelola Ekstrakurikuler
 </h1>
-
-<p class="lead">
-    Seluruh Tahun Ajaran
-</p>
 
 <hr/>
 

@@ -4,12 +4,10 @@
 
 @section('content')
 
-<p class="h1">
+<h1>
     <i class="fa fa-list"></i>
     Daftar Seluruh Ruangan
-</p>
-
-<hr>
+</h1>
 
 @if( session('message-success') )
     <div class="alert alert-success">
@@ -17,16 +15,24 @@
     </div>
 @endif
 
-<div style="width: 100%; padding: 1.4rem; text-align: right">
-    <a 
-        class="btn btn-primary btn-sm"
-        href="{{ route('rooms.create') }}"
-        >
-        Tambah Ruangan Baru
-        <i class="fa fa-plus"></i>
-    </a>
+<hr>
+
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col col-3"></div>
+        <div class="col text-right">
+            <a 
+                class="btn btn-primary btn-sm"
+                href="{{ route('rooms.create') }}">
+                Tambah Ruangan Baru
+                <i class="fa fa-plus"></i>
+            </a>
+        </div>
+    </div>
 </div>
-    
+
+<hr>
 
 <table class='table table-sm table-striped'>
     <thead class='thead-dark'>

@@ -21,7 +21,6 @@
     Daftar Seluruh Siswa
 </p>
 
-<hr/>
 
 @if( session('message-success') )
     <div class="alert alert-success">
@@ -29,15 +28,24 @@
     </div>
 @endif
 
-<div style="width: 100%; padding: 1.4rem; text-align: right">
-    <a 
-        class="btn btn-primary btn-sm"
-        href="{{ route('students.create') }}"
-        >
-        Tambah Siswa Baru
-        <i class="fa fa-plus"></i>
-    </a>
+<hr/>
+
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col col-3"></div>
+        <div class="col text-right">
+            <a 
+                class="btn btn-primary btn-sm"
+                href="{{ route('students.create') }}">
+                Tambah Siswa Baru
+                <i class="fa fa-plus"></i>
+            </a>
+        </div>
+    </div>
 </div>
+
+<hr/>
 
 <table id="table" class='table table-sm table-striped table-responsive-xl table-sm'>
     <thead class='thead-dark'>

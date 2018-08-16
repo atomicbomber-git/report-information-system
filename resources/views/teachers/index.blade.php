@@ -16,12 +16,10 @@
 
 @section('content')
 
-<p class="h1">
+<h1>
     <i class="fa fa-list"></i>
     Kelola Guru
-</p>
-
-<hr>
+</h1>
 
 @if( session('message-success') )
     <div class="alert alert-success">
@@ -29,13 +27,15 @@
     </div>
 @endif
 
-<div class="container" style="padding: 0.6rem 0rem 0.6rem 0rem">
+<hr>
+
+<div class="container">
     <div class="row">
-        <div class="col col-md-3 text-left">
+        <div class="col text-left">
         </div>
-        <div class="col-md-6">
+        <div class="col-3">
         </div>
-        <div class="col col-md-3 text-right">
+        <div class="col text-right">
             <a href="{{ route('teachers.create') }}" class="btn btn-primary btn-sm">
                 Tambahkan Guru
                 <i class="fa fa-plus"></i>
@@ -43,6 +43,8 @@
         </div>
     </div>
 </div>
+
+<hr>
 
 <table id="table" class='table table-striped table-responsive-xl table-sm'>
     <thead class='thead-dark'>

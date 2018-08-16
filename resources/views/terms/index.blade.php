@@ -4,12 +4,10 @@
 
 @section('content')
 
-<p class="h1">
+<h1>
     <i class="fa fa-list"></i>
     Daftar Seluruh Tahun Ajaran
-</p>
-
-<hr>
+</h1>
 
 @if( session('message-success') )
     <div class="alert alert-success">
@@ -17,16 +15,26 @@
     </div>
 @endif
 
-<div style="width: 100%; padding: 1.4rem; text-align: right">
-    <a 
-        class="btn btn-primary btn-sm"
-        href="{{ route('terms.create') }}"
-        >
-        Tambah Tahun Ajaran Baru
-        <i class="fa fa-plus"></i>
-    </a>
+<hr>
+
+<div class="container">
+    <div class="row">
+        <div class="col text-left">
+        </div>
+        <div class="col-3">
+        </div>
+        <div class="col text-right">
+            <a 
+                class="btn btn-primary btn-sm"
+                href="{{ route('terms.create') }}">
+                Tambah Tahun Ajaran Baru
+                <i class="fa fa-plus"></i>
+            </a>
+        </div>
+    </div>
 </div>
-    
+
+<hr>
 
 <table class='table table-striped table-responsive-xl table-sm'>
     <thead class='thead-dark'>
