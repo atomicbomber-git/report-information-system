@@ -85,26 +85,26 @@ Route::prefix('/teacher_management')->group(function() {
     Route::get('/print_report/{report}/content', 'ReportPrintController@printReport')->name("teacher.management.print_report");
     Route::get('/print_report/{report}/cover', 'ReportPrintController@printReportCover')->name("teacher.management.print_report_cover");
 
-    Route::get('/terms/{term_id}/{even_odd}/courses', 'TeacherManagementController@courses')
+    Route::get('/term/{term}/semester/{even_odd}/courses', 'TeacherManagementController@courses')
         ->where(['even_odd' => '^(even|odd)$'])
         ->name('teacher.management.courses');
 
-    Route::get('/terms/{term_id}/{even_odd}/room_terms/{room_term_id}/courses/{course_id}/knowledge', 'TeacherManagementController@courseDetail')
+    Route::get('/term/{term_id}/semester/{even_odd}/room_term/{room_term_id}/course/{course_id}/knowledge', 'TeacherManagementController@courseDetail')
         ->where(['even_odd' => '^(even|odd)$'])
         ->name('teacher.management.courses.detail');
 
-    Route::get('/terms/{term_id}/{even_odd}/room_terms/{room_term_id}/courses/{course_id}/exams', 'TeacherManagementController@courseExams')
+    Route::get('/term/{term_id}/semester/{even_odd}/room_term/{room_term_id}/course/{course_id}/exams', 'TeacherManagementController@courseExams')
         ->where(['even_odd' => '^(even|odd)$'])
         ->name('teacher.management.courses.exams');
 
     Route::post('/update/knowlegde_grade', 'TeacherManagementController@updateKnowledgeGrade')
         ->name('knowledge_grades.update');
 
-    Route::get('/terms/{term_id}/{even_odd}/room_terms/{room_term_id}/courses/{course_id}/skill', 'SkillGradeController@skillDetail')
+    Route::get('/term/{term_id}/semester/{even_odd}/room_term/{room_term_id}/course/{course_id}/skill', 'SkillGradeController@skillDetail')
         ->where(['even_odd' => '^(even|odd)$'])
         ->name('teacher.management.courses.skill_detail');
 
-    Route::post('/course_report/update', 'TeacherManagementController@updateCourseReport')
+    Route::post('/course_reports/update', 'TeacherManagementController@updateCourseReport')
         ->name('course_reports.update');
 
     Route::prefix('/skill_grade')->group(function() {
@@ -128,6 +128,9 @@ Route::prefix('/teacher_management')->group(function() {
     Route::post('/room_term/{room_term}/spiritual_description/edit', 'SocialSpiritualDescriptionController@processEditSpiritualDescriptions')->name('teacher.management.spiritual_description');
     Route::get('/room_term/{room_term}/social_description/edit', 'SocialSpiritualDescriptionController@editSocialDescriptions')->name('teacher.management.social_description');
     Route::post('/room_term/{room_term}/social_description/edit','SocialSpiritualDescriptionController@processEditSocialDescriptions')->name('teacher.management.social_description');
+
+    Route::get('/semester/{semester}/extracurricular/{extracurricular}', 'ExtracurricularReportController@editScore')->name('teacher.management.extracurricular_edit_score');
+    Route::post('/semester/{semester}/extracurricular/{extracurricular}', 'ExtracurricularReportController@processEditScore')->name('teacher.management.extracurricular_edit_score');
 });
 
 Route::prefix('/course_teachers')->group(function() {

@@ -34,15 +34,15 @@
 
 <div class="container" style="padding: 0.6rem 0rem 0.6rem 0rem">
     <div class="row">
-        <div class="col col-md-3 text-left">
+        <div class="col text-left">
             <a href="{{ route('terms.detail', $room_term->term_id) }}" class="btn btn-sm btn-secondary">
                 <i class="fa fa-arrow-left"></i>
                 Kembali
             </a>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
         </div>
-        <div class="col col-md-3 text-right">
+        <div class="col text-right">
         </div>
     </div>
 </div>

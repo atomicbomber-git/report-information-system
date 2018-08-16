@@ -49,14 +49,9 @@ class TeacherManagementController extends Controller
         ]);
     }
 
-    public function courses($term_id, $even_odd)
+    public function courses(Term $term, $even_odd)
     {
         $teacher_id = auth()->user()->teacher->id;
-        
-        $information = Term::find($term_id);
-        $information->term_code = $information->code;
-        $information->even_odd = $even_odd;
-        $information->semester = RoomTerm::EVEN_ODD[$even_odd];
 
         $room_term_groups = DB::table('course_teachers')
             ->select(
@@ -71,7 +66,7 @@ class TeacherManagementController extends Controller
             ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
             ->join('courses', 'courses.id', '=', 'course_teachers.course_id')
             ->leftJoin('reports', 'reports.room_term_id', '=', 'room_terms.id')
-            ->where('room_terms.term_id', $term_id)
+            ->where('room_terms.term_id', $term->id)
             ->where('room_terms.even_odd', $even_odd)
             ->where('course_teachers.teacher_id', $teacher_id)
             ->groupBy('room_terms.id', 'rooms.name', 'courses.name', 'courses.type', 'courses.id', 'rooms.grade')
@@ -82,16 +77,30 @@ class TeacherManagementController extends Controller
             ->select(DB::raw('COUNT(reports.id) AS report_count'), 'room_terms.id', 'rooms.name', 'room_terms.even_odd')
             ->rightJoin('room_terms', 'room_terms.id', '=', 'reports.room_term_id')
             ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
-            ->where('room_terms.term_id', $term_id)
+            ->where('room_terms.term_id', $term->id)
             ->where('room_terms.even_odd', $even_odd)
             ->where('room_terms.teacher_id', $teacher_id)
             ->groupBy('room_terms.id', 'rooms.name', 'room_terms.even_odd')
             ->get();
+
+        $managed_extracurriculars = DB::table('extracurriculars')
+            ->select('extracurriculars.id', DB::raw('COUNT(extracurricular_reports.id) AS member_count'), 'extracurriculars.name')
+            ->leftJoin('extracurricular_reports', 'extracurricular_reports.extracurricular_id', '=', 'extracurriculars.id')
+            ->leftJoin('reports', 'reports.id', '=', 'extracurricular_reports.report_id')
+            ->leftJoin('room_terms', 'room_terms.id', '=', 'reports.room_term_id')
+            ->where('extracurriculars.teacher_id', $teacher_id)
+            ->where('extracurriculars.term_id', $term->id)
+            ->where('room_terms.even_odd', $even_odd)
+            ->groupBy('extracurriculars.id', 'extracurriculars.name')
+            ->orderBy('extracurriculars.name')
+            ->get();
         
         return view('teacher_management.courses', [
             'room_term_groups' => $room_term_groups,
+            'managed_extracurriculars' => $managed_extracurriculars,
             'managed_room_terms' => $managed_room_terms,
-            'information' => $information
+            'term' => $term,
+            'even_odd' => $even_odd
         ]);
     }
 

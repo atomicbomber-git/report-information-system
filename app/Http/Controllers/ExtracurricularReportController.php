@@ -60,8 +60,7 @@ class ExtracurricularReportController extends Controller
             foreach ($report_ids as $report_id) {
                 ExtracurricularReport::create([
                     'report_id' => $report_id,
-                    'extracurricular_id' => $extracurricular->id,
-                    'score' => 'E'
+                    'extracurricular_id' => $extracurricular->id
                 ]);
             }
         });
@@ -72,5 +71,40 @@ class ExtracurricularReportController extends Controller
         $extracurricular_report->delete();
         return back()
             ->with('message-success', __('messages.delete.success'));
+    }
+
+    public function editScore($even_odd, Extracurricular $extracurricular)
+    {
+        $extracurricular_reports = DB::table('extracurricular_reports')
+            ->select('extracurricular_reports.id', 'extracurricular_reports.score', 'users.name AS student_name', 'students.student_id')
+            ->join('reports', 'reports.id', '=', 'extracurricular_reports.report_id')
+            ->join('students', 'students.id', '=', 'reports.student_id')
+            ->join('users', 'users.id', '=', 'students.user_id')
+            ->join('room_terms', 'room_terms.id', '=', 'reports.room_term_id')
+            ->where('extracurricular_reports.extracurricular_id', $extracurricular->id)
+            ->where('room_terms.even_odd', $even_odd)
+            ->orderBy('users.name')
+            ->get();
+
+        return view('teacher_management.extracurricular.edit_score', [
+            'even_odd' => $even_odd,
+            'extracurricular' => $extracurricular,
+            'extracurricular_reports' => $extracurricular_reports
+        ]);
+    }
+
+    public function processEditScore($even_odd, Extracurricular $extracurricular)
+    {
+        $data = request('data');
+
+        DB::transaction(function() use($data) {
+            foreach ($data as $extracurricular_report_id => $score) {
+                ExtracurricularReport::where('id', $extracurricular_report_id)
+                    ->update(['score' => $score]);
+            }
+        });
+
+        session()->flash('message-success', __('messages.update.success'));
+        return $data;
     }
 }

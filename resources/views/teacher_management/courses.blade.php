@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Seluruh Tahun Ajaran')
+@section('title', "Kelola Nilai Tahun Ajaran $term->term_code Semester $even_odd")
 
 @section('content')
 
@@ -10,7 +10,7 @@
 </h1>
 
 <p class="lead">
-    Tahun Ajaran {{ $information->term_code }} Semester {{ $information->semester }}
+    Tahun Ajaran {{ $term->term_code }} Semester {{ $even_odd }}
 </p>
 
 <hr/>
@@ -69,11 +69,39 @@
     </tbody>
 </table>
 
-<div style="height: 4rem">
+<h3 class="mt-5">
+    <i class="fa fa-list"></i>
+    Daftar Seluruh Ekstrakurikuler yang Dibimbing
+</h3>
 
-</div>
+<table class="table table-striped table-sm">
+    <thead class="thead-dark">
+        <tr>
+            <th> # </th>
+            <th> Nama Ekstrakurikuler </th>
+            <th> Jumlah Peserta </th>
+            <th> Kendali </th>
+        </tr>
+    </thead>
 
-<h3>
+    <tbody>
+        @foreach ($managed_extracurriculars as $extracurricular)
+        <tr>
+            <td> {{ $loop->iteration }}. </td>
+            <td> {{ $extracurricular->name }} </td>
+            <td> {{ $extracurricular->member_count }} </td>
+            <td>
+                <a href="{{ route('teacher.management.extracurricular_edit_score', [$even_odd, $extracurricular->id]) }}" class="btn btn-dark btn-sm">
+                    Nilai
+                    <i class="fa fa-list-alt"></i>
+                </a>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+
+<h3 class="mt-5">
     <i class="fa fa-list"></i>
     Daftar Seluruh Kelas yang Diajar
 </h3>
@@ -91,7 +119,7 @@
 
     <tbody>
         @foreach ($room_term_groups as $grade => $room_terms)
-            <h3> Kelas {{ $grade }} </h3>
+            <h4> Kelas {{ $grade }} </h4>
             @foreach ($room_terms as $room_term)
                 <tr>
                     <td> {{ $loop->iteration }}. </td>
@@ -100,13 +128,13 @@
                     <td> {{ $room_term->report_count }} </td>
                     <td>
                         <a
-                            href="{{ route('teacher.management.courses.detail', [$information->id, $information->even_odd, $room_term->id, $room_term->course_id]) }}"
+                            href="{{ route('teacher.management.courses.detail', [$term->id, $even_odd, $room_term->id, $room_term->course_id]) }}"
                             class="btn btn-sm btn-dark">
                             Pengetahuan
                             <i class="fa fa-list-alt"></i>
                         </a>
 
-                        <a href="{{ route('teacher.management.courses.skill_detail', [$information->id, $information->even_odd, $room_term->id, $room_term->course_id]) }}"
+                        <a href="{{ route('teacher.management.courses.skill_detail', [$term->id, $even_odd, $room_term->id, $room_term->course_id]) }}"
                             class="btn btn-sm btn-dark">
                             Keterampilan
                             <i class="fa fa-list-alt"></i>

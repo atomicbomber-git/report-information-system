@@ -14,12 +14,10 @@
 
 @section('content')
 
-<p class="h1">
+<h1>
     <i class="fa fa-list"></i>
     Daftar Kelas Pada Tahun Ajaran {{ $term->term_start }} - {{ $term->term_end }}
-</p>
-
-<hr>
+</h1>
 
 @if( session('message-success') )
     <div class="message alert alert-success">
@@ -33,17 +31,19 @@
     </script>
 @endif
 
+<hr/>
+
 <div class="container" style="padding: 0.6rem 0rem 0.6rem 0rem">
     <div class="row">
-        <div class="col col-md-3 text-left">
+        <div class="col text-left">
             <a href="{{ route('terms.index') }}" class="btn btn-sm btn-secondary">
                 <i class="fa fa-arrow-left"></i>
                 Kembali
             </a>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
         </div>
-        <div class="col col-md-3 text-right">
+        <div class="col text-right">
             @if($vacant_room_count !== 0)
             <a class="btn btn-primary btn-sm" href="{{ route('room_terms.create', $term) }}">
                 Tambah Kelas
@@ -63,6 +63,8 @@
         </div>
     </div>
 </div>
+
+<hr/>
 
 <table id="table" class='table table-striped table-sm table-responsive-xl' style="display: none">
     <thead class='thead-dark'>
