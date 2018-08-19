@@ -45,6 +45,13 @@
     </div>
 
     <div class="row mt-2">
+        <div class="col">
+            <a href="{{ route('students.index', ['show_inactives' => request('show_inactives') ? FALSE : TRUE]) }}" class="btn btn-info btn-sm">
+                Siswa Nonaktif {{ request('show_inactives') ? "" : "Tidak" }} Ditampilkan
+                <i class="fa {{ request('show_inactives') ? "fa-eye" : "fa-eye-slash" }}"></i>
+            </a>
+        </div>
+        <div class="col-1"></div>
         <div class="col text-right">
             @foreach ($advancable_grades as $advancable_grade)
             <a href="{{ route('students.advance_grades', $advancable_grade) }}" class="btn btn-dark btn-sm">
@@ -53,7 +60,7 @@
             </a>
             @endforeach
 
-            <a class="btn btn-dark btn-sm mr-3" href="{{ route('students.deactivate', $last_grade) }}">
+            <a class="btn btn-dark btn-sm" href="{{ route('students.deactivate', $last_grade) }}">
                 Deaktivasi Siswa Kelas {{ $last_grade }}
                 <i class="fa fa-pencil"></i>
             </a>
