@@ -28,7 +28,8 @@ class StudentController extends Controller
         return view('students.index', [
             'students' => $students,
             'current_page' => 'students',
-            'advancable_grades' => $advancable_grades
+            'advancable_grades' => $advancable_grades,
+            'last_grade' => $last_grade
         ]);
     }
 
@@ -175,14 +176,8 @@ class StudentController extends Controller
             ->orderBy('users.name')
             ->get();
 
-        $grades = DB::table('students')
-            ->select('students.current_grade')
-            ->groupBy('students.current_grade')
-            ->get();
-
         return view('students.advance_grades', [
             'grade' => $grade,
-            'grades' => $grades,
             'students' => $students
         ]);
     }
@@ -193,6 +188,33 @@ class StudentController extends Controller
         
         Student::whereIn('id', $student_ids)
             ->increment('current_grade');
+
+        session()->flash('message-success', __('messages.update.success'));
+    }
+
+    public function deactivate($grade)
+    {
+        $students = DB::table('students')
+            ->select('students.id', 'students.student_id', 'users.name AS name', 'students.current_grade', 'students.sex')
+            ->join('users', 'users.id', '=', 'students.user_id')
+            ->where('students.active', 1)
+            ->where('students.current_grade', $grade)
+            ->orderBy('students.current_grade')
+            ->orderBy('users.name')
+            ->get();
+
+        return view('students.deactivate', [
+            'grade' => $grade,
+            'students' => $students
+        ]);
+    }
+
+    public function processDeactivate($grade)
+    {
+        $student_ids = request('student_ids');
+        
+        Student::whereIn('id', $student_ids)
+            ->update(['active' => 0]);
 
         session()->flash('message-success', __('messages.update.success'));
     }

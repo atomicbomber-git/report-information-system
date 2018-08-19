@@ -30,6 +30,8 @@ Route::middleware(['auth'])->group(function() {
 
         Route::get('/advance_grades/{grade}', 'StudentController@advanceGrades')->name('students.advance_grades');
         Route::post('/advance_grades/{grade}', 'StudentController@processAdvanceGrades')->name('students.advance_grades');
+        Route::get('/deactivate/{grade}', 'StudentController@deactivate')->name('students.deactivate');
+        Route::post('/deactivate/{grade}', 'StudentController@processDeactivate')->name('students.deactivate');
     });
     
     Route::prefix('/rooms')->group(function() {

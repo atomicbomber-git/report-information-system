@@ -46,18 +46,17 @@
 
     <div class="row mt-2">
         <div class="col text-right">
-
-            {{-- <a class="btn btn-dark btn-sm mr-3" href="">
-                Aktivasi Siswa
-                <i class="fa fa-pencil"></i>
-            </a> --}}
-
             @foreach ($advancable_grades as $advancable_grade)
             <a href="{{ route('students.advance_grades', $advancable_grade) }}" class="btn btn-dark btn-sm">
                 Kenaikan Kelas {{ $advancable_grade }}
                 <i class="fa fa-arrow-up"></i>
             </a>
             @endforeach
+
+            <a class="btn btn-dark btn-sm mr-3" href="{{ route('students.deactivate', $last_grade) }}">
+                Deaktivasi Siswa Kelas {{ $last_grade }}
+                <i class="fa fa-pencil"></i>
+            </a>
         </div>
     </div>
 </div>

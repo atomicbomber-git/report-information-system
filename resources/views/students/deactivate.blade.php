@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', "Kelola Kenaikan Siswa Kelas {{ $grade }}")
+@section('title', "Deaktivasi Siswa Kelas {{ $grade }}")
 
 @section('styles')
 
@@ -77,8 +77,8 @@
     </button>
 
     <button class="btn btn-primary btn-sm" id="btn-advance">
-        Naikkan ke Kelas {{ $grade + 1 }}
-        <i class="fa fa-arrow-up"></i>
+        Non-Aktifkan
+        <i class="fa fa-pencil"></i>
     </button>
 </div>
 
@@ -144,10 +144,10 @@
             // Confirmation dialog
             swal({
                 title: 'Konfirmasi Tindakan',
-                text: 'Apakah Anda yakin ingin menaikkan seluruh siswa yang dipilih ke kelas {{ $grade + 1 }}?',
+                text: 'Apakah Anda yakin ingin menonaktifkan seluruh siswa yang dipilih?',
                 icon: 'warning',
                 buttons: {
-                    // cancel: 'Batalkan',
+                    cancel: 'Batalkan',
                     ok: {
                         text: 'Tambahkan',
                         closeModal: false
@@ -164,7 +164,7 @@
 
                 return $.ajax({
                     method: 'POST',
-                    url: '{{ route('students.advance_grades', $grade) }}',
+                    url: '{{ route('students.deactivate', $grade) }}',
                     data: {
                         _token: '{{ csrf_token() }}',
                         student_ids: student_ids
