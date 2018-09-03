@@ -22,8 +22,8 @@ class StudentController extends Controller
             ->orderBy('users.name')
             ->get();
 
-        $advancable_grades = $this->getGrades();
-        $last_grade = $advancable_grades->pop();
+        $advancable_grades = [7, 8];
+        $last_grade = 9;
 
         return view('students.index', [
             'students' => $students,
@@ -37,7 +37,7 @@ class StudentController extends Controller
     {
         return view('students.create', [
             'current_page' => 'students',
-            'grades' => $this->getGrades()
+            'grades' => [7, 8, 9]
         ]);
     }
 

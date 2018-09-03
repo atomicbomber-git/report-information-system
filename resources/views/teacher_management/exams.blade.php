@@ -63,7 +63,7 @@
             <th> Nama Siswa </th>
             <th> UTS </th>
             <th> UAS </th>
-            <th> Deskripsi Keterampilan </th>
+            <th> Deskripsi Pengetahuan </th>
         </tr>
     </thead>
 
@@ -72,14 +72,15 @@
         <tr data-id="{{ $course_report->id }}">
             <td> {{ $course_report->name }} </td>
             <td>
-                <input type="text" tabindex='1' name='mid_exam' class="input-sm form-control form-control-sm" data-prev-value="{{ $course_report->mid_exam }}" value="{{ $course_report->mid_exam }}">
+                <input type="number" tabindex='1' name='mid_exam' class="input-sm form-control form-control-sm" data-prev-value="{{ $course_report->mid_exam }}" value="{{ $course_report->mid_exam }}">
             </td>
             <td>
-                <input type="text" tabindex='2' name='final_exam' class="input-sm form-control form-control-sm" data-prev-value="{{ $course_report->final_exam }}" value="{{ $course_report->final_exam }}">
+                <input type="number" tabindex='2' name='final_exam' class="input-sm form-control form-control-sm" data-prev-value="{{ $course_report->final_exam }}" value="{{ $course_report->final_exam }}">
             </td>
             <td>
-                <input type="text" tabindex='3' name='skill_description' class="form-control form-control-sm" data-prev-value="{{ $course_report->skill_description }}" value="{{ $course_report->skill_description }}">
+                <input type="text" tabindex='3' name='knowledge_description' class="form-control form-control-sm" data-prev-value="{{ $course_report->knowledge_description }}" value="{{ $course_report->knowledge_description }}">
             </td>
+            <td>
         </tr>
         @endforeach
     </tbody>

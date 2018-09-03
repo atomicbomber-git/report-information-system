@@ -53,17 +53,21 @@
         </div>
         <div class="col-1"></div>
         <div class="col text-right">
+            @if(filled($advancable_grades))
             @foreach ($advancable_grades as $advancable_grade)
             <a href="{{ route('students.advance_grades', $advancable_grade) }}" class="btn btn-dark btn-sm">
                 Kenaikan Kelas {{ $advancable_grade }}
                 <i class="fa fa-arrow-up"></i>
             </a>
             @endforeach
+            @endif
 
+            @if(filled($last_grade))
             <a class="btn btn-dark btn-sm" href="{{ route('students.deactivate', $last_grade) }}">
                 Deaktivasi Siswa Kelas {{ $last_grade }}
                 <i class="fa fa-pencil"></i>
             </a>
+            @endif
         </div>
     </div>
 </div>

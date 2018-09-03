@@ -193,7 +193,7 @@
             </tbody>
         </table>
 
-        <table class="report">
+        <table class="report" style="width: 100%">
             <thead>
                 <tr>
                     <th rowspan="2"> No. </th>
@@ -223,8 +223,8 @@
                     <tr>
                         <td> {{ $loop->iteration }} </td>
                         <td> {{ $course->name }} </td>
-                        <td class="score"> {{ $knowledge_grades[$course->id] }} </td>
-                        <td class="grade"> {{ \App\Helper::grade($knowledge_grades[$course->id]) }} </td>
+                        <td class="score"> {{ $knowledge_grades->get($course->id) }} </td>
+                        <td class="grade"> {{ \App\Helper::grade($knowledge_grades->get($course->id)) }} </td>
                         <td class="description"> {{ $descriptions[$course->id]->knowledge_description }} </td>
                         <td class="score"> {{ $skill_grades[$course->id] }} </td>
                         <td class="grade"> {{ \App\Helper::grade($skill_grades[$course->id]) }} </td>
@@ -237,7 +237,7 @@
     </section>
 
     <section class="sheet padding-10mm">
-        <table class="report">
+        <table class="report" style="width: 100%">
             <thead>
                 <tr>
                     <th rowspan="2"> No. </th>
@@ -303,7 +303,7 @@
                                 <tr>
                                     <td> {{ $loop->iteration }} </td>
                                     <td> {{ $extracurricular->name }} </td>
-                                    <td> {{ \App\ExtracurricularReport::GRADES[$extracurricular->score] }} </td>
+                                    <td> {{ \App\ExtracurricularReport::GRADES[$extracurricular->score] ?? '-' }} </td>
                                 </tr>
                                 @endforeach
                             </tbody>

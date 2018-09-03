@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', "Kelola Nilai Tahun Ajaran $term->term_code Semester $even_odd")
+@section('title', "Kelola Nilai Tahun Ajaran $term->code Semester" . \App\RoomTerm::EVEN_ODD[$even_odd])
 
 @section('content')
 
@@ -10,7 +10,7 @@
 </h1>
 
 <p class="lead">
-    Tahun Ajaran {{ $term->term_code }} Semester {{ $even_odd }}
+    Tahun Ajaran {{ $term->code }} Semester {{ \App\RoomTerm::EVEN_ODD[$even_odd] }}
 </p>
 
 <hr/>

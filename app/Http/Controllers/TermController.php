@@ -26,7 +26,7 @@ class TermController extends Controller
         return view('terms.create',
             [
                 'current_page' => 'terms',
-                'latest_year' => Term::orderBy('term_end', 'desc')->value('term_end')
+                'latest_year' => Term::orderBy('term_end', 'desc')->value('term_end') ?? today()->year
             ]
         );
     }
@@ -194,21 +194,29 @@ class TermController extends Controller
 
     // Get all the room-term pairs that haven't been added to the room_terms table yet
     private function getVacantRooms($term_id) {
-        return Term::crossJoin('rooms')
-            ->select('rooms.id', 'rooms.name', 'temporary.even_odd')
-            ->crossJoin(DB::raw("(SELECT 'odd' AS 'even_odd' UNION ALL SELECT 'even') AS temporary"))
-            ->leftJoin('room_terms', function ($join) {
-                $join->on('terms.id', '=', 'room_terms.term_id');
-                $join->on('rooms.id', '=', 'room_terms.room_id');
-                $join->on('temporary.even_odd', '=', 'room_terms.even_odd');
-            })->whereNull('room_terms.id')
-            ->where('terms.id', $term_id)
+        $semestersSQL = "SELECT 'even' AS 'even_odd' UNION SELECT 'odd' AS 'even_odd'";
+        
+        $possibleClassesSQL = DB::table('rooms')
+            ->select('rooms.id', 'rooms.name', 'semesters.even_odd')
+            ->crossJoin(DB::raw("($semestersSQL) AS semesters"))
+            ->toSql();
+
+        return DB::table(DB::raw("($possibleClassesSQL) AS possible_classes"))
+            ->whereNotExists(function ($query) use ($term_id) {
+                $query
+                    ->select('room_terms.room_id', 'room_terms.even_odd')
+                    ->from('room_terms')
+                    ->whereRaw('room_terms.room_id = possible_classes.id')
+                    ->whereRaw('room_terms.even_odd = possible_classes.even_odd')
+                    ->where('room_terms.term_id', $term_id);
+            })
             ->get();
     }
 
     public function createRoomTerm(Term $term)
     {
         $vacant_rooms = $this->getVacantRooms($term->id);
+        
         return view('terms.create_room_term', [
             'term_id' => $term->id,
             'vacant_rooms' => $vacant_rooms,

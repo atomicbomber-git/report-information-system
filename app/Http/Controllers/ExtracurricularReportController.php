@@ -37,6 +37,7 @@ class ExtracurricularReportController extends Controller
             ->join('users', 'users.id', '=', 'students.user_id')
             ->join('room_terms', 'room_terms.id', '=', 'reports.room_term_id')
             ->where('room_terms.even_odd', $even_odd)
+            ->where('room_terms.term_id', $extracurricular->term_id)
             ->whereNotExists(function ($query) use($extracurricular) {
                 $query->select('extracurricular_reports.id')
                     ->from('extracurricular_reports')

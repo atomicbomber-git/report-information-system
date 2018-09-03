@@ -164,7 +164,7 @@ class TeacherManagementController extends Controller
         $information->course_id = $course_id;
         
         $course_reports = DB::table('course_reports')
-            ->select('course_reports.id', 'users.name', 'mid_exam', 'final_exam', 'skill_description')
+            ->select('course_reports.id', 'users.name', 'mid_exam', 'final_exam', 'knowledge_description')
             ->join('reports', 'reports.id', '=', 'course_reports.report_id')
             ->join('students', 'students.id', '=', 'reports.student_id')
             ->join('users', 'users.id', '=', 'students.user_id')

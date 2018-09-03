@@ -67,7 +67,7 @@ class ReportPrintController extends Controller
         return view('teacher_management.print_report', [
             'report' => $report,
             'course_groups' => $course_groups,
-            'knowledge_grades' => $knowledge_grades,
+            'knowledge_grades' => collect($knowledge_grades),
             'skill_grades' => $skill_grades,
             'descriptions' => $descriptions,
             'extracurriculars' => $extracurriculars
