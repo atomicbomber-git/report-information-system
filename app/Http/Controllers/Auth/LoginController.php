@@ -22,13 +22,13 @@ class LoginController extends Controller
 
     public function redirectTo()
     {
-        \Log::debug(auth()->user()->privilege);
-
         switch ( auth()->user()->privilege ) {
             case 'teacher':
                 return route('teacher.management.terms');
             case 'administrator':
                 return route('terms.index');
+            case 'student':
+                return route('student_access.terms');
             default:
                 return '/home';
         }

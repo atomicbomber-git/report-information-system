@@ -180,4 +180,9 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/semester/{semester}/extracurricular/{extracurricular}', 'ExtracurricularReportController@editScore')->name('teacher.management.extracurricular_edit_score');
         Route::post('/semester/{semester}/extracurricular/{extracurricular}', 'ExtracurricularReportController@processEditScore')->name('teacher.management.extracurricular_edit_score');
     });
+
+    Route::prefix('/student_access')->group(function() {
+        Route::get('/terms', 'StudentAccessController@terms')->name('student_access.terms');
+        Route::get('/reports', 'StudentAccessController@reports')->name('student_access.reports');
+    });
 });
