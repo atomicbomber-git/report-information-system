@@ -19,7 +19,7 @@ class ReportPrintController extends Controller
             ->get()
             ->groupBy('group');
 
-        $knowledge_grades = DB::table('knowledge_grades')
+        $knowledge_grades = collect(DB::table('knowledge_grades')
             ->select(
                 'course_reports.course_id',
                 DB::raw('ROUND(AVG(GREATEST(((first_assignment + second_assignment + third_assignment + first_exam + second_exam ) / 5 ), first_remedial, second_remedial))) AS knowledge_grade')
@@ -32,7 +32,7 @@ class ReportPrintController extends Controller
             })
             ->groupBy('course_reports.course_id')
             ->get()
-            ->mapWithKeys(function ($item) { return [$item->course_id => $item->knowledge_grade]; });
+            ->mapWithKeys(function ($item) { return [$item->course_id => $item->knowledge_grade]; }));
         
         $skill_grades = DB::table('skill_grades')
             ->select(
@@ -64,14 +64,10 @@ class ReportPrintController extends Controller
             ->orderBy('extracurriculars.name')
             ->get();
         
-        return view('teacher_management.print_report', [
-            'report' => $report,
-            'course_groups' => $course_groups,
-            'knowledge_grades' => collect($knowledge_grades),
-            'skill_grades' => $skill_grades,
-            'descriptions' => $descriptions,
-            'extracurriculars' => $extracurriculars
-        ]);
+        return view(
+            'teacher_management.print_report',
+            compact('report', 'course_groups', 'knowledge_grades', 'skill_grades', 'descriptions', 'extracurriculars')
+        );
     }
 
     public function printReportCover(Report $report)
