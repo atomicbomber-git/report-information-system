@@ -46,10 +46,19 @@
 
     <div class="row mt-2">
         <div class="col">
-            <a href="{{ route('students.index', ['show_inactives' => request('show_inactives') ? FALSE : TRUE]) }}" class="btn btn-info btn-sm">
-                Siswa Nonaktif {{ request('show_inactives') ? "" : "Tidak" }} Ditampilkan
-                <i class="fa {{ request('show_inactives') ? "fa-eye" : "fa-eye-slash" }}"></i>
-            </a>
+            <div class="alert alert-info">
+                <i class="fa fa-info"></i>
+                @if(request('show_inactives'))
+                    Sekarang siswa non-aktif tidak ditampilkan
+                @else
+                    Sekarang siswa non-aktif ditampilkan
+                @endif
+
+                <a href="{{ route('students.index', ['show_inactives' => request('show_inactives') ? FALSE : TRUE]) }}" class="btn btn-info btn-sm">
+                    {{ request('show_inactives') ? "" : "Tidak" }} Tampilkan
+                    <i class="fa {{ request('show_inactives') ? "fa-eye" : "fa-eye-slash" }}"></i>
+                </a>
+            </div>
         </div>
         <div class="col-1"></div>
         <div class="col text-right">
