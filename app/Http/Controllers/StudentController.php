@@ -111,6 +111,7 @@ class StudentController extends Controller
                 'username' => ['required', 'alpha_dash', 'min:8', Rule::unique('users')->ignore($student->user->id)],
                 'student_id' => ['required', 'string', Rule::unique('students')->ignore($student->id)],
                 'password' => 'sometimes|nullable|string|confirmed',
+                'active' => 'required|boolean',
                 'birthplace' => 'required|string',
                 'birthdate' => 'required|string',
                 'current_grade' => 'required|integer|min:1',

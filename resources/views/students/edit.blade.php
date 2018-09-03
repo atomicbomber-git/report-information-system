@@ -65,6 +65,17 @@
         </div>
     </div>
 
+    <div class='form-group'>
+        <label for='active'> Status Aktif / Non-Aktif Siswa: </label>
+        <select name='active' id='active' class='form-control'>
+            <option {{ $student->active == '1' ? 'selected' : '' }} value="1"> Aktif </option>
+            <option {{ $student->active == '0' ? 'selected' : '' }} value="0"> Non-Aktif </option>
+        </select>
+        <div class='invalid-feedback'>
+            {{ $errors->first('active') }}
+        </div>
+    </div>
+
     <div class="alert alert-warning">
         <i class="fa fa-warning"></i>
         Jika kata sandi dikosongkan, maka kata sandi akan 
