@@ -36,7 +36,7 @@
             <th> # </th>
             <th> Tahun Ajaran </th>
             <th> Semester Ganjil </th>
-            <th> Semeter Genap </th>
+            <th> Semester Genap </th>
         </tr>
     </thead>
 
