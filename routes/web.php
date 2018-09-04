@@ -183,6 +183,6 @@ Route::middleware(['auth'])->group(function() {
 
     Route::prefix('/student_access')->group(function() {
         Route::get('/terms', 'StudentAccessController@terms')->name('student_access.terms');
-        Route::get('/reports', 'StudentAccessController@reports')->name('student_access.reports');
+        Route::get('/report/{report}', 'StudentAccessController@report')->name('student_access.report');
     });
 });

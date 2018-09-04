@@ -33,7 +33,7 @@ class ReportPrintController extends Controller
             ->groupBy('course_reports.course_id')
             ->get()
             ->mapWithKeys(function ($item) { return [$item->course_id => $item->knowledge_grade]; }));
-        
+                
         $skill_grades = DB::table('skill_grades')
             ->select(
                 'course_reports.course_id',

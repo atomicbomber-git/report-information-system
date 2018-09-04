@@ -47,25 +47,17 @@
             <td> {{ $code }} </td>
             <td>
                 @if(isset($semesters['odd']))
-                    <a href="{{ route('teacher.management.print_report_cover', $semesters['odd']->report_id) }}" class="btn btn-sm btn-dark">
-                        Cetak Cover Rapor
-                        <i class="fa fa-print"></i>
-                    </a>
-                    <a href="{{ route('teacher.management.print_report', $semesters['odd']->report_id) }}" class="btn btn-sm btn-dark">
-                        Cetak Isi Rapor
-                        <i class="fa fa-print"></i>
-                    </a>
+                <a href="{{ route('student_access.report', $semesters['odd']->report_id) }}" class="btn btn-sm btn-dark">
+                    Nilai
+                    <i class="fa fa-list"></i>
+                </a>
                 @endif
             </td>
             <td>
                 @if(isset($semesters['even']))
-                <a href="{{ route('teacher.management.print_report_cover', $semesters['even']->report_id) }}" class="btn btn-sm btn-dark">
-                    Cetak Cover Rapor
-                    <i class="fa fa-print"></i>
-                </a>
-                <a href="{{ route('teacher.management.print_report', $semesters['even']->report_id) }}" class="btn btn-sm btn-dark">
-                    Cetak Isi Rapor
-                    <i class="fa fa-print"></i>
+                <a href="{{ route('student_access.report', $semesters['even']->report_id) }}" class="btn btn-sm btn-dark">
+                    Nilai
+                    <i class="fa fa-list"></i>
                 </a>
                 @endif
             </td>
