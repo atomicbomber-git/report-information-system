@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
+    const GRADES = [
+        7, 8, 9
+    ];
+
     const SEXES = [
         "male" => "Laki-Laki",
         "female" => "Perempuan"

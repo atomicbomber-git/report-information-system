@@ -106,7 +106,7 @@
         <label for='current_grade'> Jenjang: </label>
         <select name='current_grade' id='current_grade' class='form-control'>
             @foreach($grades as $grade)
-            <option {{ old('current_grade', $student->grade) !== $grade ?: 'selected' }} value='{{ $grade }}'> {{ $grade }} </option>
+            <option {{ old('current_grade', $student->current_grade) == $grade ? 'selected' : '' }} value='{{ $grade }}'> {{ $grade }} </option>
             @endforeach
         </select>
         <div class='invalid-feedback'>

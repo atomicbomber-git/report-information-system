@@ -17,13 +17,15 @@ class StudentController extends Controller
         $students = DB::table('students')
             ->select('students.id', 'students.student_id', 'users.name AS name', 'students.current_grade', 'students.sex', 'students.birthplace', 'students.birthdate', 'users.username')
             ->join('users', 'users.id', '=', 'students.user_id')
-            ->when(request('show_inactives'), function ($query, $show_inactives) { return $query->where('active', $show_inactives); })
+            ->when(request('show_inactives'), function ($query, $show_inactives) {
+                return $query->where('active', $show_inactives);
+            })
             ->orderBy('students.current_grade')
             ->orderBy('users.name')
             ->get();
 
-        $advancable_grades = [7, 8];
-        $last_grade = 9;
+        $advancable_grades = collect(Student::GRADES);
+        $last_grade = $advancable_grades->pop();
 
         return view('students.index', [
             'students' => $students,
@@ -37,7 +39,7 @@ class StudentController extends Controller
     {
         return view('students.create', [
             'current_page' => 'students',
-            'grades' => [7, 8, 9]
+            'grades' => Student::GRADES
         ]);
     }
 
@@ -98,7 +100,7 @@ class StudentController extends Controller
     {
         return view('students.edit', [
             'student' => $student,
-            'grades' => $this->getGrades()
+            'grades' => Student::GRADES
         ]);
     }
 
@@ -155,16 +157,7 @@ class StudentController extends Controller
     {
         $student->delete();
         return back()
-            ->with('message-success', 'Data berhasil dihapus.');
-    }
-
-    private function getGrades()
-    {
-        return DB::table('rooms')
-            ->select('grade')
-            ->groupBy('grade')
-            ->get()
-            ->pluck('grade');
+            ->with('message-success', __('messages.delete.success'));
     }
 
     public function advanceGrades($grade) {
