@@ -29,6 +29,8 @@ class LoginController extends Controller
                 return route('terms.index');
             case 'student':
                 return route('student_access.terms');
+            case 'headmaster':
+                return route('headmaster_access.terms');
             default:
                 return '/home';
         }
