@@ -24,8 +24,8 @@ class StudentController extends Controller
             ->orderBy('users.name')
             ->get();
 
-        $advancable_grades = [7, 8];
-        $last_grade = 9;
+        $advancable_grades = collect(Student::GRADES);
+        $last_grade = $advancable_grades->pop();
 
         return view('students.index', [
             'students' => $students,
@@ -39,7 +39,7 @@ class StudentController extends Controller
     {
         return view('students.create', [
             'current_page' => 'students',
-            'grades' => [7, 8, 9]
+            'grades' => Student::GRADES
         ]);
     }
 
@@ -100,7 +100,7 @@ class StudentController extends Controller
     {
         return view('students.edit', [
             'student' => $student,
-            'grades' => $this->getGrades()
+            'grades' => Student::GRADES
         ]);
     }
 
@@ -158,11 +158,6 @@ class StudentController extends Controller
         $student->delete();
         return back()
             ->with('message-success', __('messages.delete.success'));
-    }
-
-    private function getGrades()
-    {
-        return [7, 8, 9];
     }
 
     public function advanceGrades($grade) {
