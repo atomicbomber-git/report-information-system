@@ -17,7 +17,9 @@ class StudentController extends Controller
         $students = DB::table('students')
             ->select('students.id', 'students.student_id', 'users.name AS name', 'students.current_grade', 'students.sex', 'students.birthplace', 'students.birthdate', 'users.username')
             ->join('users', 'users.id', '=', 'students.user_id')
-            ->when(request('show_inactives'), function ($query, $show_inactives) { return $query->where('active', $show_inactives); })
+            ->when(request('show_inactives'), function ($query, $show_inactives) {
+                return $query->where('active', $show_inactives);
+            })
             ->orderBy('students.current_grade')
             ->orderBy('users.name')
             ->get();
