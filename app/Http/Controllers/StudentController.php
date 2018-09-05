@@ -162,11 +162,7 @@ class StudentController extends Controller
 
     private function getGrades()
     {
-        return DB::table('rooms')
-            ->select('grade')
-            ->groupBy('grade')
-            ->get()
-            ->pluck('grade');
+        return [7, 8, 9];
     }
 
     public function advanceGrades($grade) {
