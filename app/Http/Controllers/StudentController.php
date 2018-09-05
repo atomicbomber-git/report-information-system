@@ -157,7 +157,7 @@ class StudentController extends Controller
     {
         $student->delete();
         return back()
-            ->with('message-success', 'Data berhasil dihapus.');
+            ->with('message-success', __('messages.delete.success'));
     }
 
     private function getGrades()
