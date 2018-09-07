@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Model;
 
-class RoomTerm extends Pivot
+class RoomTerm extends Model
 {
     protected $table = 'room_terms';
 
@@ -44,12 +44,9 @@ class RoomTerm extends Pivot
         return $this->belongsTo('App\Term');
     }
 
-    public function students()
+    public function reports()
     {
-        return $this->belongsToMany('App\Student', 'reports', 'room_term_id', 'student_id')
-            ->withTimeStamps()
-            ->as('report')
-            ->using('App\Report');
+        return $this->hasMany(Report::class, 'room_term_id');
     }
 
     // TEMPORARY WORKAROUND

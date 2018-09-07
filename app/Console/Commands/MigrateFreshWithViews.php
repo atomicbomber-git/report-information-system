@@ -40,6 +40,7 @@ class MigrateFreshWithViews extends Command
     public function handle()
     {
         DB::statement('DROP VIEW IF EXISTS knowledge_grades_summary');
+        DB::statement('DROP VIEW IF EXISTS skill_grades_summary');
         Artisan::call('migrate:fresh');
     }
 }

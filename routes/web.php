@@ -189,6 +189,6 @@ Route::middleware(['auth'])->group(function() {
     Route::prefix('/headmaster_access')->group(function() {
         Route::get('/terms', 'HeadmasterAccessController@terms')->name('headmaster_access.terms');
         Route::get('/terms/{term}/room_terms/{even_odd}', 'HeadmasterAccessController@roomTerms')->name('headmaster_access.room_terms');
-        Route::get('/terms/{term}/room_terms/{even_odd}/students', 'HeadmasterAccessController@students')->name('headmaster_access.students');
+        Route::get('/room_term/{room_term}', 'HeadmasterAccessController@roomTerm')->name('headmaster_access.room_term');
     });
 });

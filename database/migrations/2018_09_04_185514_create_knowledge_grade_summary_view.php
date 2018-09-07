@@ -16,19 +16,18 @@ class CreateKnowledgeGradeSummaryView extends Migration
     {
         DB::statement("
             CREATE VIEW knowledge_grades_summary AS SELECT
-                term_id,
+                room_id,
                 room_term_id,
-                even_odd,
                 student_id,
                 report_id,
                 course_id,
                 knowledge_basic_competency_id,
-                GREATEST( ( ( first_assignment + second_assignment + third_assignment + first_exam + second_exam ) / 5 ), first_remedial, second_remedial ) AS knowledge_grade 
+                GREATEST( ( ( first_assignment + second_assignment + third_assignment + first_exam + second_exam ) / 5 ), first_remedial, second_remedial ) AS grade 
             FROM
                 knowledge_grades
-                INNER JOIN course_reports ON course_reports.id = knowledge_grades.course_report_id
-                INNER JOIN reports ON reports.id = course_reports.report_id
-                INNER JOIN room_terms ON room_terms.id = reports.room_term_id
+                JOIN course_reports ON course_reports.id = knowledge_grades.course_report_id
+                JOIN reports ON reports.id = course_reports.report_id
+                JOIN room_terms ON room_terms.id = reports.room_term_id
         ");
     }
 

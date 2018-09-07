@@ -9,6 +9,10 @@
     Daftar Kelas Pada Tahun Ajaran {{ $term->code }}
 </h1>
 
+<p class="lead">
+Semester {{ \App\RoomTerm::EVEN_ODD[$even_odd] }}
+</p>
+
 @if( session('message-success') )
     <div class="alert alert-success">
         {{ session('message-success') }}
@@ -48,7 +52,7 @@
             <td> {{ $loop->iteration }}. </td>
             <td> {{ $room_term->room_name }} </td>
             <td>
-                <a href="" class="btn btn-dark btn-sm">
+                <a href="{{ route('headmaster_access.room_term', $room_term->id) }}" class="btn btn-dark btn-sm">
                     Laporan Nilai Siswa
                     <i class="fa fa-list"></i>
                 </a>
