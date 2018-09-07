@@ -24,8 +24,20 @@ class RoomTermsTableSeeder extends Seeder
         $i = 0;
         foreach ($terms as $term) {
             foreach ($rooms as $room) {
-                $term->rooms()->attach($room, ['even_odd' => 'odd', 'teacher_id' => $teachers[$i % $teacher_count]->id]);
-                $term->rooms()->attach($room, ['even_odd' => 'even', 'teacher_id' => $teachers[$i % $teacher_count]->id]);
+                RoomTerm::create([
+                    'term_id' => $term->id,
+                    'room_id' => $room->id,
+                    'even_odd' => 'odd',
+                    'teacher_id' => $teachers[$i % $teacher_count]->id
+                ]);
+
+                RoomTerm::create([
+                    'term_id' => $term->id,
+                    'room_id' => $room->id,
+                    'even_odd' => 'even',
+                    'teacher_id' => $teachers[$i % $teacher_count]->id
+                ]);
+
                 ++$i;
             }
         }
