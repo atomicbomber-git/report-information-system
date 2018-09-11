@@ -20,19 +20,28 @@
         <tr>
             <th> # </th>
             <th> Tahun Ajaran </th>
-            <th> Semester </th>
+            <th> Nilai Siswa </th>
+            <th> Data Guru </th>
         </tr>
     </thead>
 
     <tbody>
-        @foreach ($terms as $code => $semesters)
+        @foreach ($terms as $term)
         <tr>
             <td> {{ $loop->iteration }}. </td>
-            <td> {{ $code }} </td>
+            <td> {{ $term->code }} </td>
             <td>
-                @foreach ($semesters as $semester)
-                <a href="{{ route('headmaster_access.room_terms', [$semester->term_id, $semester->even_odd]) }}" class="btn btn-dark btn-sm">
-                    {{ \App\RoomTerm::EVEN_ODD[$semester->even_odd] }}
+                @foreach (\App\RoomTerm::EVEN_ODD as $even_odd => $semester)
+                <a href="{{ route('headmaster_access.room_terms', [$term->id, $even_odd]) }}" class="btn btn-dark btn-sm">
+                    Semester {{ $semester }}
+                    <i class="fa fa-list"></i>
+                </a>
+                @endforeach
+            </td>
+            <td>
+                @foreach (\App\RoomTerm::EVEN_ODD as $even_odd => $semester)
+                <a href="{{ route('headmaster_access.teachers', [$term->id, $even_odd]) }}" class="btn btn-dark btn-sm">
+                    Semester {{ $semester }}
                     <i class="fa fa-list"></i>
                 </a>
                 @endforeach

@@ -15,13 +15,9 @@ class HeadmasterAccessController extends Controller
     public function terms()
     {
         $terms = DB::table('terms')
-            ->select('terms.id AS term_id', 'code', 'even_odd')
-            ->join('room_terms', 'room_terms.term_id', '=', 'terms.id')
-            ->distinct('term_id', 'even_odd')
-            ->orderBy('term_start', 'desc')
-            ->get()
-            ->groupBy('code');
-        
+            ->select('code', 'id')
+            ->get();
+
         return view('headmaster_access.terms', compact('terms'));
     }
 
@@ -85,5 +81,38 @@ class HeadmasterAccessController extends Controller
             ->mapWithKeys(function ($grade) { return [$grade->student_id => $grade->grade]; });
 
         return view('headmaster_access.room_term', compact('room_term', 'reports', 'knowledge_grades', 'skill_grades'));
+    }
+
+    public function teachers(Term $term, $even_odd)
+    {
+        $teachers = DB::table('teachers')
+            ->select(
+                'teachers.teacher_id', 'users.name', 'teachers.active',
+                DB::raw('GROUP_CONCAT(DISTINCT courses.name ORDER BY courses.name SEPARATOR \', \') AS courses')
+            )
+            ->join('users', 'users.id', '=', 'teachers.user_id')
+            ->join('course_teachers', 'course_teachers.teacher_id', '=', 'teachers.id')
+            ->join('courses', 'courses.id', '=', 'course_teachers.course_id')
+            ->join('room_terms', 'room_terms.id', '=', 'course_teachers.room_term_id')
+            ->where('room_terms.term_id', $term->id)
+            ->where('room_terms.even_odd', $even_odd)
+            ->groupBy('teachers.teacher_id', 'users.name', 'teachers.active')
+            ->get();
+
+        $teacher_classes = DB::table('teachers')
+            ->select(
+                'teachers.teacher_id', 'users.name',
+                DB::raw('GROUP_CONCAT(rooms.name ORDER BY rooms.grade, rooms.name SEPARATOR \', \') AS classes')
+            )
+            ->join('users', 'users.id', '=', 'teachers.user_id')
+            ->join('room_terms', 'room_terms.teacher_id', '=', 'teachers.id')
+            ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
+            ->where('room_terms.term_id', $term->id)
+            ->where('room_terms.even_odd', $even_odd)
+            ->groupBy('teachers.teacher_id', 'users.name')
+            ->get()
+            ->keyBy('teacher_id');
+        
+        return view('headmaster_access.teachers', compact('term', 'teachers', 'teacher_classes', 'even_odd'));
     }
 }

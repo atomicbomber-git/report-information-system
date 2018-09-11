@@ -84,7 +84,7 @@
             <td> {{ $loop->iteration }}. </td>
             <td> {{ $room_term->room_name }}</td>
             <td> {{ \App\RoomTerm::EVEN_ODD[$room_term->even_odd] }} </td>
-            <td> {{ $room_term->teacher_name }} ({{ $room_term->teacher_id }}) </td>
+            <td> {{ $room_term->teacher_name ? ($room_term->teacher_name . " ($room_term->teacher_id)") : '-' }} </td>
             <td> {{ $room_term->report_count }} </td>
             <td>
                 <a href="{{ route('room_terms.detail', $room_term->id) }}" class="btn btn-dark btn-sm">

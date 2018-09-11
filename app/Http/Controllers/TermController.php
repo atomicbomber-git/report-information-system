@@ -128,8 +128,8 @@ class TermController extends Controller
             )
             ->rightJoin('room_terms', 'room_terms.id', '=', 'reports.room_term_id')
             ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
-            ->join('teachers', 'teachers.id', '=', 'room_terms.teacher_id')
-            ->join('users', 'users.id', '=', 'teachers.user_id')
+            ->leftJoin('teachers', 'teachers.id', '=', 'room_terms.teacher_id')
+            ->leftJoin('users', 'users.id', '=', 'teachers.user_id')
             ->groupBy('room_terms.id', 'rooms.name', 'room_terms.even_odd', 'users.name', 'teachers.teacher_id')
             ->where('room_terms.term_id', $term_id)
             ->orderBy('rooms.grade')
@@ -216,11 +216,12 @@ class TermController extends Controller
     public function createRoomTerm(Term $term)
     {
         $vacant_rooms = $this->getVacantRooms($term->id);
-        
+        $teachers = Teacher::where('active', 1)->with('user')->get();
+
         return view('terms.create_room_term', [
             'term_id' => $term->id,
             'vacant_rooms' => $vacant_rooms,
-            'teachers' => Teacher::with('user')->get()
+            'teachers' => $teachers
         ]);
     }
 

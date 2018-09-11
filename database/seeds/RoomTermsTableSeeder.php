@@ -21,24 +21,22 @@ class RoomTermsTableSeeder extends Seeder
         $teachers = Teacher::select('id')->get();
         $teacher_count = $teachers->count();
 
-        $i = 0;
         foreach ($terms as $term) {
             foreach ($rooms as $room) {
                 RoomTerm::create([
                     'term_id' => $term->id,
                     'room_id' => $room->id,
                     'even_odd' => 'odd',
-                    'teacher_id' => $teachers[$i % $teacher_count]->id
+                    'teacher_id' => $teachers->pop()->id ?? NULL
                 ]);
 
                 RoomTerm::create([
                     'term_id' => $term->id,
                     'room_id' => $room->id,
                     'even_odd' => 'even',
-                    'teacher_id' => $teachers[$i % $teacher_count]->id
+                    'teacher_id' => $teachers->pop()->id ?? NULL
                 ]);
-
-                ++$i;
+                
             }
         }
     }

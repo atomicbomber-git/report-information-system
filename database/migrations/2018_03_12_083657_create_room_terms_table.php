@@ -29,7 +29,7 @@ class CreateRoomTermsTable extends Migration
                 ->onDelete('cascade');;
 
             $table->unique(['room_id', 'term_id', 'even_odd']);
-
+            
             $table->timestamps();
         });
     }
