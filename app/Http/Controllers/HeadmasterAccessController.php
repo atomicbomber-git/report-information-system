@@ -115,4 +115,22 @@ class HeadmasterAccessController extends Controller
         
         return view('headmaster_access.teachers', compact('term', 'teachers', 'teacher_classes', 'even_odd'));
     }
+
+    public function students()
+    {
+        $students = DB::table('students')
+            ->select('students.id', 'student_id', 'name', 'sex', 'current_grade')
+            ->join('users', 'users.id', '=', 'students.user_id')
+            ->where('active', 1)
+            ->orderBy('students.current_grade')
+            ->orderBy('users.name')
+            ->get();
+
+        return view('headmaster_access.students', compact('students'));
+    }
+
+    public function student(Student $student)
+    {
+        return view('headmaster_access.student', compact('student'));
+    }
 }

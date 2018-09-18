@@ -15,6 +15,12 @@
 
 <hr>
 
+<div class="text-right my-3">
+    <a href="{{ route('headmaster_access.students') }}" class="btn btn-dark">
+        Data Siswa <i class="fa fa-users"></i>
+    </a>
+</div>
+
 <table class='table table-striped table-responsive-xl table-sm'>
     <thead class='thead-dark'>
         <tr>

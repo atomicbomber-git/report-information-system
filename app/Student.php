@@ -33,6 +33,10 @@ class Student extends Model
         'guardian_occupation', 'current_grade', 'active'
     ];
 
+    public $dates = [
+        'birthdate'
+    ];
+
     public function religion()
     {
         return $this::RELIGIONS[$this->religion];

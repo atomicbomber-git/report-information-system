@@ -196,5 +196,7 @@ Route::middleware(['auth'])->group(function() {
         });
 
         Route::get('/terms/{term}/teachers/{even_odd}', 'HeadmasterAccessController@teachers')->name('headmaster_access.teachers');
+        Route::get('/students', 'HeadmasterAccessController@students')->name('headmaster_access.students');
+        Route::get('/student/{student}', 'HeadmasterAccessController@student')->name('headmaster_access.student');
     });
 });
