@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
 
 <style>
-    #table {
+    table.dataTable {
         border-collapse: collapse !important;
     }
 </style>
@@ -32,13 +32,13 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-        </div>
-        <div class="col"></div>
-        <div class="col-md-3 text-right">
             <a href="{{ route('headmaster_access.terms') }}" class="btn btn-secondary btn-sm">
                 <i class="fa fa-arrow-left"></i>
                 Kembali
             </a>
+        </div>
+        <div class="col"></div>
+        <div class="col-md-3 text-right">
         </div>
     </div>
 </div>
