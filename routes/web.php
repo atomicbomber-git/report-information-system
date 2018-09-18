@@ -189,6 +189,7 @@ Route::middleware(['auth'])->group(function() {
     Route::prefix('/headmaster_access')->group(function() {
 
         Route::get('/terms', 'HeadmasterAccessController@terms')->name('headmaster_access.terms');
+        Route::get('/graph', 'HeadmasterAccessController@graph')->name('headmaster_access.graph');
 
         Route::prefix('/grades')->group(function() {
             Route::get('/terms/{term}/room_terms/{even_odd}', 'HeadmasterAccessController@roomTerms')->name('headmaster_access.room_terms');

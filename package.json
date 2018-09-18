@@ -21,5 +21,8 @@
         "popper.js": "^1.14.1",
         "sweetalert": "^2.1.0"
     },
-    "dependencies": {}
+    "dependencies": {
+        "frappe-charts": "^1.1.0",
+        "paper-css": "^0.4.1"
+    }
 }

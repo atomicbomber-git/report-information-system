@@ -133,4 +133,9 @@ class HeadmasterAccessController extends Controller
     {
         return view('headmaster_access.student', compact('student'));
     }
+
+    public function grade()
+    {
+        
+    }
 }

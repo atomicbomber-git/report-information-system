@@ -1,3 +1,4 @@
+import { Chart } from 'frappe-charts'
 
 /**
  * First, we will load all of this project's Javascript utilities and other
