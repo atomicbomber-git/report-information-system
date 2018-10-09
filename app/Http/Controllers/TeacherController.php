@@ -15,6 +15,9 @@ class TeacherController extends Controller
         $teachers = DB::table('teachers')
             ->select('users.name', 'users.username', 'teachers.teacher_id', 'teachers.id')
             ->join('users', 'users.id', '=', 'teachers.user_id')
+            ->when(request('show_inactives'), function ($query, $show_inactives) {
+                return $query->where('active', $show_inactives);
+            })
             ->get();
 
         return view('teachers.index', [
@@ -79,6 +82,7 @@ class TeacherController extends Controller
                 'name' => 'string|required',
                 'username' => ['string', 'required', 'alpha_dash', Rule::unique('users')->ignore($teacher->user->id)],
                 'teacher_id' => ['string', 'required', Rule::unique('teachers')->ignore($teacher->id)],
+                'active' => 'required|boolean',
                 'password' => 'sometimes|nullable|confirmed|string'
             ],
             [
@@ -91,8 +95,8 @@ class TeacherController extends Controller
             // Update user data
             $user = $teacher->user;
             $user->name = $new_data['name'];
-            $user->username = $new_data['username']; 
-
+            $user->username = $new_data['username'];
+            
             if ( ! empty($new_data['password'])) {
                 $user->password = bcrypt($new_data['password']);
             }
@@ -101,7 +105,8 @@ class TeacherController extends Controller
             
             // Update teacher data
             $teacher->update([
-                'teacher_id' => $new_data['teacher_id']
+                'teacher_id' => $new_data['teacher_id'],
+                'active' => $new_data['active']
             ]);
         });
 

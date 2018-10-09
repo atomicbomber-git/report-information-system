@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Guru')
+@section('title', 'Seluruh Guru')
 
 @section('styles')
 
@@ -32,6 +32,19 @@
 <div class="container">
     <div class="row">
         <div class="col text-left">
+            <div class="alert alert-info">
+                <i class="fa fa-info"></i>
+                @if(request('show_inactives'))
+                    Sekarang guru non-aktif tidak ditampilkan
+                @else
+                    Sekarang guru non-aktif ditampilkan
+                @endif
+
+                <a href="{{ route('teachers.index', ['show_inactives' => request('show_inactives') ? FALSE : TRUE]) }}" class="btn btn-info btn-sm">
+                    {{ request('show_inactives') ? "" : "Tidak" }} Tampilkan
+                    <i class="fa {{ request('show_inactives') ? "fa-eye" : "fa-eye-slash" }}"></i>
+                </a>
+            </div>
         </div>
         <div class="col-3">
         </div>

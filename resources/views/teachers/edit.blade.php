@@ -63,6 +63,17 @@
             </div>
         </div>
 
+        <div class='form-group'>
+            <label for='active'> Aktif / Non-Aktif: </label>
+            <select name='active' id='active' class='form-control'>
+                <option {{ $teacher->active == '1' ? 'selected' : '' }} value="1"> Aktif </option>
+                <option {{ $teacher->active == '0' ? 'selected' : '' }} value="0"> Non-Aktif </option>
+            </select>
+            <div class='invalid-feedback'>
+                {{ $errors->first('active') }}
+            </div>
+        </div>
+
         <div class="alert alert-warning">
             <i class="fa fa-info"></i>
             Kosongkan kolom dibawah jika tidak ingin mengubah kata sandi
