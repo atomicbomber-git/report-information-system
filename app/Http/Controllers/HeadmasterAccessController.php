@@ -134,8 +134,26 @@ class HeadmasterAccessController extends Controller
         return view('headmaster_access.student', compact('student'));
     }
 
-    public function grade()
+    public function chart(Term $term, $even_odd)
     {
-        
+        $knowledge_grade_averages = DB::table('knowledge_grades_summary')
+            ->select('rooms.name AS room_name', 'room_terms.id AS room_term_id', DB::raw('AVG(knowledge_grades_summary.grade) AS grade_average'))
+            ->rightJoin('room_terms', 'room_terms.id', '=', 'knowledge_grades_summary.room_term_id')
+            ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
+            ->where('room_terms.term_id', $term->id)
+            ->where('room_terms.even_odd', $even_odd)
+            ->groupBy('room_terms.id', 'rooms.name')
+            ->get();
+
+        $skill_grade_averages = DB::table('skill_grades_summary')
+            ->select('rooms.name AS room_name', 'room_terms.id AS room_term_id', DB::raw('AVG(skill_grades_summary.grade) AS grade_average'))
+            ->rightJoin('room_terms', 'room_terms.id', '=', 'skill_grades_summary.room_term_id')
+            ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
+            ->where('room_terms.term_id', $term->id)
+            ->where('room_terms.even_odd', $even_odd)
+            ->groupBy('room_terms.id', 'rooms.name')
+            ->get();
+
+        return view('headmaster_access.chart', compact('knowledge_grade_averages', 'skill_grade_averages', 'term', 'even_odd'));
     }
 }

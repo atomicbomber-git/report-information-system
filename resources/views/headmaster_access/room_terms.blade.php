@@ -32,6 +32,10 @@ Semester {{ \App\RoomTerm::EVEN_ODD[$even_odd] }}
         <div class="col-3">
         </div>
         <div class="col text-right">
+            <a href="{{ route('headmaster_access.chart', [$term, $even_odd]) }}" class="btn btn-dark btn-sm">
+                Grafik
+                <i class="fa fa-bar-chart"></i>
+            </a>
         </div>
     </div>
 </div>

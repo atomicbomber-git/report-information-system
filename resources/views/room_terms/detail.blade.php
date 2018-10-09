@@ -126,10 +126,6 @@
                     <td> {{ $report->name }} </td>
                     <td> {{ $report->student_id }} </td>
                     <td>
-                        <a href="{{ route('reports.detail', $report) }}" class="btn btn-dark btn-sm">
-                            Nilai
-                            <i class="fa fa-list-alt"></i>
-                        </a>
                         <a class="btn btn-edit btn-dark btn-sm"
                             href="{{ route('reports.move', $report) }}"
                             >
