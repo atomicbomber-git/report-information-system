@@ -110,6 +110,19 @@
     </div>
 
     <div class='form-group'>
+        <label for='status_in_family'> Status Dalam Keluarga: </label>
+    
+        <input
+            id='status_in_family' name='status_in_family' type='text'
+            value='{{ old('status_in_family') }}'
+            class='form-control {{ !$errors->has('status_in_family') ?: 'is-invalid' }}'>
+    
+        <div class='invalid-feedback'>
+            {{ $errors->first('status_in_family') }}
+        </div>
+    </div>
+
+    <div class='form-group'>
         <label for='alma_mater'> Sekolah Asal: </label>
     
         <input
