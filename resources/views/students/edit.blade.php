@@ -170,7 +170,7 @@
     
         <input
             id='birthdate' name='birthdate' type='date'
-            value='{{ old('birthdate', $student->birthdate) }}'
+            value='{{ old('birthdate', $student->birthdate->format("Y-m-d")) }}'
             class='form-control {{ !$errors->has('birthdate') ?: 'is-invalid' }}'>
     
         <div class='invalid-feedback'>
