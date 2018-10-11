@@ -55,6 +55,8 @@ class StudentController extends Controller
                 'birthplace' => 'required|string',
                 'birthdate' => 'required|string',
                 'current_grade' => 'required|integer|min:1',
+                'alma_mater' => 'sometimes|nullable|string',
+                'acceptance_date' => 'sometimes|nullable|string',
                 'religion' => 'required|string',
                 'address' => 'required|string',
                 'phone' => 'required|string',
@@ -65,9 +67,11 @@ class StudentController extends Controller
                 'father_name' => 'sometimes|nullable|string',
                 'father_occupation' => 'sometimes|nullable|string',
                 'parents_address' => 'sometimes|nullable|string',
+                'parents_phone' => 'sometimes|nullable|string',
                 'guardian_name' => 'sometimes|nullable|string',
                 'guardian_occupation' => 'sometimes|nullable|string',
-                'guardian_address' => 'sometimes|nullable|string'
+                'guardian_address' => 'sometimes|nullable|string',
+                'guardian_phone' => 'sometimes|nullable|string'
             ]
         ));
 
@@ -129,9 +133,11 @@ class StudentController extends Controller
                 'father_name' => 'sometimes|nullable|string',
                 'father_occupation' => 'sometimes|nullable|string',
                 'parents_address' => 'sometimes|nullable|string',
+                'parents_phone' => 'sometimes|nullable|string',
                 'guardian_name' => 'sometimes|nullable|string',
                 'guardian_occupation' => 'sometimes|nullable|string',
-                'guardian_address' => 'sometimes|nullable|string'
+                'guardian_address' => 'sometimes|nullable|string',
+                'guardian_phone' => 'sometimes|nullable|string'
             ]
         ));
 
