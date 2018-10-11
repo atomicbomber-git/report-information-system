@@ -28,6 +28,8 @@
             <th> Tahun Ajaran </th>
             <th> Nilai Siswa </th>
             <th> Data Guru </th>
+            <th> Jumlah Siswa </th>
+            <th> Jumlah Guru </th>
         </tr>
     </thead>
 
@@ -52,6 +54,8 @@
                 </a>
                 @endforeach
             </td>
+            <td> {{ $student_count[$term->id] ?? 0 }} </td>
+            <td> {{ $teacher_count[$term->id] ?? 0 }} </td>
         @endforeach
     </tbody>
 </table>
