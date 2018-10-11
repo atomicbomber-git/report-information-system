@@ -26,7 +26,7 @@ class Student extends Model
 
     protected $fillable = [
         'id', 'user_id', 'student_id', 'sex', 'birthplace',
-        'birthdate', 'religion', 'status_in_family', 'alma_mater',
+        'birthdate', 'religion', 'status_in_family', 'alma_mater', 'acceptance_date',
         'nth_child', 'address', 'phone', 'father_name',
         'mother_name', 'parents_address', 'father_occupation',
         'mother_occupation', 'guardian_name', 'guardian_address',
