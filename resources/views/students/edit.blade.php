@@ -118,11 +118,24 @@
         <label for='sex'> Jenis Kelamin: </label>
         <select name='sex' id='sex' class='form-control'>
             @foreach(\App\Student::SEXES as $sex_id => $sex_caption)
-            <option {{ old('sex') !== $sex_id ?: 'selected' }} value='{{ $sex_id }}'> {{ $sex_caption }} </option>
+            <option value='{{ $sex_id }}' {{ old('sex', $student->sex) == $sex_id ? "selected" : "" }}> {{ $sex_caption }} </option>
             @endforeach
         </select>
         <div class='invalid-feedback'>
             {{ $errors->first('sex') }}
+        </div>
+    </div>
+
+    <div class='form-group'>
+        <label for='status_in_family'> Status Dalam Keluarga: </label>
+    
+        <input
+            id='status_in_family' name='status_in_family' type='text'
+            value='{{ old('status_in_family', $student->status_in_family) }}'
+            class='form-control {{ !$errors->has('status_in_family') ?: 'is-invalid' }}'>
+    
+        <div class='invalid-feedback'>
+            {{ $errors->first('status_in_family') }}
         </div>
     </div>
 

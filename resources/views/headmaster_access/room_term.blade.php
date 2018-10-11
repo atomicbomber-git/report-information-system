@@ -52,8 +52,8 @@
         <tr>
             <td> {{ $loop->iteration }} </td>
             <td> {{ $report['student_name'] }} </td>
-            <td> {{ number_format($knowledge_grades[$report['student_id']], 2, ',', '') ?? '-' }} </td>
-            <td> {{ number_format($skill_grades[$report['student_id']], 2, ',', '') ?? '-' }} </td>
+            <td> {{ number_format($knowledge_grades[$report['student_id']] ?? 0, 2, ',', '') }} </td>
+            <td> {{ number_format($skill_grades[$report['student_id']] ?? 0, 2, ',', '') }} </td>
         </tr>
         @endforeach
     </tbody>
