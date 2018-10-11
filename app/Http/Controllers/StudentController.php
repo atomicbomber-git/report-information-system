@@ -122,6 +122,7 @@ class StudentController extends Controller
                 'phone' => 'required|string',
                 'sex' => 'required|string',
                 'nth_child' => 'sometimes|nullable|integer|min:1',
+                'alma_mater' => 'sometimes|nullable|string',
                 'mother_name' => 'sometimes|nullable|string',
                 'mother_occupation' => 'sometimes|nullable|string',
                 'father_name' => 'sometimes|nullable|string',
