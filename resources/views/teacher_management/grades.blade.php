@@ -24,9 +24,10 @@
 <div class="container">
     <div class="row">
         <div class="col text-left">
-            <a href="{{ route('headmaster_access.room_terms', [$room_term->term->id, $room_term->getOriginal('even_odd')]) }}" class="btn btn-secondary btn-sm">
-                Kembali
+            <a href="{{ route('teacher.management.courses', [$room_term->term->id, $room_term->getOriginal('even_odd')]) }}"
+                class="btn btn-sm btn-secondary">
                 <i class="fa fa-arrow-left"></i>
+                Kembali
             </a>
         </div>
         <div class="col-3">

@@ -63,6 +63,11 @@
                     Cetak Laporan
                     <i class="fa fa-print"></i>
                 </a>
+
+                <a href="{{ route('teacher.management.grades', $room_term->id) }}" class="btn btn-dark btn-sm">
+                    Nilai & Grafik
+                    <i class="fa fa-bar-chart"></i>
+                </a>
             </td>
         </tr>
         @endforeach

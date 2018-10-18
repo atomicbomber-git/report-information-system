@@ -134,7 +134,10 @@ Route::middleware(['auth'])->group(function() {
     
         Route::get('/term/{term}/semester/{even_odd}/courses', 'TeacherManagementController@courses')->where(['even_odd' => '^(even|odd)$'])
             ->name('teacher.management.courses');
-    
+
+        Route::get('/grades/{room_term_id}', 'TeacherManagementController@grades')->where(['even_odd' => '^(even|odd)$'])
+            ->name('teacher.management.grades');
+
         Route::get('/term/{term_id}/semester/{even_odd}/room_term/{room_term_id}/course/{course_id}/knowledge', 'TeacherManagementController@courseDetail')
             ->where(['even_odd' => '^(even|odd)$'])
             ->name('teacher.management.courses.detail');

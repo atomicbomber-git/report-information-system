@@ -10,7 +10,9 @@ use App\Term;
 use App\Course;
 use App\Report;
 use App\KnowledgeGrade;
+use App\KnowledgeGradeSummary;
 use App\SkillGrade;
+use App\SkillGradeSummary;
 
 class TeacherManagementController extends Controller
 {
@@ -240,5 +242,58 @@ class TeacherManagementController extends Controller
             'information' => $information,
             'reports' => $reports
         ]);
+    }
+
+    public function grades($room_term_id)
+    {
+        $room_term = RoomTerm::find($room_term_id);
+        
+        $room_term->load([
+            'reports:id,room_term_id,student_id',
+            'reports.student:id,user_id,student_id',
+            'reports.student.user:id,name'
+        ]);
+
+        $even_odd = $room_term->getOriginal('even_odd');
+
+        $reports = $room_term->reports->map(function($report) {
+            return [
+                'student_id' => $report->student->id,
+                'student_name' => $report->student->user->name,
+                'student_code' => $report->student->student_id
+            ];
+        })->sortBy('student_name');
+
+        $knowledge_grades = KnowledgeGradeSummary::query()
+            ->select('student_id', DB::raw('AVG(grade) AS grade'))
+            ->when($even_odd == 'odd',
+                function ($query) use ($room_term) {
+                    $query->where('room_term_id', $room_term->id);
+                    $query->groupBy('report_id');
+                },
+                function ($query) use($room_term) {
+                    $query->where('room_id', $room_term->room->id);
+                    $query->groupBy('student_id');
+                }
+            )
+            ->get()
+            ->mapWithKeys(function ($grade) { return [$grade->student_id => $grade->grade]; });
+
+        $skill_grades = SkillGradeSummary::query()
+            ->select('student_id', DB::raw('AVG(grade) AS grade'))
+            ->when($even_odd == 'odd',
+                function ($query) use ($room_term) {
+                    $query->where('room_term_id', $room_term->id);
+                    $query->groupBy('report_id', 'student_id');
+                },
+                function ($query) use($room_term) {
+                    $query->where('room_id', $room_term->room->id);
+                    $query->groupBy('student_id');
+                }
+            )
+            ->get()
+            ->mapWithKeys(function ($grade) { return [$grade->student_id => $grade->grade]; });
+
+        return view('teacher_management.grades', compact('room_term', 'reports', 'knowledge_grades', 'skill_grades'));
     }
 }
