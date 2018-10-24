@@ -201,4 +201,9 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/students', 'HeadmasterAccessController@students')->name('headmaster_access.students');
         Route::get('/student/{student}', 'HeadmasterAccessController@student')->name('headmaster_access.student');
     });
+
+    Route::group(['prefix' => '/headmaster', 'as' => 'headmaster.'], function() {
+        Route::get('/edit', 'HeadmasterController@edit', 'edit.blade.php')->name('edit');
+        Route::post('/update', 'HeadmasterController@update', 'update.blade.php')->name('update');
+    });
 });

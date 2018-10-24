@@ -162,8 +162,8 @@
                         <tr> <td> </td>    <td></td>    <td> Pontianak, {{ (new Date(request('print_date')))->format('j F Y')  }} </td> </tr>
                         <tr> <td> </td>    <td></td>    <td> Kepala Sekolah </td> </tr>
                         <tr> <td> </td>    <td></td>    <td></td> </tr>
-                        <tr> <td> </td>    <td></td>    <td> <strong class="underlined"> Dra. Elly Utari Yuniar, M. Pd. </strong> </td> </tr>
-                        <tr> <td> </td>    <td></td>    <td> 19590607 198103 2012 </td> </tr>
+                        <tr> <td> </td>    <td></td>    <td> <strong class="underlined"> {{ $headmaster->name }} </strong> </td> </tr>
+                        <tr> <td> </td>    <td></td>    <td> {{ $headmaster->teacher->teacher_id }} </td> </tr>
                         <tr style="height: 5rem"> <td> </td>    <td></td>    <td> </td> </tr>
                         <tr> <td> Keterangan: </td> <td></td>    <td></td> </tr>
                         <tr> <td> NIS: Nomor Induk Peserta Didik </td>    <td></td>    <td></td> </tr>

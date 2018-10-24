@@ -59,6 +59,12 @@
                         </a>
                     </li>
 
+                    <li class='nav-item {{ Route::is('headmaster.*') ? 'active' : '' }}'>
+                        <a class='nav-link' href='{{ route('headmaster.edit') }}'>
+                            K. Sekolah
+                        </a>
+                    </li>
+
                     @endif
 
                 </ul>

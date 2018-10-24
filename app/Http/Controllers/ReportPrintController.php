@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Report;
+use App\User;
 use DB;
 
 class ReportPrintController extends Controller
@@ -81,9 +82,12 @@ class ReportPrintController extends Controller
             ->orderBy('terms.term_start')
             ->value('name');
 
+        $headmaster = User::where('privilege', 'HEADMASTER')->with('teacher:id,user_id,teacher_id')->first();
+
         return view('teacher_management.print_cover', [
             'report' => $report,
-            'first_class' => $first_class
+            'first_class' => $first_class,
+            'headmaster' => $headmaster
         ]);
     }
 }
