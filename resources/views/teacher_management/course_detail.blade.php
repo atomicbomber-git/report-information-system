@@ -82,6 +82,8 @@
     
                     <th> Ujian 1 </th>
                     <th> Ujian 2 </th>
+                    <th> Remedial 1 </th>
+                    <th> Remedial 2 </th>
                 </tr>
             </thead>
             
@@ -94,6 +96,8 @@
                         <td> <input tabindex="{{ $loop->parent->index * 10 + 3 }}" form="group-third_assignment" min="0" max="100" type="number" class="form-control form-control-sm" name="third_assignment" data-prev-value="{{ $student_grade->third_assignment }}" value="{{ $student_grade->third_assignment }}"> </td>
                         <td> <input tabindex="{{ $loop->parent->index * 10 + 4 }}" form="group-first_exam" min="0" max="100" type="number" class="form-control form-control-sm" name="first_exam" data-prev-value="{{ $student_grade->first_exam }}" value="{{ $student_grade->first_exam }}"> </td>
                         <td> <input tabindex="{{ $loop->parent->index * 10 + 5 }}" form="group-second_exam" min="0" max="100" type="number" class="form-control form-control-sm" name="second_exam" data-prev-value="{{ $student_grade->second_exam }}" value="{{ $student_grade->second_exam }}"> </td>
+                        <td> <input tabindex="{{ $loop->parent->index * 10 + 6 }}" form="group-first_remedial" min="0" max="100" type="number" class="form-control form-control-sm" name="first_remedial" data-prev-value="{{ $student_grade->first_remedial }}" value="{{ $student_grade->first_remedial }}"> </td>
+                        <td> <input tabindex="{{ $loop->parent->index * 10 + 7 }}" form="group-second_remedial" min="0" max="100" type="number" class="form-control form-control-sm" name="second_remedial" data-prev-value="{{ $student_grade->second_remedial }}" value="{{ $student_grade->second_remedial }}"> </td>
                     </tr>
                 @endforeach
             </tbody>
