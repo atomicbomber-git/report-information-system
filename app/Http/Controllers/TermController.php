@@ -121,6 +121,7 @@ class TermController extends Controller
             ->select(
                 'room_terms.id',
                 'rooms.name AS room_name',
+                'rooms.grade AS grade',
                 'room_terms.even_odd',
                 'users.name AS teacher_name',
                 'teachers.teacher_id',
@@ -130,9 +131,10 @@ class TermController extends Controller
             ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
             ->leftJoin('teachers', 'teachers.id', '=', 'room_terms.teacher_id')
             ->leftJoin('users', 'users.id', '=', 'teachers.user_id')
-            ->groupBy('room_terms.id', 'rooms.name', 'room_terms.even_odd', 'users.name', 'teachers.teacher_id')
+            ->groupBy('room_terms.id', 'rooms.name', 'rooms.grade', 'room_terms.even_odd', 'users.name', 'teachers.teacher_id')
             ->where('room_terms.term_id', $term_id)
             ->orderBy('rooms.grade')
+            ->orderBy('rooms.name')
             ->get();
         
         return view('terms.detail',
