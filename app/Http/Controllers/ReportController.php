@@ -137,6 +137,8 @@ class ReportController extends Controller
             ->select('students.id')
             ->join('reports', 'reports.student_id', '=', 'students.id')
             ->join('room_terms', 'room_terms.id', '=', 'reports.room_term_id')
+            ->where('room_terms.room_id', $room_term->room_id)
+            ->where('room_terms.term_id', $room_term->term_id)
             ->where('room_terms.even_odd', 'odd')
             ->pluck('id');
 
