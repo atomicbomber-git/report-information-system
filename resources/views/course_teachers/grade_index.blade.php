@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Seluruh Tahun Ajaran')
+@section('title', 'Kelola Guru Mata Pelajaran')
 
 @section('styles')
 <style>

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', "")
+@section('title', "Kelola Nilai Ekstrakurikuler $extracurricular->name")
 
 @section('content')
 

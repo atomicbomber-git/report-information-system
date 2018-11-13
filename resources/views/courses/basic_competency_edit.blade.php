@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Mata Pelajaran')
+@section('title', 'Sunting Kompetensi Dasar')
 
 
 @section('styles')
