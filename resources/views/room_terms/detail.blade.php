@@ -94,7 +94,7 @@
         <div class="row">
             <div class="col col-md-12 text-right">
                 @if($reports->count() == 0 && $room_term->getOriginal('even_odd') == 'even')
-                <form method="POST" class="d-inline-block" action="{{ route('reports.create_previous', $room_term) }}">
+                <form method="POST" class="d-inline-block form-add-from-prev-semester" action="{{ route('reports.create_previous', $room_term) }}">
                     @csrf
                     <button class="btn btn-sm btn-dark" {{ $odd_report_count != 0 ?: 'disabled' }}>
                         Tambahkan Siswa dari Semester Sebelumnya <i class="fa fa-plus"></i>
@@ -201,5 +201,25 @@
             });
         });
 
+        $(".form-add-from-prev-semester").each(function() {
+            let form = $(this);
+            form.submit(function(e) {
+                e.preventDefault()
+
+
+                swal(`Anda yakin ingin menambahkan siswa dari semester sebelumnya?`, {
+                    title: 'Konfirmasi Tindakan',
+                    icon: 'warning',
+                    buttons: ['Tidak', 'Ya'],
+                    dangerMode: true
+                })
+                .then(function(willDo) {
+                    if (willDo) {
+                        form.off('submit').submit();
+                    }
+                });
+
+            });
+        });
     </script>
 @endsection
