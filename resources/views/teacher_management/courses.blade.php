@@ -32,6 +32,8 @@
 
 <hr/>
 
+
+@if($managed_room_terms->count() > 0)
 <h3>
     <i class="fa fa-list"></i>
     Kelola Kelas Perwalian
@@ -73,7 +75,9 @@
         @endforeach
     </tbody>
 </table>
+@endif
 
+@if($managed_extracurriculars->count() > 0)
 <h3 class="mt-5">
     <i class="fa fa-list"></i>
     Daftar Seluruh Ekstrakurikuler yang Dibimbing
@@ -105,7 +109,9 @@
         @endforeach
     </tbody>
 </table>
+@endif
 
+@if($room_term_groups->count() > 0)
 <h3 class="mt-5">
     <i class="fa fa-list"></i>
     Daftar Seluruh Kelas yang Diajar
@@ -163,4 +169,5 @@
         @endforeach
     </tbody>
 </table>
+@endif
 @endsection
