@@ -267,12 +267,12 @@
                     <tr>
                         <td> {{ $loop->iteration }} </td>
                         <td> {{ $course->name }} </td>
-                        <td class="score"> {{ $knowledge_grades[$course->id] }} </td>
-                        <td class="grade"> {{ \App\Helper::grade($knowledge_grades[$course->id]) }} </td>
-                        <td class="description"> {{ $descriptions[$course->id]->knowledge_description }} </td>
-                        <td class="score"> {{ $skill_grades[$course->id] }} </td>
-                        <td class="grade"> {{ \App\Helper::grade($skill_grades[$course->id]) }} </td>
-                        <td class="description"> {{ $descriptions[$course->id]->skill_description }} </td>
+                        <td class="score"> {{ $knowledge_grades[$course->id] ?? '-' }} </td>
+                        <td class="grade"> {{ \App\Helper::grade($knowledge_grades[$course->id] ?? 0) }} </td>
+                        <td class="description"> {{ $descriptions[$course->id]->knowledge_description ?? '-' }} </td>
+                        <td class="score"> {{ $skill_grades[$course->id] ?? 0 }} </td>
+                        <td class="grade"> {{ \App\Helper::grade($skill_grades[$course->id] ?? 0) }} </td>
+                        <td class="description"> {{ $descriptions[$course->id]->skill_description ?? '-' }} </td>
                     </tr>
                     @endforeach
                 @endif
