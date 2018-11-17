@@ -28,6 +28,21 @@
     </div>
 @endif
 
+<div class="container" style="padding: 0.6rem 0rem 0.6rem 0rem">
+    <div class="row">
+        <div class="col col-md-3 text-left">
+            <a href="{{ route('courses.grade_index', [$course->term_id, $course->grade]) }}" class="btn btn-sm btn-secondary">
+                <i class="fa fa-arrow-left"></i>
+                Kembali
+            </a>
+        </div>
+        <div class="col-md-6">
+        </div>
+        <div class="col col-md-3 text-right">
+        </div>
+    </div>
+</div>
+
 <hr/>
 
 <div class="container" style="padding: 0.6rem 0rem 0.6rem 0rem">
