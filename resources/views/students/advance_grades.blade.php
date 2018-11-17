@@ -147,15 +147,15 @@
                 text: 'Apakah Anda yakin ingin menaikkan seluruh siswa yang dipilih ke kelas {{ $grade + 1 }}?',
                 icon: 'warning',
                 buttons: {
-                    // cancel: 'Batalkan',
                     ok: {
                         text: 'Tambahkan',
                         closeModal: false
-                    }
+                    },
+                    cancel: 'Batalkan'
                 },
                 dangerMode: true,
-                closeOnClickOutside: false,
-                closeOnEsc: false
+                closeOnClickOutside: true,
+                closeOnEsc: true
             })
             .then(willSubmit => {
                 if (willSubmit == null) {
