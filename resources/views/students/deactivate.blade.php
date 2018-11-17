@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', "Deaktivasi Siswa Kelas {{ $grade }}")
+@section('title', "Deaktivasi Siswa Kelas {$grade}")
 
 @section('styles')
 
