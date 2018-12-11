@@ -223,10 +223,10 @@
                     <tr>
                         <td> {{ $loop->iteration }} </td>
                         <td> {{ $course->name }} </td>
-                        <td class="score"> {{ number_format($knowledge_grades->get($course->id), 1) ?? 0 }} </td>
+                        <td class="score"> {{ number_format($knowledge_grades->get($course->id), 0) ?? 0 }} </td>
                         <td class="grade"> {{ \App\Helper::grade($knowledge_grades->get($course->id)) }} </td>
                         <td class="description"> {{ $descriptions[$course->id]->knowledge_description }} </td>
-                        <td class="score"> {{ number_format($skill_grades[$course->id], 1) ?? 0 }} </td>
+                        <td class="score"> {{ number_format($skill_grades[$course->id], 0) ?? 0 }} </td>
                         <td class="grade"> {{ \App\Helper::grade($skill_grades[$course->id] ?? 0) }} </td>
                         <td class="description"> {{ $descriptions[$course->id]->skill_description }} </td>
                     </tr>
@@ -267,10 +267,10 @@
                     <tr>
                         <td> {{ $loop->iteration }} </td>
                         <td> {{ $course->name }} </td>
-                        <td class="score"> {{ number_format($knowledge_grades[$course->id], 1) ?? 0 }} </td>
+                        <td class="score"> {{ number_format($knowledge_grades[$course->id], 0) ?? 0 }} </td>
                         <td class="grade"> {{ \App\Helper::grade($knowledge_grades[$course->id] ?? 0) }} </td>
                         <td class="description"> {{ $descriptions[$course->id]->knowledge_description ?? '-' }} </td>
-                        <td class="score"> {{ number_format($skill_grades[$course->id], 1) ?? 0 }} </td>
+                        <td class="score"> {{ number_format($skill_grades[$course->id], 0) ?? 0 }} </td>
                         <td class="grade"> {{ \App\Helper::grade($skill_grades[$course->id] ?? 0) }} </td>
                         <td class="description"> {{ $descriptions[$course->id]->skill_description ?? '-' }} </td>
                     </tr>
