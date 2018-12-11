@@ -362,7 +362,7 @@
                     </td>
                     <td style="vertical-align: bottom">
                         <div style="border-bottom: medium solid black">
-                            <strong> Dra. Elly Utarie Yuniar M.Pd </strong>
+                            <strong> {{ $headmaster->name }} </strong>
                         </div>
                     </td>
                 </tr>
@@ -370,7 +370,7 @@
                 <tr>
                     <td></td>
                     <td> {{ $report->room_term->teacher->teacher_id }} </td>
-                    <td></td>
+                    <td> {{ $headmaster->teacher->teacher_id }} </td>
                 </tr>
             </tbody>
         </table>

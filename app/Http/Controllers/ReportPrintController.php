@@ -11,6 +11,8 @@ class ReportPrintController extends Controller
 {
     public function printReport(Report $report)
     {
+        $headmaster = User::where('privilege', 'HEADMASTER')->with('teacher:id,user_id,teacher_id')->first();
+
         $course_groups = DB::table('courses')
             ->select('courses.id', 'courses.name', 'courses.group')
             ->join('course_reports', 'course_reports.course_id', '=', 'courses.id')
@@ -67,7 +69,7 @@ class ReportPrintController extends Controller
         
         return view(
             'teacher_management.print_report',
-            compact('report', 'course_groups', 'knowledge_grades', 'skill_grades', 'descriptions', 'extracurriculars')
+            compact('report', 'course_groups', 'knowledge_grades', 'skill_grades', 'descriptions', 'extracurriculars', 'headmaster')
         );
     }
 
