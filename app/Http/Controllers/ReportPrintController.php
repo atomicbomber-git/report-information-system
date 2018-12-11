@@ -37,18 +37,17 @@ class ReportPrintController extends Controller
             ->get()
             ->mapWithKeys(function ($item) { return [$item->course_id => $item->knowledge_grade]; }));
                 
-        $skill_grades = DB::table('skill_grades')
+        $skill_grades = DB::table('skill_grades_summary')
             ->select(
                 'course_reports.course_id',
-                DB::raw('ROUND(AVG(GREATEST(score_1, score_2, score_3, score_4, score_5, score_6))) AS grade')
+                'grade'
             )
-            ->rightJoin('course_reports', 'course_reports.id', '=', 'skill_grades.course_report_id')
+            ->rightJoin('course_reports', 'course_reports.id', '=', 'skill_grades_summary.course_report_id')
             ->join('reports', 'reports.id', '=', 'course_reports.report_id')
             ->where('reports.student_id', $report->student_id)
             ->when($report->room_term->getOriginal('even_odd') == 'odd', function ($query) use($report) {
                 $query->where('reports.room_term_id', $report->room_term_id);
             })
-            ->groupBy('course_reports.course_id')
             ->get()
             ->mapWithKeys(function ($item) { return [$item->course_id => $item->grade]; });
 
