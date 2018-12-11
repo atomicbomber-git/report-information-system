@@ -68,6 +68,8 @@ class SkillGradeController extends Controller
                 }
             );
 
+        // return $this->getSkillGrades($room_term_id, $course_id);
+
         return view('teacher_management.skill_detail', [
             'course' => Course::find($course_id),
             'room_term' => RoomTerm::find($room_term_id),
@@ -110,7 +112,13 @@ class SkillGradeController extends Controller
                     SkillGrade::create([
                         'course_report_id' => $course_report->id,
                         'knowledge_basic_competency_id' => $basic_competency->id,
-                        'type' => request('type')
+                        'type' => request('type'),
+                        'score_1' => NULL,
+                        'score_2' => NULL,
+                        'score_3' => NULL,
+                        'score_4' => NULL,
+                        'score_5' => NULL,
+                        'score_6' => NULL,
                     ]);
                 }
             }
