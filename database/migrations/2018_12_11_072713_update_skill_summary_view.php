@@ -21,10 +21,10 @@ class UpdateSkillSummaryView extends Migration
                 (COALESCE(SUM(score_1), 0) + COALESCE(SUM(score_2), 0) + COALESCE(SUM(score_3), 0) + COALESCE(SUM(score_4), 0) + COALESCE(SUM(score_5), 0) + COALESCE(SUM(score_6), 0)) /
                 (COUNT(score_1) + COUNT(score_2) + COUNT(score_3) + COUNT(score_4) + COUNT(score_5) + COUNT(score_6)) AS grade
                 FROM skill_grades
-                GROUP BY id, course_report_id, knowledge_basic_competency_id
+                GROUP BY id, course_report_id, knowledge_basic_competency_id, type
         ";
 
-        // $subtable = "SELECT id, course_report_id, knowledge_basic_competency_id, AVG(grade) AS grade FROM ($subtable) AS sub GROUP BY knowledge_basic_competency_id, id, course_report_id";
+        $subtable = "SELECT id, course_report_id, knowledge_basic_competency_id, AVG(grade) AS grade FROM ($subtable) AS sub GROUP BY knowledge_basic_competency_id, id, course_report_id";
 
         DB::statement("
             CREATE VIEW $this->view_name AS SELECT room_id, room_term_id, student_id, report_id, course_id, course_report_id, AVG(grade) AS grade FROM ($subtable) AS test
