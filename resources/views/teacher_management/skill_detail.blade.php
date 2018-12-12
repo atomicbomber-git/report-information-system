@@ -203,7 +203,7 @@
 
             let basic_competency_unit = changed_data[$(this).data('basic-competency-id')];
 
-            if ($(this).data('original-value') == $(this).val() ) {
+            if ($(this).data('original-value') === $(this).val() ) {
 
                 $(this).parent().removeClass('table-warning');
 
