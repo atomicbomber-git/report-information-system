@@ -65,8 +65,11 @@
             {
                 name: "Keterampilan",
                 values: skill_grades
-            }
-        ]
+            },
+        ],
+
+        yMarkers: [{ label: "", value: 100,
+		options: { labelPos: 'left' }}],
     }
 
     const chart = new frappe.Chart("#chart", {  // or a DOM element,
@@ -75,7 +78,7 @@
         data: data,
         type: 'bar', // or 'bar', 'line', 'scatter', 'pie', 'percentage'
         height: 250,
-        colors: ['#7cd6fd', '#743ee2']
+        colors: ['#7cd6fd', '#743ee2'],
     })
 </script>
 @endsection

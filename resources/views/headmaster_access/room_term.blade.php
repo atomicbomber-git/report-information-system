@@ -94,6 +94,8 @@
         data: data,
         type: 'bar',
         height: 250,
+        min_value: 0,
+        max_value: 100,
         colors: ['#7cd6fd', '#743ee2']
     });
 </script>
