@@ -67,11 +67,13 @@
                             data-prev-value="{{ $report->score }}"
                             class="form-control form-control-sm report">
                             
+                            <option value=""> - </option>
                             @foreach (array_keys(\App\ExtracurricularReport::GRADES) as $grade)
                             <option value="{{ $grade }}" {{ $report->score != $grade ?: 'selected' }}>
                                 {{ $grade }}
                             </option>
                             @endforeach
+
                         </select>
                     </td>
                 </tr>
