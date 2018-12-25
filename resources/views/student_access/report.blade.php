@@ -53,10 +53,10 @@
             <tr>
                 <td> {{ $loop->iteration }} </td>
                 <td> {{ $course->name }} </td>
-                <td> {{ number_format($course->knowledge_grade, 0) }} </td>
-                <td> {{ $course->descriptions->knowledge_description }} </td>
-                <td> {{ number_format($course->skill_grade, 0) }} </td>
-                <td> {{ $course->descriptions->skill_description }} </td>
+                <td> {{ empty($course->knowledge_grade) ? '-' : number_format($course->knowledge_grade, 0) }} </td>
+                <td> {{ $course->descriptions->knowledge_description ?? '-' }} </td>
+                <td> {{ empty($course->knowledge_grade) ? '-' : number_format($course->knowledge_grade, 0) }} </td>
+                <td> {{ $course->descriptions->skill_description ?? '-' }} </td>
             </tr>
             @endforeach
         </tbody>
