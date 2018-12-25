@@ -53,9 +53,9 @@
             <tr>
                 <td> {{ $loop->iteration }} </td>
                 <td> {{ $course->name }} </td>
-                <td> {{ $course->knowledge_grade }} </td>
+                <td> {{ number_format($course->knowledge_grade, 0) }} </td>
                 <td> {{ $course->descriptions->knowledge_description }} </td>
-                <td> {{ $course->skill_grade }} </td>
+                <td> {{ number_format($course->skill_grade, 0) }} </td>
                 <td> {{ $course->descriptions->skill_description }} </td>
             </tr>
             @endforeach
