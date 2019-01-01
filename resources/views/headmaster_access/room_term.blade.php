@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', "Daftar Kelas Pada Tahun Ajaran " . $room_term->term->code)
+@section('title', "Rata-Rata Nilai Siswa")
 
 @section('content')
 
@@ -58,6 +58,37 @@
         @endforeach
     </tbody>
 </table>
+
+<h1 class="mt-4">
+    <i class="fa fa-list"></i>
+    10 Siswa Dengan Nilai Terbaik
+</h1>
+
+<table class='table table-striped table-responsive-xl table-sm'>
+    <thead class='thead-dark'>
+        <tr>
+            <th> # </th>
+            <th> Siswa </th>
+            <th> Nilai Pengetahuan </th>
+            <th> Nilai Keterampilan </th>
+            <th> Rata-Rata </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($best_grades as $best_grade)
+        <tr>
+            <td> {{ $loop->iteration }}. </td>
+            <td> {{ $reports[$best_grade['id']]["student_name"] }} </td>
+            <td> {{ $best_grade['id'] }} {{ number_format($knowledge_grades[$best_grade['id']] ?? 0, 2, ',', '') }} </td>
+            <td> {{ number_format($skill_grades[$best_grade['id']] ?? 0, 2, ',', '') }} </td>
+            <td> {{ number_format($best_grade['grade'] ?? 0, 2, ',', '') }} </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+
+
+
 
 <div id="chart"></div>
 @endsection

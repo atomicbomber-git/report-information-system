@@ -195,6 +195,7 @@ Route::middleware(['auth'])->group(function() {
             Route::get('/terms/{term}/room_terms/{even_odd}', 'HeadmasterAccessController@roomTerms')->name('headmaster_access.room_terms');
             Route::get('/room_term/{room_term}', 'HeadmasterAccessController@roomTerm')->name('headmaster_access.room_term');
             Route::get('/terms/{term}/room_terms/{even_odd}/chart', 'HeadmasterAccessController@chart')->name('headmaster_access.chart');
+            Route::get('/terms/{term}/room_terms/{even_odd}/best', 'HeadmasterAccessController@best')->name('headmaster_access.best');
         });
 
         Route::get('/terms/{term}/teachers/{even_odd}', 'HeadmasterAccessController@teachers')->name('headmaster_access.teachers');

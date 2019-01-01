@@ -68,7 +68,9 @@ class HeadmasterAccessController extends Controller
                 'student_name' => $report->student->user->name,
                 'student_code' => $report->student->student_id
             ];
-        })->sortBy('student_name');
+        })
+        ->sortBy('student_name')
+        ->keyBy('student_id');
 
         $knowledge_grades = KnowledgeGradeSummary::query()
             ->select('student_id', DB::raw('AVG(grade) AS grade'))
@@ -83,7 +85,7 @@ class HeadmasterAccessController extends Controller
                 }
             )
             ->get()
-            ->mapWithKeys(function ($grade) { return [$grade->student_id => $grade->grade]; });
+            ->mapWithKeys(function ($grade) { return [$grade->student_id => $grade["grade"]  ]; });
 
         $skill_grades = SkillGradeSummary::query()
             ->select('student_id', DB::raw('AVG(grade) AS grade'))
@@ -99,8 +101,22 @@ class HeadmasterAccessController extends Controller
             )
             ->get()
             ->mapWithKeys(function ($grade) { return [$grade->student_id => $grade->grade]; });
+        
+        $averages = [];
 
-        return view('headmaster_access.room_term', compact('room_term', 'reports', 'knowledge_grades', 'skill_grades'));
+        foreach ($knowledge_grades as $student_id => $knowledge_grade) {
+            $averages[] = [
+                "id" => $student_id,
+                "grade" => ($knowledge_grade + ($skill_grades[$student_id] ?? 0)) / 2
+            ];
+        }
+
+        $averages = collect($averages);
+        $best_grades = $averages->sortByDesc("grade")->values()->take(10);
+
+        // return $best_grades;
+
+        return view('headmaster_access.room_term', compact('room_term', 'reports', 'knowledge_grades', 'skill_grades', 'best_grades'));
     }
 
     public function teachers(Term $term, $even_odd)
@@ -175,5 +191,62 @@ class HeadmasterAccessController extends Controller
             ->get();
 
         return view('headmaster_access.chart', compact('knowledge_grade_averages', 'skill_grade_averages', 'term', 'even_odd'));
+    }
+
+    public function best(Term $term, $even_odd)
+    {
+        $reports = DB::table('reports')
+            ->select('users.name AS student_name', 'rooms.name AS room_name', 'students.id AS student_id', 'students.student_id AS student_code')
+            ->join('room_terms', 'room_terms.id', '=', 'reports.room_term_id')
+            ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
+            ->join('students', 'reports.student_id', '=', 'students.id')
+            ->join('users', 'users.id', '=', 'students.user_id')
+            ->where('term_id', $term->id)
+            ->groupBy('students.student_id', 'rooms.name', 'users.name', 'students.id')
+            ->get()
+            ->keyBy('student_id');
+        
+        $knowledge_grades = KnowledgeGradeSummary::query()
+            ->select('student_id', DB::raw('AVG(grade) AS grade'))
+            ->join('room_terms', 'room_terms.id', 'room_term_id')
+            ->when($even_odd == 'odd',
+                function ($query) use($even_odd) {
+                    $query->where('even_odd', $even_odd);
+                    $query->groupBy('report_id');
+                },
+                function ($query) {
+                    $query->groupBy('student_id');
+                }
+            )
+            ->get()
+            ->mapWithKeys(function ($grade) { return [$grade->student_id => $grade->grade]; });
+
+        $skill_grades = SkillGradeSummary::query()
+            ->select('student_id', DB::raw('AVG(grade) AS grade'))
+            ->join('room_terms', 'room_terms.id', 'room_term_id')
+            ->when($even_odd == 'odd',
+                function ($query) use($even_odd) {
+                    $query->where('even_odd', $even_odd);
+                    $query->groupBy('report_id', 'student_id');
+                },
+                function ($query) {
+                    $query->groupBy('student_id');
+                }
+            )
+            ->get()
+            ->mapWithKeys(function ($grade) { return [$grade->student_id => $grade->grade]; });
+
+        $averages = [];
+        foreach ($knowledge_grades as $student_id => $knowledge_grade) {
+            $averages[] = [
+                "id" => $student_id,
+                "grade" => ($knowledge_grade + ($skill_grades[$student_id] ?? 0)) / 2
+            ];
+        }
+
+        $averages = collect($averages);
+        $best_grades = $averages->sortByDesc("grade")->values()->take(10);
+
+        return view('headmaster_access.best', compact("term", "even_odd", "best_grades", "reports", "knowledge_grades", "skill_grades"));
     }
 }
