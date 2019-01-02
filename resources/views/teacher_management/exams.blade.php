@@ -50,7 +50,10 @@
         </div>
         <div class="col-md-6">
         </div>
-        <div class="col col-md-3">
+        <div class="col col-md-3 text-right">
+            <a href="{{ route('teacher.management.courses.generate_description_text', [$information->room_term_id, $information->course_id]) }}" class="btn btn-dark btn-sm">
+                Isi Nilai Deskripsi
+            </a>
         </div>
     </div>
 </div>
@@ -78,6 +81,7 @@
                 <input type="number" tabindex='2' name='final_exam' class="input-sm form-control form-control-sm" data-prev-value="{{ $course_report->final_exam }}" value="{{ $course_report->final_exam }}">
             </td>
             <td>
+
                 <input type="text" tabindex='3' name='knowledge_description' class="form-control form-control-sm" data-prev-value="{{ $course_report->knowledge_description }}" value="{{ $course_report->knowledge_description }}">
             </td>
             <td>

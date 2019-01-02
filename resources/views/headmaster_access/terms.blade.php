@@ -54,7 +54,7 @@
                 </a>
                 @endforeach
             </td>
-            <td> {{ $student_count[$term->id] ?? 0 }} </td>
+            <td> {{ ($male_student_count[$term->id] ?? 0) + ($female_student_count[$term->id] ?? 0) }} ({{ $male_student_count[$term->id] ?? 0 }} Laki-Laki, {{ $female_student_count[$term->id] ?? 0 }} Perempuan) </td>
             <td> {{ $teacher_count[$term->id] ?? 0 }} </td>
         @endforeach
     </tbody>

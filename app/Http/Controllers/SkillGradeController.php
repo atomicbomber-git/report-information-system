@@ -8,6 +8,8 @@ use App\RoomTerm;
 use App\Course;
 use App\Term;
 use App\SkillGrade;
+use App\CourseReport;
+use App\Helper;
 
 class SkillGradeController extends Controller
 {
@@ -170,6 +172,59 @@ class SkillGradeController extends Controller
             'room_term' => $room_term,
             'descriptions' => $descriptions
         ]);
+    }
+
+    public function generateDescriptionText($room_term_id, $course_id) {
+        $room_term_1 = RoomTerm::find($room_term_id);
+        $room_term_2 = RoomTerm::query()
+            ->where('id', '<>', $room_term_1->id)
+            ->where('room_id', $room_term_1->room_id)
+            ->first();
+
+        $skill_grades = DB::table('skill_grades_summary')
+            ->select('course_reports.course_id', 'grade', 'reports.student_id')
+            ->join('course_reports', 'course_reports.id', '=', 'skill_grades_summary.course_report_id')
+            ->join('reports', 'reports.id', '=', 'course_reports.report_id')
+            ->where('course_reports.course_id', $course_id)
+            ->when($room_term_1->getOriginal('even_odd') == 'odd',
+                function ($query) use($room_term_1) {
+                    $query->where('skill_grades_summary.room_term_id', $room_term_1->id);
+                },
+                function ($query) use($room_term_1, $room_term_2) {
+                    $query->where(function($query) use($room_term_1, $room_term_2) {
+                        $query->where('skill_grades_summary.room_term_id', $room_term_1->id)
+                            ->orWhere('skill_grades_summary.room_term_id', $room_term_2->id);
+                    });
+                }
+            )
+            ->get();
+
+        $descriptions = $skill_grades
+            ->map(function ($record) { 
+                return [
+                    "student_id" => $record->student_id,
+                    "grade" => CourseReport::DESCRIPTIONS[Helper::grade($record->grade)],
+                ];
+            })
+            ->mapWithKeys(function ($record) { return [$record["student_id"] => $record["grade"]]; });
+
+        $course_reports = DB::table('course_reports')
+            ->select('course_reports.id', 'reports.student_id')
+            ->join('reports', 'reports.id', '=', 'course_reports.report_id')
+            ->where('course_reports.course_id', $course_id)
+            ->where('reports.room_term_id', $room_term_1->id)
+            ->get();
+
+
+        DB::transaction(function() use($descriptions, $course_reports) {
+            foreach ($course_reports as $course_report) {
+                DB::table('course_reports')
+                    ->where('id', $course_report->id)
+                    ->update(['skill_description' => $descriptions[$course_report->student_id] ]);
+            }
+        });
+
+        return back();
     }
 
     public function processEditDescriptions(RoomTerm $room_term, Course $course)

@@ -52,6 +52,9 @@
         <div class="col-md-4">
         </div>
         <div class="col col text-right">
+            <a href="{{ route('teacher.management.courses.generate_skill_description_text', [$room_term->id, $course->id]) }}" class="btn btn-sm btn-dark">
+                Isi Nilai Deskripsi
+            </a>
         </div>
     </div>
 </div>

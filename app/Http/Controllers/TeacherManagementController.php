@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use DB;
+use App\Helper;
 use App\RoomTerm;
 use App\Term;
 use App\Course;
@@ -13,6 +14,7 @@ use App\KnowledgeGrade;
 use App\KnowledgeGradeSummary;
 use App\SkillGrade;
 use App\SkillGradeSummary;
+use App\CourseReport;
 
 class TeacherManagementController extends Controller
 {
@@ -174,13 +176,67 @@ class TeacherManagementController extends Controller
             ->where('reports.room_term_id', '=', $room_term_id)
             ->orderBy('users.name')
             ->get();
-        
+
         return view('teacher_management.exams', [
             'information' => $information,
             'course_reports' => $course_reports,
             'course' => Course::find($course_id),
             'room' => RoomTerm::where('room_terms.id', $room_term_id)->join('rooms', 'rooms.id', '=', 'room_terms.room_id')->first()
         ]);
+    }
+
+    public function generateDescriptionText($room_term_id, $course_id)
+    {
+        $room_term_1 = RoomTerm::find($room_term_id);
+        $room_term_2 = RoomTerm::query()
+            ->where('id', '<>', $room_term_1->id)
+            ->where('room_id', $room_term_1->room_id)
+            ->first();
+
+        $knowledge_grades = DB::table('knowledge_grades_summary')
+            ->select('knowledge_grades_summary.id', 'knowledge_grades_summary.course_id', DB::raw('((AVG(grade) + final_exam + mid_exam) / 3)  AS knowledge_grade'), 'course_report_id', 'reports.student_id')
+            ->join('course_reports', 'course_reports.id', '=', 'knowledge_grades_summary.course_report_id')
+            ->join('reports', 'reports.id', '=', 'course_reports.report_id')
+            ->where('course_reports.course_id', $course_id)
+            ->when($room_term_1->getOriginal('even_odd') == 'odd',
+                function ($query) use($room_term_1) {
+                    $query->where('knowledge_grades_summary.room_term_id', $room_term_1->id);
+                },
+                function ($query) use($room_term_1, $room_term_2) {
+                    $query->where(function($query) use($room_term_1, $room_term_2) {
+                        $query->where('knowledge_grades_summary.room_term_id', $room_term_1->id)
+                            ->orWhere('knowledge_grades_summary.room_term_id', $room_term_2->id);
+                    });
+                }
+            )
+            ->groupBy('course_report_id', 'mid_exam', 'final_exam', 'knowledge_grades_summary.course_id', 'student_id')
+            ->get();
+
+        $descriptions = $knowledge_grades
+            ->map(function ($record) { 
+                return [
+                    "student_id" => $record->student_id,
+                    "grade" => CourseReport::DESCRIPTIONS[Helper::grade($record->knowledge_grade)],
+                ];
+            })
+            ->mapWithKeys(function ($record) { return [$record["student_id"] => $record["grade"]]; });
+
+        $course_reports = DB::table('course_reports')
+            ->select('course_reports.id', 'reports.student_id')
+            ->join('reports', 'reports.id', '=', 'course_reports.report_id')
+            ->where('course_reports.course_id', $course_id)
+            ->where('reports.room_term_id', $room_term_1->id)
+            ->get();
+
+        DB::transaction(function() use($descriptions, $course_reports) {
+            foreach ($course_reports as $course_report) {
+                DB::table('course_reports')
+                    ->where('id', $course_report->id)
+                    ->update(['knowledge_description' => $descriptions[$course_report->student_id] ]);
+            }
+        });
+
+        return back();
     }
 
     public function updateKnowledgeGrade() {

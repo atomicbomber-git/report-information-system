@@ -14,10 +14,24 @@ class HeadmasterAccessController extends Controller
 {
     public function terms()
     {
-        $student_count = collect(DB::select('
+        $male_student_count = collect(DB::select('
             SELECT term_id, COUNT(student_id) AS student_count FROM (
                 SELECT DISTINCT room_terms.term_id, reports.student_id FROM room_terms
                     LEFT JOIN reports ON reports.room_term_id = room_terms.id
+                    JOIN students ON students.id = reports.student_id
+                    WHERE students.sex = \'male\'
+                ) AS subtable
+                GROUP BY term_id
+        '))->mapWithKeys(function ($record) {
+            return [$record->term_id => $record->student_count];
+        });
+
+        $female_student_count = collect(DB::select('
+            SELECT term_id, COUNT(student_id) AS student_count FROM (
+                SELECT DISTINCT room_terms.term_id, reports.student_id FROM room_terms
+                    LEFT JOIN reports ON reports.room_term_id = room_terms.id
+                    JOIN students ON students.id = reports.student_id
+                    WHERE students.sex = \'female\'
                 ) AS subtable
                 GROUP BY term_id
         '))->mapWithKeys(function ($record) {
@@ -38,7 +52,7 @@ class HeadmasterAccessController extends Controller
             ->select('code', 'id')
             ->get();
 
-        return view('headmaster_access.terms', compact('terms', 'teacher_count', 'student_count'));
+        return view('headmaster_access.terms', compact('terms', 'teacher_count', 'male_student_count', 'female_student_count'));
     }
 
     public function roomTerms(Term $term, $even_odd)

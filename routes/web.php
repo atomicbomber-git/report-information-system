@@ -145,6 +145,14 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/term/{term_id}/semester/{even_odd}/room_term/{room_term_id}/course/{course_id}/exams', 'TeacherManagementController@courseExams')
             ->where(['even_odd' => '^(even|odd)$'])
             ->name('teacher.management.courses.exams');
+
+        Route::get('/room_term/{room_term}/course/{course}/generate_knowledge_description', 'TeacherManagementController@generateDescriptionText')
+            ->where(['even_odd' => '^(even|odd)$'])
+            ->name('teacher.management.courses.generate_description_text');
+
+        Route::get('/room_term/{room_term}/course/{course}/generate_skill_description', 'SkillGradeController@generateDescriptionText')
+            ->where(['even_odd' => '^(even|odd)$'])
+            ->name('teacher.management.courses.generate_skill_description_text');
     
         Route::post('/update/knowlegde_grade', 'TeacherManagementController@updateKnowledgeGrade')
             ->name('knowledge_grades.update');
