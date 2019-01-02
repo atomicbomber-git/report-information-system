@@ -79,7 +79,7 @@
         <tr>
             <td> {{ $loop->iteration }}. </td>
             <td> {{ $reports[$best_grade['id']]["student_name"] }} </td>
-            <td> {{ $best_grade['id'] }} {{ number_format($knowledge_grades[$best_grade['id']] ?? 0, 2, ',', '') }} </td>
+            <td> {{ number_format($knowledge_grades[$best_grade['id']] ?? 0, 2, ',', '') }} </td>
             <td> {{ number_format($skill_grades[$best_grade['id']] ?? 0, 2, ',', '') }} </td>
             <td> {{ number_format($best_grade['grade'] ?? 0, 2, ',', '') }} </td>
         </tr>
