@@ -37,6 +37,7 @@
             <tr>
                 <th> # </th>
                 <th> Siswa </th>
+                <th> Kelas </th>
                 <th> Nilai Pengetahuan </th>
                 <th> Nilai Keterampilan </th>
                 <th> Rata-Rata </th>
@@ -47,6 +48,7 @@
             <tr>
                 <td> {{ $loop->iteration }}. </td>
                 <td> {{ $reports[$best_grade['id']]->student_name }} </td>
+                <td> {{ $reports[$best_grade['id']]->room_name }} </td>
                 <td> {{ number_format($knowledge_grades[$best_grade['id']] ?? 0, 2, ',', '') }} </td>
                 <td> {{ number_format($skill_grades[$best_grade['id']] ?? 0, 2, ',', '') }} </td>
                 <td> {{ number_format($best_grade['grade'] ?? 0, 2, ',', '') }} </td>

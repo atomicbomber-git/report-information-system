@@ -210,13 +210,13 @@ class HeadmasterAccessController extends Controller
     public function best(Term $term, $even_odd)
     {
         $reports = DB::table('reports')
-            ->select('users.name AS student_name', 'rooms.name AS room_name', 'students.id AS student_id', 'students.student_id AS student_code')
+            ->select('users.name AS student_name', 'rooms.name AS room_name', 'students.id AS student_id', 'students.student_id AS student_code', 'rooms.name AS room_name')
             ->join('room_terms', 'room_terms.id', '=', 'reports.room_term_id')
             ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
             ->join('students', 'reports.student_id', '=', 'students.id')
             ->join('users', 'users.id', '=', 'students.user_id')
             ->where('term_id', $term->id)
-            ->groupBy('students.student_id', 'rooms.name', 'users.name', 'students.id')
+            ->groupBy('students.student_id', 'rooms.name', 'users.name', 'students.id', 'rooms.name')
             ->get()
             ->keyBy('student_id');
         
