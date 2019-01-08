@@ -38,10 +38,10 @@ Semester {{ \App\RoomTerm::EVEN_ODD[$even_odd] }}
                 <i class="fa fa-list"></i>
             </a>
 
-            <a href="{{ route('headmaster_access.chart', [$term, $even_odd]) }}" class="btn btn-dark btn-sm">
+            {{-- <a href="{{ route('headmaster_access.chart', [$term, $even_odd]) }}" class="btn btn-dark btn-sm">
                 Grafik
                 <i class="fa fa-bar-chart"></i>
-            </a>
+            </a> --}}
         </div>
     </div>
 </div>

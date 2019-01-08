@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Term;
 use App\RoomTerm;
 use App\Student;
+use App\Room;
 use App\KnowledgeGradeSummary;
 use App\SkillGradeSummary;
 use DB;
@@ -50,8 +51,14 @@ class HeadmasterAccessController extends Controller
 
         $terms = DB::table('terms')
             ->select('code', 'id')
-            ->get();
-
+            ->orderByDesc('term_start')
+            ->get()
+            ->map(function($term) {
+                $term->room_term_odd_grades = $this->getRoomTermGradeChartData($term->id, 'odd');
+                $term->room_term_even_grades = $this->getRoomTermGradeChartData($term->id, 'even');
+                return $term;
+            })
+            ->keyBy('id');
         return view('headmaster_access.terms', compact('terms', 'teacher_count', 'male_student_count', 'female_student_count'));
     }
 
@@ -182,6 +189,33 @@ class HeadmasterAccessController extends Controller
     public function student(Student $student)
     {
         return view('headmaster_access.student', compact('student'));
+    }
+
+    public function getRoomTermGradeChartData($term_id, $even_odd) {
+        $term = Term::find($term_id);
+
+        $result["knowledge"] = DB::table('knowledge_grades_summary')
+            ->select('rooms.name AS room_name', 'room_terms.id AS room_term_id', DB::raw('AVG(knowledge_grades_summary.grade) AS grade_average'))
+            ->rightJoin('room_terms', 'room_terms.id', '=', 'knowledge_grades_summary.room_term_id')
+            ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
+            ->where('room_terms.term_id', $term->id)
+            ->where('room_terms.even_odd', $even_odd)
+            ->groupBy('room_terms.id', 'rooms.name')
+            ->get();
+
+        $result["skill"] = DB::table('skill_grades_summary')
+            ->select('rooms.name AS room_name', 'room_terms.id AS room_term_id', DB::raw('AVG(skill_grades_summary.grade) AS grade_average'))
+            ->rightJoin('room_terms', 'room_terms.id', '=', 'skill_grades_summary.room_term_id')
+            ->join('rooms', 'rooms.id', '=', 'room_terms.room_id')
+            ->where('room_terms.term_id', $term->id)
+            ->where('room_terms.even_odd', $even_odd)
+            ->groupBy('room_terms.id', 'rooms.name')
+            ->get();
+
+        $result["rooms"] = collect($result["knowledge"])->pluck('room_name');
+        $result["knowledge"] = collect($result["knowledge"])->pluck('grade_average');
+        $result["skill"] = collect($result["skill"])->pluck('grade_average');
+        return $result;
     }
 
     public function chart(Term $term, $even_odd)
