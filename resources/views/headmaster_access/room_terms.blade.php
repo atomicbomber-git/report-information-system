@@ -33,10 +33,10 @@ Semester {{ \App\RoomTerm::EVEN_ODD[$even_odd] }}
         </div>
 
         <div class="col text-right">
-            <a href="{{ route('headmaster_access.best', [$term, $even_odd]) }}" class="btn btn-dark btn-sm">
+            {{-- <a href="{{ route('headmaster_access.best', [$term, $even_odd]) }}" class="btn btn-dark btn-sm">
                 Nilai Terbaik
                 <i class="fa fa-list"></i>
-            </a>
+            </a> --}}
 
             {{-- <a href="{{ route('headmaster_access.chart', [$term, $even_odd]) }}" class="btn btn-dark btn-sm">
                 Grafik
