@@ -49,20 +49,30 @@ class HeadmasterAccessController extends Controller
             return [$record->term_id => $record->teacher_count];
         });
 
+        $grades = [7, 8, 9];
+
         $terms = DB::table('terms')
             ->select('code', 'id')
             ->orderByDesc('term_start')
             ->get()
-            ->map(function($term) {
+            ->map(function($term) use($grades) {
                 $term->room_term_odd_grades = $this->getRoomTermGradeChartData($term->id, 'odd');
                 $term->room_term_even_grades = $this->getRoomTermGradeChartData($term->id, 'even');
-                $term->best_even_grades = $this->getBestGrades($term->id, 'even');
-                $term->best_odd_grades = $this->getBestGrades($term->id, 'odd');
+
+                foreach ($grades as $grade) {
+                    $term->best_even_grades[$grade] = $this->getBestGrades($term->id, 'even', $grade);
+                    $term->best_odd_grades[$grade] = $this->getBestGrades($term->id, 'odd', $grade);
+                }
+
                 return $term;
             })
             ->keyBy('id');
 
-        return view('headmaster_access.terms', compact('terms', 'teacher_count', 'male_student_count', 'female_student_count'));
+        // return $grades;
+        // return $terms;
+        // return collect($terms["1"]->best_even_grades["8"]);
+
+        return view('headmaster_access.terms', compact('terms', 'teacher_count', 'male_student_count', 'female_student_count', 'grades'));
     }
 
     public function roomTerms(Term $term, $even_odd)
@@ -244,7 +254,7 @@ class HeadmasterAccessController extends Controller
         return view('headmaster_access.chart', compact('knowledge_grade_averages', 'skill_grade_averages', 'term', 'even_odd'));
     }
 
-    public function getBestGrades($term_id, $even_odd)
+    public function getBestGrades($term_id, $even_odd, $grade=7)
     {
         $term = Term::find($term_id);
 
@@ -255,13 +265,16 @@ class HeadmasterAccessController extends Controller
             ->join('students', 'reports.student_id', '=', 'students.id')
             ->join('users', 'users.id', '=', 'students.user_id')
             ->where('term_id', $term->id)
+            ->where('rooms.grade', $grade)
             ->groupBy('students.id', 'rooms.name', 'users.name', 'students.student_id', 'rooms.name')
             ->get()
             ->keyBy('student_id');
         
         $knowledge_grades = KnowledgeGradeSummary::query()
-            ->select('student_id', DB::raw('AVG(grade) AS grade'))
+            ->select('student_id', DB::raw('AVG(knowledge_grades_summary.grade) AS grade'))
             ->where('term_id', $term->id)
+            ->join('rooms', 'rooms.id', 'room_id')
+            ->where('rooms.grade', $grade)
             ->join('room_terms', 'room_terms.id', 'room_term_id')
             ->when($even_odd == 'odd',
                 function ($query) use($even_odd) {
@@ -276,8 +289,10 @@ class HeadmasterAccessController extends Controller
             ->mapWithKeys(function ($grade) { return [$grade->student_id => $grade->grade]; });
 
         $skill_grades = SkillGradeSummary::query()
-            ->select('student_id', DB::raw('AVG(grade) AS grade'))
+            ->select('student_id', DB::raw('AVG(skill_grades_summary.grade) AS grade'))
             ->where('term_id', $term->id)
+            ->join('rooms', 'rooms.id', 'room_id')
+            ->where('rooms.grade', $grade)
             ->join('room_terms', 'room_terms.id', 'room_term_id')
             ->when($even_odd == 'odd',
                 function ($query) use($even_odd) {
