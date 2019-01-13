@@ -171,14 +171,14 @@
                     </table>
                 </div>
 
-                <div id="chart_best_grade_odd_{{ $loop->iteration }}_{{ $grade_level }}"></div>
+                <div id="chart_best_grade_odd_{{ $term->id }}_{{ $grade_level }}"></div>
 
                 @push('scripts')
                 <script>
 
-                    const chart_best_grade_odd_{{ $loop->iteration }}_{{ $grade_level }} = new frappe.Chart("#chart_best_grade_odd_{{ $loop->iteration }}_{{ $grade_level }}", {
+                    const chart_best_grade_odd_{{ $term->id }}_{{ $grade_level }} = new frappe.Chart("#chart_best_grade_odd_{{ $term->id }}_{{ $grade_level }}", {
                         data: {
-                            labels: terms['{{ $term->id }}']['best_odd_grades'].map(record => record.data.student_name),
+                            labels: terms['{{ $term->id }}']['best_odd_grades']['{{ $grade_level }}'].map(record => record.data.student_name),
                             datasets: [
                                 {
                                     name: "Pengetahuan",
@@ -236,12 +236,12 @@
                     </table>
                 </div>
 
-                <div id="chart_best_grade_even_{{ $loop->iteration }}_{{ $grade_level }}"></div>
+                <div id="chart_best_grade_even_{{ $term->id }}_{{ $grade_level }}"></div>
 
                 @push('scripts')
                 <script>
 
-                    const chart_best_grade_even_{{ $loop->iteration }}_{{ $grade_level }} = new frappe.Chart("#chart_best_grade_even_{{ $loop->iteration }}_{{ $grade_level }}", {
+                    const chart_best_grade_even_{{ $term->id }}_{{ $grade_level }} = new frappe.Chart("#chart_best_grade_even_{{ $term->id }}_{{ $grade_level }}", {
                         data: {
                             labels: terms['{{ $term->id }}']['best_even_grades']['{{ $grade_level }}'].map(record => record.data.student_name),
                             datasets: [
