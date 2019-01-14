@@ -18,6 +18,8 @@ mix.js('resources/assets/js/app.js', 'public/js')
         'node_modules/bootstrap/dist/css/bootstrap.css',
         'node_modules/font-awesome/css/font-awesome.css'
     ], 'public/css/app.css')
+    .js('resources/assets/js/pre.js', 'public/js')
     .copy('node_modules/sweetalert/dist/sweetalert.min.js', 'public/js')
+    .copy('node_modules/frappe-charts/dist/frappe-charts.min.iife.js', 'public/js')
     .copy('node_modules/datatables.net/js/jquery.dataTables.js', 'public/js')
     .copyDirectory('node_modules/font-awesome/fonts', 'public/fonts');

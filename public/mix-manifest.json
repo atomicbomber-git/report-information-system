@@ -1,7 +1,9 @@
 {
     "/js/app.js": "/js/app.js",
+    "/js/pre.js": "/js/pre.js",
     "/js/notification.js": "/js/notification.js",
     "/css/app.css": "/css/app.css",
     "/js/sweetalert.min.js": "/js/sweetalert.min.js",
+    "/js/frappe-charts.min.iife.js": "/js/frappe-charts.min.iife.js",
     "/js/jquery.dataTables.js": "/js/jquery.dataTables.js"
 }

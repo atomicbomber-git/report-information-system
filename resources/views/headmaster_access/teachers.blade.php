@@ -38,6 +38,10 @@ Semester {{ \App\RoomTerm::EVEN_ODD[$even_odd] }}
 
 <hr>
 
+<div class="alert alert-info">
+    Total Jumlah Guru: {{ $teachers->count() }}
+</div>
+
 <table class='table table-striped table-responsive-xl table-sm'>
     <thead class='thead-dark'>
         <tr>

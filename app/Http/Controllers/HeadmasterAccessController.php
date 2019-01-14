@@ -27,6 +27,18 @@ class HeadmasterAccessController extends Controller
             return [$record->term_id => $record->student_count];
         });
 
+        $student_genders = collect(DB::select('
+            SELECT term_id, COUNT(student_id) AS count, grade, sex FROM (
+                SELECT DISTINCT room_terms.term_id, reports.student_id, rooms.grade, students.sex FROM room_terms
+                    JOIN rooms ON rooms.id = room_terms.room_id
+                    LEFT JOIN reports ON reports.room_term_id = room_terms.id
+                    JOIN students ON students.id = reports.student_id
+                ) AS subtable
+                GROUP BY term_id, grade, sex
+        '))->groupBy(['term_id', 'grade', 'sex']);
+
+        // return $student_genders;
+
         $female_student_count = collect(DB::select('
             SELECT term_id, COUNT(student_id) AS student_count FROM (
                 SELECT DISTINCT room_terms.term_id, reports.student_id FROM room_terms
@@ -72,7 +84,7 @@ class HeadmasterAccessController extends Controller
         // return $terms;
         // return collect($terms["1"]->best_even_grades["8"]);
 
-        return view('headmaster_access.terms', compact('terms', 'teacher_count', 'male_student_count', 'female_student_count', 'grades'));
+        return view('headmaster_access.terms', compact('terms', 'teacher_count', 'male_student_count', 'female_student_count', 'grades', 'student_genders'));
     }
 
     public function roomTerms(Term $term, $even_odd)

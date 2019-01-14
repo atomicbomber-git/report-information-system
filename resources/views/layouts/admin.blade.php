@@ -93,7 +93,8 @@
         <div style="height: 30px"></div>
         @yield('content')
     </div>
-    <!-- Scripts -->
+    <!-- Scripts -->    
+    @yield('pre-script')
     <script src="{{ asset('js/app.js') }}"></script>
     @yield('script')
 </body>

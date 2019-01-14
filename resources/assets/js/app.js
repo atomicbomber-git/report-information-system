@@ -4,5 +4,5 @@
  * application frontend using useful Laravel and JavaScript libraries.
  */
 
-window.frappe = require('frappe-charts/dist/frappe-charts.min.esm')
+// window.frappe = require('frappe-charts/dist/frappe-charts.min.esm')
 require('./bootstrap');
