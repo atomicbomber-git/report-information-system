@@ -16,20 +16,31 @@
     </div>
 @endif
 
-<hr>
-
 <div class="text-right my-3">
     <a href="{{ route('headmaster_access.students') }}" class="btn btn-dark">
         Data Siswa <i class="fa fa-users"></i>
     </a>
 </div>
 
+<hr>
 
 @foreach ($terms as $term)
 <div class="card mb-4">
     <div class="card-header font-weight-bold">
-        <i class="fa fa-icon"></i>
-        {{ $term->code }}
+        <form class="form-inline" method="GET">
+            <label for="term_id" class="mr-2"> Tahun Ajaran: </label>
+            <select name="term_id" class="form-control-sm mr-2">
+                @foreach ($term_list as $term_item)
+                <option {{ $currentTermId == $term_item->id ? 'selected' : '' }} value="{{ $term_item->id }}">
+                    {{ $term_item->code }}
+                </option>
+                @endforeach
+            </select>
+    
+            <button class="btn btn-sm btn-dark">
+                Ubah
+            </button>
+        </form>
     </div>
     <div class="card-body">
         <div>

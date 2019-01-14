@@ -15,6 +15,8 @@ class HeadmasterAccessController extends Controller
 {
     public function terms()
     {
+        $currentTermId = request('term_id') ?? Term::first()->id;
+
         $male_student_count = collect(DB::select('
             SELECT term_id, COUNT(student_id) AS student_count FROM (
                 SELECT DISTINCT room_terms.term_id, reports.student_id FROM room_terms
@@ -62,9 +64,10 @@ class HeadmasterAccessController extends Controller
         });
 
         $grades = [7, 8, 9];
-
+        
         $terms = DB::table('terms')
             ->select('code', 'id')
+            ->where('id', $currentTermId)
             ->orderByDesc('term_start')
             ->get()
             ->map(function($term) use($grades) {
@@ -80,11 +83,13 @@ class HeadmasterAccessController extends Controller
             })
             ->keyBy('id');
 
-        // return $grades;
-        // return $terms;
-        // return collect($terms["1"]->best_even_grades["8"]);
+        $term_list = Term::select('id', 'code')
+            ->orderByDesc('term_start')
+            ->get();
 
-        return view('headmaster_access.terms', compact('terms', 'teacher_count', 'male_student_count', 'female_student_count', 'grades', 'student_genders'));
+        // return $term_list;
+
+        return view('headmaster_access.terms', compact('terms', 'currentTermId', 'term_list', 'teacher_count', 'male_student_count', 'female_student_count', 'grades', 'student_genders'));
     }
 
     public function roomTerms(Term $term, $even_odd)
