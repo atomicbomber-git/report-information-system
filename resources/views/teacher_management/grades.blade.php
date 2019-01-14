@@ -64,6 +64,7 @@
 @endsection
 
 @section('script')
+<script src="{{ asset('js/frappe-charts.min.iife.js') }}"></script>
 <script>
 
     let labels = [];
