@@ -24,7 +24,7 @@ Semester {{ \App\RoomTerm::EVEN_ODD[$even_odd] }}
 <div class="container">
     <div class="row">
         <div class="col text-left">
-            <a href="{{ route('headmaster_access.terms') }}" class="btn btn-secondary btn-sm">
+            <a href="{{ route('headmaster_access.terms', ['term_id' => $term->id]) }}" class="btn btn-secondary btn-sm">
                 Kembali
                 <i class="fa fa-arrow-left"></i>
             </a>
