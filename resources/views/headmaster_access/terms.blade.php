@@ -185,148 +185,155 @@
 
         <hr>
 
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            @foreach($grades as $grade_level)
-            <li class="nav-item">
-                <a class="nav-link {{ $loop->first ? 'active' : '' }}" id="grade_tab_{{ $term->id }}_{{ $grade_level }}-tab" data-toggle="tab" href="#grade_tab_{{ $term->id }}_{{ $grade_level }}" role="tab" aria-controls="home" aria-selected="true"> Kelas {{ $grade_level }} </a>
-            </li>
-            @endforeach
-        </ul>
-        <div class="tab-content" id="myTabContent">
-            @foreach($grades as $grade_level)
-            <div class="mt-4 tab-pane fade show active" id="grade_tab_{{ $term->id }}_{{ $grade_level }}" role="tabpanel" aria-labelledby="grade_tab_{{ $grade_level }}">
-                <div class="row" style="font-size: 0.7rem">
-                    <div class="col">
-                        <h5> Semester Ganjil </h5>
-        
-                        <div class='table-responsive'>
-                            <table class='table table-sm table-bordered table-striped'>
-                                <thead>
-                                    <tr>
-                                        <td> Nama </td>
-                                        <td> NIS </td>
-                                        <td> Kelas </td>
-                                        <td> Nilai Pengetahuan </td>
-                                        <td> Nilai Keterampilan </td>
-                                        <td> Rata-Rata </td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($term->best_odd_grades[$grade_level] as $grade)
-                                    <tr>
-                                        <td> {{ $grade['data']->student_name }} </td>
-                                        <td> {{ $grade['data']->student_code }} </td>
-                                        <td> {{ $grade['data']->room_name }} </td>
-                                        <td> {{ number_format($grade['knowledge_grade'], 2) }} </td>
-                                        <td> {{ number_format($grade['skill_grade'], 2) }} </td>
-                                        <td> {{ number_format($grade['grade'], 2) }} </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+        <h5 class="mb-4"> Nilai Terbaik </h5>
+
+        <div class="card">
+            <div class="card-body">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            @foreach($grades as $grade_level)
+                            <li class="nav-item">
+                                <a class="nav-link {{ $loop->first ? 'active' : '' }}" id="grade_tab_{{ $term->id }}_{{ $grade_level }}-tab" data-toggle="tab" href="#grade_tab_{{ $term->id }}_{{ $grade_level }}" role="tab" aria-controls="home" aria-selected="true"> Kelas {{ $grade_level }} </a>
+                            </li>
+                            @endforeach
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            @foreach($grades as $grade_level)
+                            <div class="mt-4 tab-pane fade show active" id="grade_tab_{{ $term->id }}_{{ $grade_level }}" role="tabpanel" aria-labelledby="grade_tab_{{ $grade_level }}">
+                                <div class="row" style="font-size: 0.7rem">
+                                    <div class="col">
+                                        <h5> Semester Ganjil </h5>
+                        
+                                        <div class='table-responsive'>
+                                            <table class='table table-sm table-bordered table-striped'>
+                                                <thead>
+                                                    <tr>
+                                                        <td> Nama </td>
+                                                        <td> NIS </td>
+                                                        <td> Kelas </td>
+                                                        <td> Nilai Pengetahuan </td>
+                                                        <td> Nilai Keterampilan </td>
+                                                        <td> Rata-Rata </td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($term->best_odd_grades[$grade_level] as $grade)
+                                                    <tr>
+                                                        <td> {{ $grade['data']->student_name }} </td>
+                                                        <td> {{ $grade['data']->student_code }} </td>
+                                                        <td> {{ $grade['data']->room_name }} </td>
+                                                        <td> {{ number_format($grade['knowledge_grade'], 2) }} </td>
+                                                        <td> {{ number_format($grade['skill_grade'], 2) }} </td>
+                                                        <td> {{ number_format($grade['grade'], 2) }} </td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                        
+                                        <div id="chart_best_grade_odd_{{ $term->id }}_{{ $grade_level }}"></div>
+                        
+                                        @push('scripts')
+                                        <script>
+                        
+                                            const chart_best_grade_odd_{{ $term->id }}_{{ $grade_level }} = new frappe.Chart("#chart_best_grade_odd_{{ $term->id }}_{{ $grade_level }}", {
+                                                data: {
+                                                    labels: terms['{{ $term->id }}']['best_odd_grades']['{{ $grade_level }}'].map(record => record.data.student_name),
+                                                    datasets: [
+                                                        {
+                                                            name: "Pengetahuan",
+                                                            values: terms['{{ $term->id }}']['best_odd_grades']['{{ $grade_level }}'].map(record => parseFloat(record.knowledge_grade.toFixed(2)))
+                                                        },
+                        
+                                                        {
+                                                            name: "Keterampilan",
+                                                            values: terms['{{ $term->id }}']['best_odd_grades']['{{ $grade_level }}'].map(record => parseFloat(record.skill_grade.toFixed(2)))
+                                                        },
+                        
+                                                        {
+                                                            name: "Rata-Rata",
+                                                            values: terms['{{ $term->id }}']['best_odd_grades']['{{ $grade_level }}'].map(record => parseFloat(record.grade.toFixed(2)))
+                                                        },
+                                                    ],
+                        
+                                                    yMarkers: [{ label: "", value: 100,
+                                                    options: { labelPos: 'left' }}],
+                                                },
+                                                type: 'bar', // or 'bar', 'line', 'scatter', 'pie', 'percentage'
+                                                height: 250,
+                                            })
+                                        </script>
+                                        @endpush
+                                    </div>
+                                    <div class="col">
+                                        <h5> Semester Genap </h5>
+                                        <div class='table-responsive'>
+                                            <table class='table table-sm table-bordered table-striped'>
+                                                <thead>
+                                                    <tr>
+                                                        <td> Nama </td>
+                                                        <td> NIS </td>
+                                                        <td> Kelas </td>
+                                                        <td> Nilai Pengetahuan </td>
+                                                        <td> Nilai Keterampilan </td>
+                                                        <td> Rata-Rata </td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($term->best_even_grades[$grade_level] as $grade)
+                                                    <tr>
+                                                        <td> {{ $grade['data']->student_name }} </td>
+                                                        <td> {{ $grade['data']->student_code }} </td>
+                                                        <td> {{ $grade['data']->room_name }} </td>
+                                                        <td> {{ number_format($grade['knowledge_grade'], 2) }} </td>
+                                                        <td> {{ number_format($grade['skill_grade'], 2) }} </td>
+                                                        <td> {{ number_format($grade['grade'], 2) }} </td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                        
+                                        <div id="chart_best_grade_even_{{ $term->id }}_{{ $grade_level }}"></div>
+                        
+                                        @push('scripts')
+                                        <script>
+                        
+                                            const chart_best_grade_even_{{ $term->id }}_{{ $grade_level }} = new frappe.Chart("#chart_best_grade_even_{{ $term->id }}_{{ $grade_level }}", {
+                                                data: {
+                                                    labels: terms['{{ $term->id }}']['best_even_grades']['{{ $grade_level }}'].map(record => record.data.student_name),
+                                                    datasets: [
+                                                        {
+                                                            name: "Pengetahuan",
+                                                            values: terms['{{ $term->id }}']['best_even_grades']['{{ $grade_level }}'].map(record => parseFloat(record.knowledge_grade.toFixed(2)))
+                                                        },
+                        
+                                                        {
+                                                            name: "Keterampilan",
+                                                            values: terms['{{ $term->id }}']['best_even_grades']['{{ $grade_level }}'].map(record => parseFloat(record.skill_grade.toFixed(2)))
+                                                        },
+                        
+                                                        {
+                                                            name: "Rata-Rata",
+                                                            values: terms['{{ $term->id }}']['best_even_grades']['{{ $grade_level }}'].map(record => parseFloat(record.grade.toFixed(2)))
+                                                        },
+                                                    ],
+                        
+                                                    yMarkers: [{ label: "", value: 100,
+                                                    options: { labelPos: 'left' }}],
+                                                },
+                                                type: 'bar',
+                                                height: 250,
+                                            })
+                                        </script>
+                                        @endpush
+                        
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
                         </div>
-        
-                        <div id="chart_best_grade_odd_{{ $term->id }}_{{ $grade_level }}"></div>
-        
-                        @push('scripts')
-                        <script>
-        
-                            const chart_best_grade_odd_{{ $term->id }}_{{ $grade_level }} = new frappe.Chart("#chart_best_grade_odd_{{ $term->id }}_{{ $grade_level }}", {
-                                data: {
-                                    labels: terms['{{ $term->id }}']['best_odd_grades']['{{ $grade_level }}'].map(record => record.data.student_name),
-                                    datasets: [
-                                        {
-                                            name: "Pengetahuan",
-                                            values: terms['{{ $term->id }}']['best_odd_grades']['{{ $grade_level }}'].map(record => parseFloat(record.knowledge_grade.toFixed(2)))
-                                        },
-        
-                                        {
-                                            name: "Keterampilan",
-                                            values: terms['{{ $term->id }}']['best_odd_grades']['{{ $grade_level }}'].map(record => parseFloat(record.skill_grade.toFixed(2)))
-                                        },
-        
-                                        {
-                                            name: "Rata-Rata",
-                                            values: terms['{{ $term->id }}']['best_odd_grades']['{{ $grade_level }}'].map(record => parseFloat(record.grade.toFixed(2)))
-                                        },
-                                    ],
-        
-                                    yMarkers: [{ label: "", value: 100,
-                                    options: { labelPos: 'left' }}],
-                                },
-                                type: 'bar', // or 'bar', 'line', 'scatter', 'pie', 'percentage'
-                                height: 250,
-                            })
-                        </script>
-                        @endpush
-                    </div>
-                    <div class="col">
-                        <h5> Semester Genap </h5>
-                        <div class='table-responsive'>
-                            <table class='table table-sm table-bordered table-striped'>
-                                <thead>
-                                    <tr>
-                                        <td> Nama </td>
-                                        <td> NIS </td>
-                                        <td> Kelas </td>
-                                        <td> Nilai Pengetahuan </td>
-                                        <td> Nilai Keterampilan </td>
-                                        <td> Rata-Rata </td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($term->best_even_grades[$grade_level] as $grade)
-                                    <tr>
-                                        <td> {{ $grade['data']->student_name }} </td>
-                                        <td> {{ $grade['data']->student_code }} </td>
-                                        <td> {{ $grade['data']->room_name }} </td>
-                                        <td> {{ number_format($grade['knowledge_grade'], 2) }} </td>
-                                        <td> {{ number_format($grade['skill_grade'], 2) }} </td>
-                                        <td> {{ number_format($grade['grade'], 2) }} </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-        
-                        <div id="chart_best_grade_even_{{ $term->id }}_{{ $grade_level }}"></div>
-        
-                        @push('scripts')
-                        <script>
-        
-                            const chart_best_grade_even_{{ $term->id }}_{{ $grade_level }} = new frappe.Chart("#chart_best_grade_even_{{ $term->id }}_{{ $grade_level }}", {
-                                data: {
-                                    labels: terms['{{ $term->id }}']['best_even_grades']['{{ $grade_level }}'].map(record => record.data.student_name),
-                                    datasets: [
-                                        {
-                                            name: "Pengetahuan",
-                                            values: terms['{{ $term->id }}']['best_even_grades']['{{ $grade_level }}'].map(record => parseFloat(record.knowledge_grade.toFixed(2)))
-                                        },
-        
-                                        {
-                                            name: "Keterampilan",
-                                            values: terms['{{ $term->id }}']['best_even_grades']['{{ $grade_level }}'].map(record => parseFloat(record.skill_grade.toFixed(2)))
-                                        },
-        
-                                        {
-                                            name: "Rata-Rata",
-                                            values: terms['{{ $term->id }}']['best_even_grades']['{{ $grade_level }}'].map(record => parseFloat(record.grade.toFixed(2)))
-                                        },
-                                    ],
-        
-                                    yMarkers: [{ label: "", value: 100,
-                                    options: { labelPos: 'left' }}],
-                                },
-                                type: 'bar',
-                                height: 250,
-                            })
-                        </script>
-                        @endpush
-        
-                    </div>
-                </div>
+            
             </div>
-            @endforeach
         </div>
 
     </div>
