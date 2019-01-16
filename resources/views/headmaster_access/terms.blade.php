@@ -68,7 +68,7 @@
         <div id="chart_{{ $loop->iteration }}"></div>
 
         <div class="alert alert-info">
-            Total Siswa: {{ ($male_student_count[$term->id] ?? 0) + ($male_student_count[$term->id] ?? 0) }}
+            Total Siswa: {{ ($male_student_count[$term->id] ?? 0) + ($female_student_count[$term->id] ?? 0) }}
         </div>
 
         <hr>

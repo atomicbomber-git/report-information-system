@@ -20,4 +20,12 @@ class CourseReport extends Pivot
         'D' => 'Sangat kurang. Hanya dapat mengingat, mengetahui, menerapkan, menganalisis, dan mengeveluasi satu atau dua kompetensi dasar saja.',
         'E' => 'Gagal.',
     ];
+
+    const SKILL_DESCRIPTIONS = [
+        'A' => 'Sangat baik dan sempurna. Sangat aktif bertanya, mencoba, menalar dan kreatif dalam menyelesaikan  semua soal.',
+        'B' => 'Baik, Aktif bertanya, mencoba, menalar dan kreatif dalam menyelesaikan sebagian besar soal',
+        'C' => 'Cukup. Aktif bertanya, mencoba, menalar dan kreatif dalam menyelesaikan soal',
+        'D' => 'Sangat kurang, tidak aktif dalam mencoba, menalar, dan tidak kreatif dalam menyelesaikan latihan',
+        'E' => 'Gagal',
+    ];
 }
