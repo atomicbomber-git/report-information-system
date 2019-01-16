@@ -17,7 +17,7 @@
 @endif
 
 <div class="text-right my-3">
-    <a href="{{ route('headmaster_access.students') }}" class="btn btn-dark">
+    <a href="{{ route('headmaster_access.students', ['term_id' => $currentTermId]) }}" class="btn btn-dark">
         Data Siswa <i class="fa fa-users"></i>
     </a>
 </div>

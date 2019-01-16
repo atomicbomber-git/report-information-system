@@ -32,7 +32,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <a href="{{ route('headmaster_access.terms') }}" class="btn btn-secondary btn-sm">
+            <a href="{{ route('headmaster_access.terms', ['term_id' => request('term_id')]) }}" class="btn btn-secondary btn-sm">
                 <i class="fa fa-arrow-left"></i>
                 Kembali
             </a>
