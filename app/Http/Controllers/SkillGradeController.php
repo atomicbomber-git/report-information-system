@@ -203,7 +203,7 @@ class SkillGradeController extends Controller
             ->map(function ($record) { 
                 return [
                     "student_id" => $record->student_id,
-                    "grade" => CourseReport::SKILL_DESCRIPTIONS[Helper::grade($record->grade)],
+                    "grade" => CourseReport::SKILL_DESCRIPTIONS[Helper::grade(number_format($record->grade, 0))],
                 ];
             })
             ->mapWithKeys(function ($record) { return [$record["student_id"] => $record["grade"]]; });
