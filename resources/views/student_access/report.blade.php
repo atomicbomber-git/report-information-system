@@ -55,7 +55,7 @@
                 <td> {{ $course->name }} </td>
                 <td> {{ blank($course->knowledge_grade) ? '-' : number_format($course->knowledge_grade, 0) }} </td>
                 <td> {{ $course->descriptions->knowledge_description ?? '-' }} </td>
-                <td> {{ blank($course->knowledge_grade) ? '-' : number_format($course->knowledge_grade, 0) }} </td>
+                <td> {{ blank($course->skill_grade) ? '-' : number_format($course->skill_grade, 0) }} </td>
                 <td> {{ $course->descriptions->skill_description ?? '-' }} </td>
             </tr>
             @endforeach
