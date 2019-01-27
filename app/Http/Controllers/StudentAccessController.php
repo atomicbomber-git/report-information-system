@@ -47,16 +47,16 @@ class StudentAccessController extends Controller
             ->groupBy('group');
 
         $knowledge_grades = collect(DB::table('knowledge_grades_summary')
-                ->select('knowledge_grades_summary.id', 'knowledge_grades_summary.course_id', DB::raw('((AVG(grade) + final_exam + mid_exam) / 3)  AS knowledge_grade'), 'course_report_id')
-                ->join('course_reports', 'course_reports.id', '=', 'knowledge_grades_summary.course_report_id')
-                ->join('reports', 'reports.id', '=', 'course_reports.report_id')
-                ->where('reports.student_id', $report->student_id)
-                ->when($report->room_term->getOriginal('even_odd') == 'odd', function ($query) use($report) {
-                    $query->where('reports.room_term_id', $report->room_term_id);
-                })
-                ->groupBy('course_report_id', 'mid_exam', 'final_exam', 'knowledge_grades_summary.course_id')
-                ->get()
-                ->mapWithKeys(function ($item) { return [$item->course_id => $item->knowledge_grade]; }));
+            ->select('knowledge_grades_summary.id', 'knowledge_grades_summary.course_id', DB::raw('((AVG(grade) + final_exam + mid_exam) / 3)  AS knowledge_grade'), 'course_report_id')
+            ->join('course_reports', 'course_reports.id', '=', 'knowledge_grades_summary.course_report_id')
+            ->join('reports', 'reports.id', '=', 'course_reports.report_id')
+            ->where('reports.student_id', $report->student_id)
+            ->when($report->room_term->getOriginal('even_odd') == 'odd', function ($query) use($report) {
+                $query->where('reports.room_term_id', $report->room_term_id);
+            })
+            ->groupBy('course_report_id', 'mid_exam', 'final_exam', 'knowledge_grades_summary.course_id')
+            ->get()
+            ->mapWithKeys(function ($item) { return [$item->course_id => $item->knowledge_grade]; }));
                 
         $skill_grades = DB::table('skill_grades_summary')
             ->select(
@@ -80,6 +80,13 @@ class StudentAccessController extends Controller
             ->get()
             ->keyBy('course_id');
 
+        $extracurriculars = DB::table('extracurricular_reports')
+            ->select('extracurriculars.name', 'extracurricular_reports.score')
+            ->join('extracurriculars', 'extracurriculars.id', '=', 'extracurricular_reports.extracurricular_id')
+            ->where('extracurricular_reports.report_id', $report->id)
+            ->orderBy('extracurriculars.name')
+            ->get();
+
         foreach ($course_groups as $group) {
             foreach ($group as $course) {
                 $course->knowledge_grade = $knowledge_grades[$course->id] ?? 0;
@@ -88,6 +95,6 @@ class StudentAccessController extends Controller
             }
         }
 
-        return view('student_access.report', compact('course_groups'));
+        return view('student_access.report', compact('report', 'course_groups', 'extracurriculars'));
     }
 }

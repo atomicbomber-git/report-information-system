@@ -63,4 +63,38 @@
     </table>
 @endforeach
 
+<hr>
+
+<h2> Ekstrakurikuler </h2>
+
+<table class="table table-sm table-striped">
+    <thead class="thead thead-dark">
+        <tr>
+            <th> No </th>
+            <th> Kegiatan Ekstrakurikuler </th>
+            <th> Keterangan </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach ($extracurriculars as $extracurricular)
+        <tr>
+            <td> {{ $loop->iteration }} </td>
+            <td> {{ $extracurricular->name }} </td>
+            <td> {{ \App\ExtracurricularReport::GRADES[$extracurricular->score] ?? '-' }} </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+
+<h2> Ketidakhadiran </h2>
+
+<table class="table table-sm table-striped table-bordered">
+    <thead>
+        <tr> <td> Sakit </td> <td> {{ $report->absence_sick }} hari </td> </tr>
+        <tr> <td> Izin </td> <td> {{ $report->absence_permit }} hari </td> </tr>
+        <tr> <td> Tanpa Keterangan </td> <td> {{ $report->absence_unknown }} hari </td> </tr>
+    </thead>
+</table>
+
 @endsection
