@@ -37,22 +37,28 @@ class StudentAccessController extends Controller
             ->get()
             ->groupBy('group');
 
-        $knowledge_grades = collect(DB::table('knowledge_grades')
-            ->select(
-                'course_reports.course_id',
-                DB::raw('ROUND(AVG(GREATEST(((first_assignment + second_assignment + third_assignment + first_exam + second_exam ) / 5 ), first_remedial, second_remedial))) AS knowledge_grade')
-            )
-            ->join('course_reports', 'course_reports.id', '=', 'knowledge_grades.course_report_id')
+        $course_groups = DB::table('courses')
+            ->select('courses.id', 'courses.name', 'courses.group')
+            ->join('course_reports', 'course_reports.course_id', '=', 'courses.id')
             ->join('reports', 'reports.id', '=', 'course_reports.report_id')
-            ->where('reports.student_id', $report->student_id)
-            ->when($report->room_term->getOriginal('even_odd') == 'odd', function ($query) use($report) {
-                $query->where('reports.room_term_id', $report->room_term_id);
-            })
-            ->groupBy('course_reports.course_id')
+            ->where('reports.id', $report->id)
+            ->groupBy('courses.id', 'courses.name', 'courses.group')
             ->get()
-            ->mapWithKeys(function ($item) { return [$item->course_id => $item->knowledge_grade]; }));
+            ->groupBy('group');
 
-            $skill_grades = DB::table('skill_grades_summary')
+        $knowledge_grades = collect(DB::table('knowledge_grades_summary')
+                ->select('knowledge_grades_summary.id', 'knowledge_grades_summary.course_id', DB::raw('((AVG(grade) + final_exam + mid_exam) / 3)  AS knowledge_grade'), 'course_report_id')
+                ->join('course_reports', 'course_reports.id', '=', 'knowledge_grades_summary.course_report_id')
+                ->join('reports', 'reports.id', '=', 'course_reports.report_id')
+                ->where('reports.student_id', $report->student_id)
+                ->when($report->room_term->getOriginal('even_odd') == 'odd', function ($query) use($report) {
+                    $query->where('reports.room_term_id', $report->room_term_id);
+                })
+                ->groupBy('course_report_id', 'mid_exam', 'final_exam', 'knowledge_grades_summary.course_id')
+                ->get()
+                ->mapWithKeys(function ($item) { return [$item->course_id => $item->knowledge_grade]; }));
+                
+        $skill_grades = DB::table('skill_grades_summary')
             ->select(
                 'course_reports.course_id',
                 'grade'
