@@ -216,7 +216,7 @@ class TeacherManagementController extends Controller
             ->map(function ($record) { 
                 return [
                     "student_id" => $record->student_id,
-                    "grade" => CourseReport::DESCRIPTIONS[Helper::grade($record->knowledge_grade)],
+                    "grade" => CourseReport::DESCRIPTIONS[Helper::grade(number_format($record->knowledge_grade, 0))],
                 ];
             })
             ->mapWithKeys(function ($record) { return [$record["student_id"] => $record["grade"]]; });

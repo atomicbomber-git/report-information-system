@@ -208,6 +208,8 @@ class SkillGradeController extends Controller
             })
             ->mapWithKeys(function ($record) { return [$record["student_id"] => $record["grade"]]; });
 
+        // return $skill_grades;
+
         $course_reports = DB::table('course_reports')
             ->select('course_reports.id', 'reports.student_id')
             ->join('reports', 'reports.id', '=', 'course_reports.report_id')
@@ -218,6 +220,11 @@ class SkillGradeController extends Controller
 
         DB::transaction(function() use($descriptions, $course_reports) {
             foreach ($course_reports as $course_report) {
+                if (empty($descriptions[$course_report->student_id])) {
+                    continue;
+                }
+
+
                 DB::table('course_reports')
                     ->where('id', $course_report->id)
                     ->update(['skill_description' => $descriptions[$course_report->student_id] ]);
