@@ -38,7 +38,7 @@ class TeacherController extends Controller
             [
                 'name' => 'required|string',
                 'username' => 'required|string|alpha_dash',
-                'teacher_id' => 'required|string',
+                'teacher_id' => 'required|string|unique:teachers',
                 'password' => 'required|string|confirmed'
             ],
             [
