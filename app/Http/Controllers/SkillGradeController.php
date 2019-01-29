@@ -70,8 +70,6 @@ class SkillGradeController extends Controller
                 }
             );
 
-        // return $this->getSkillGrades($room_term_id, $course_id);
-
         return view('teacher_management.skill_detail', [
             'course' => Course::find($course_id),
             'room_term' => RoomTerm::find($room_term_id),
@@ -208,8 +206,6 @@ class SkillGradeController extends Controller
             })
             ->mapWithKeys(function ($record) { return [$record["student_id"] => $record["grade"]]; });
 
-        // return $skill_grades;
-
         $course_reports = DB::table('course_reports')
             ->select('course_reports.id', 'reports.student_id')
             ->join('reports', 'reports.id', '=', 'course_reports.report_id')
@@ -223,7 +219,6 @@ class SkillGradeController extends Controller
                 if (empty($descriptions[$course_report->student_id])) {
                     continue;
                 }
-
 
                 DB::table('course_reports')
                     ->where('id', $course_report->id)
